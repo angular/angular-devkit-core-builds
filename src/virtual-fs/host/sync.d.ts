@@ -20,6 +20,7 @@ export declare class SyncDelegateHost<T extends object> {
     constructor(_delegate: Host<T>);
     protected _doSyncCall<ResultT>(observable: Observable<ResultT>): ResultT;
     readonly capabilities: HostCapabilities;
+    readonly delegate: Host<T>;
     write(path: Path, content: FileBuffer): void;
     read(path: Path): FileBuffer;
     delete(path: Path): void;
