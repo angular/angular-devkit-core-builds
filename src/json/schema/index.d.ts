@@ -7,3 +7,6 @@
  */
 export * from './interface';
 export * from './registry';
+export * from './visitor';
+import * as transforms from './transforms';
+export { transforms };

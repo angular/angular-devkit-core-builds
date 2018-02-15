@@ -6,7 +6,9 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Observable } from 'rxjs/Observable';
+import { JsonValue } from '..';
 export interface SchemaValidatorResult {
+    data: JsonValue;
     success: boolean;
     errors?: string[];
 }
