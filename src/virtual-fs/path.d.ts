@@ -96,3 +96,4 @@ export declare type PosixPath = string & {
 };
 export declare function asWindowsPath(path: Path): WindowsPath;
 export declare function asPosixPath(path: Path): PosixPath;
+export declare function getSystemPath(path: Path): string;

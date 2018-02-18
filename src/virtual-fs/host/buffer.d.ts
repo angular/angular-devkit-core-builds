@@ -7,3 +7,4 @@
  */
 import { FileBuffer } from './interface';
 export declare function stringToFileBuffer(str: string): FileBuffer;
+export declare function fileBufferToString(fileBuffer: FileBuffer): string;
