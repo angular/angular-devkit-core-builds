@@ -7,9 +7,7 @@
  */
 import { Observable } from 'rxjs/Observable';
 import { JsonArray, JsonObject, JsonValue } from '..';
-export declare type JsonPointer = string & {
-    __PRIVATE_DEVKIT_JSON_POINTER: void;
-};
+import { JsonPointer } from './interface';
 export interface JsonSchemaVisitor {
     (current: JsonObject | JsonArray, pointer: JsonPointer, parentSchema?: JsonObject | JsonArray, index?: string): void;
 }
@@ -22,9 +20,6 @@ export interface ReferenceResolver<ContextT> {
         schema?: JsonObject;
     };
 }
-export declare function buildJsonPointer(fragments: string[]): JsonPointer;
-export declare function joinJsonPointer(root: JsonPointer, ...others: string[]): JsonPointer;
-export declare function parseJsonPointer(pointer: JsonPointer): string[];
 /**
  * Visit all the properties in a JSON object, allowing to transform them. It supports calling
  * properties synchronously or asynchronously (through Observables).

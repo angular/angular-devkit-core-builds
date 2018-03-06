@@ -8,13 +8,16 @@
 import * as ajv from 'ajv';
 import { Observable } from 'rxjs/Observable';
 import { JsonObject } from '../interface';
-import { SchemaFormat, SchemaRegistry, SchemaValidator } from './interface';
+import { SchemaFormat, SchemaRegistry, SchemaValidator, SmartDefaultProvider } from './interface';
 import { JsonVisitor } from './visitor';
 export declare class CoreSchemaRegistry implements SchemaRegistry {
     private _ajv;
     private _uriCache;
     private _pre;
     private _post;
+    private _smartDefaultKeyword;
+    private _sourceMap;
+    private _smartDefaultRecord;
     constructor(formats?: SchemaFormat[]);
     private _fetch(uri);
     /**
@@ -37,4 +40,6 @@ export declare class CoreSchemaRegistry implements SchemaRegistry {
     };
     compile(schema: JsonObject): Observable<SchemaValidator>;
     addFormat(format: SchemaFormat): void;
+    addSmartDefaultProvider<T>(source: string, provider: SmartDefaultProvider<T>): void;
+    private _applySmartDefaults(data);
 }

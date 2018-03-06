@@ -5,9 +5,4 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-export * from './interface';
-export * from './pointer';
-export * from './registry';
-export * from './visitor';
-import * as transforms from './transforms';
-export { transforms };
+export declare function clean<T>(array: Array<T | undefined>): Array<T>;
