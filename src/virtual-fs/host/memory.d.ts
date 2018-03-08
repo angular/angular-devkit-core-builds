@@ -11,6 +11,7 @@ import { FileBuffer, Host, HostCapabilities, HostWatchEvent, HostWatchEventType,
 export declare class SimpleMemoryHost implements Host<{}> {
     private _cache;
     private _watchers;
+    protected _toAbsolute(path: Path): Path;
     protected _isDir(path: Path): boolean;
     protected _updateWatchers(path: Path, type: HostWatchEventType): void;
     readonly capabilities: HostCapabilities;
