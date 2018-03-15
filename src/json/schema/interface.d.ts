@@ -35,4 +35,5 @@ export interface SchemaKeywordValidator {
 export interface SchemaRegistry {
     compile(schema: Object): Observable<SchemaValidator>;
     addFormat(format: SchemaFormat): void;
+    addSmartDefaultProvider<T>(source: string, provider: SmartDefaultProvider<T>): void;
 }
