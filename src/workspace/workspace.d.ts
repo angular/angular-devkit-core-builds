@@ -25,7 +25,7 @@ export declare class WorkspaceNotYetLoadedException extends BaseException {
 }
 export interface WorkspaceJson {
     version: number;
-    newProjectRoot: string;
+    newProjectRoot: Path;
     cli: WorkspaceTool;
     schematics: WorkspaceTool;
     architect: WorkspaceTool;
@@ -35,7 +35,7 @@ export interface WorkspaceJson {
 }
 export interface WorkspaceProject {
     projectType: 'application' | 'library';
-    root: string;
+    root: Path;
     cli: WorkspaceTool;
     schematics: WorkspaceTool;
     architect: WorkspaceTool;
@@ -57,7 +57,7 @@ export declare class Workspace {
     readonly root: Path;
     readonly host: virtualFs.Host<{}>;
     readonly version: number;
-    readonly newProjectRoot: string;
+    readonly newProjectRoot: Path;
     getProject(projectName: string): WorkspaceProject;
     getCli(): WorkspaceTool;
     getSchematics(): WorkspaceTool;
