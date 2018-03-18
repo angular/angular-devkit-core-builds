@@ -58,6 +58,7 @@ export declare class Workspace {
     readonly host: virtualFs.Host<{}>;
     readonly version: number;
     readonly newProjectRoot: Path;
+    listProjectNames(): string[];
     getProject(projectName: string): WorkspaceProject;
     getCli(): WorkspaceTool;
     getSchematics(): WorkspaceTool;
