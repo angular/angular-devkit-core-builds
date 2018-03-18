@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { JsonObject, Path, virtualFs } from '..';
 import { BaseException } from '../exception/exception';
 export declare class ProjectNotFoundException extends BaseException {
-    constructor(name?: string);
+    constructor(name: string);
 }
 export declare class WorkspaceToolNotFoundException extends BaseException {
     constructor(name: string);
