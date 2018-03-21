@@ -15,7 +15,7 @@ export declare class SynchronousDelegateExpectedException extends BaseException 
 /**
  * Implement a synchronous-only host interface (remove the Observable parts).
  */
-export declare class SyncDelegateHost<T extends object> {
+export declare class SyncDelegateHost<T extends object = {}> {
     protected _delegate: Host<T>;
     constructor(_delegate: Host<T>);
     protected _doSyncCall<ResultT>(observable: Observable<ResultT>): ResultT;
@@ -29,6 +29,6 @@ export declare class SyncDelegateHost<T extends object> {
     exists(path: Path): boolean;
     isDirectory(path: Path): boolean;
     isFile(path: Path): boolean;
-    stats(path: Path): Stats<T> | null;
+    stat(path: Path): Stats<T> | null;
     watch(path: Path, options?: HostWatchOptions): Observable<HostWatchEvent> | null;
 }

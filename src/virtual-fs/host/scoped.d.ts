@@ -21,6 +21,6 @@ export declare class ScopedHost<T extends object> implements Host<T> {
     exists(path: Path): Observable<boolean>;
     isDirectory(path: Path): Observable<boolean>;
     isFile(path: Path): Observable<boolean>;
-    stats(path: Path): Observable<Stats<T>> | null;
+    stat(path: Path): Observable<Stats<T>> | null;
     watch(path: Path, options?: HostWatchOptions): Observable<HostWatchEvent> | null;
 }

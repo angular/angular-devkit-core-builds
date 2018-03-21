@@ -18,7 +18,7 @@ export declare const enum HostWatchEventType {
     Deleted = 2,
     Renamed = 3,
 }
-export declare type Stats<T extends object> = T & {
+export declare type Stats<T extends object = {}> = T & {
     isFile(): boolean;
     isDirectory(): boolean;
     readonly size: number;
@@ -45,6 +45,6 @@ export interface Host<StatsT extends object = {}> {
     exists(path: Path): Observable<boolean>;
     isDirectory(path: Path): Observable<boolean>;
     isFile(path: Path): Observable<boolean>;
-    stats(path: Path): Observable<Stats<StatsT>> | null;
+    stat(path: Path): Observable<Stats<StatsT>> | null;
     watch(path: Path, options?: HostWatchOptions): Observable<HostWatchEvent> | null;
 }
