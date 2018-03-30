@@ -12,4 +12,5 @@ export * from './object';
 export * from './template';
 export * from './partially-ordered-set';
 export * from './priority-queue';
+export * from './lang';
 export { tags, strings };

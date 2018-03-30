@@ -7,7 +7,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import * as fs from 'fs';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Path, PathFragment, virtualFs } from '../src';
 /**
  * An implementation of the Virtual FS using Node as the background. There are two versions; one

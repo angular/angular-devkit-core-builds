@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import * as ajv from 'ajv';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { JsonObject } from '../interface';
 import { SchemaFormat, SchemaRegistry, SchemaValidator, SmartDefaultProvider } from './interface';
 import { JsonVisitor } from './visitor';
