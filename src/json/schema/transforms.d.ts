@@ -7,4 +7,4 @@
  */
 import { JsonArray, JsonObject, JsonValue } from '..';
 import { JsonPointer } from './interface';
-export declare function addUndefinedDefaults(value: JsonValue | undefined, _pointer: JsonPointer, schema?: JsonObject, _root?: JsonObject | JsonArray): JsonValue | undefined;
+export declare function addUndefinedDefaults(value: JsonValue | undefined, _pointer: JsonPointer, schema?: JsonObject, _root?: JsonObject | JsonArray): JsonValue;

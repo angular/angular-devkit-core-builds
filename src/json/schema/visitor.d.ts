@@ -12,7 +12,7 @@ export interface JsonSchemaVisitor {
     (current: JsonObject | JsonArray, pointer: JsonPointer, parentSchema?: JsonObject | JsonArray, index?: string): void;
 }
 export interface JsonVisitor {
-    (value: JsonValue | undefined, pointer: JsonPointer, schema?: JsonObject, root?: JsonObject | JsonArray): Observable<JsonValue | undefined> | JsonValue | undefined;
+    (value: JsonValue, pointer: JsonPointer, schema?: JsonObject, root?: JsonObject | JsonArray): Observable<JsonValue> | JsonValue;
 }
 export interface ReferenceResolver<ContextT> {
     (ref: string, context?: ContextT): {
@@ -35,5 +35,5 @@ export interface ReferenceResolver<ContextT> {
  * @param refResolver a function to resolve references in the schema.
  * @returns {Observable< | undefined>} The observable of the new root, if the root changed.
  */
-export declare function visitJson<ContextT>(json: JsonValue, visitor: JsonVisitor, schema?: JsonObject, refResolver?: ReferenceResolver<ContextT>, context?: ContextT): Observable<JsonValue | undefined>;
+export declare function visitJson<ContextT>(json: JsonValue, visitor: JsonVisitor, schema?: JsonObject, refResolver?: ReferenceResolver<ContextT>, context?: ContextT): Observable<JsonValue>;
 export declare function visitJsonSchema(schema: JsonObject, visitor: JsonSchemaVisitor): void;
