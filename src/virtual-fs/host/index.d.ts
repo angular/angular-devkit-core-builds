@@ -9,6 +9,7 @@ export * from './alias';
 export * from './buffer';
 export * from './interface';
 export * from './memory';
+export * from './pattern';
 export * from './scoped';
 export * from './sync';
 import * as test from './test';
