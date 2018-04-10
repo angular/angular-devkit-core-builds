@@ -7,9 +7,15 @@
  */
 import * as ajv from 'ajv';
 import { Observable } from 'rxjs';
+import { BaseException } from '../../exception/exception';
 import { JsonObject } from '../interface';
-import { SchemaFormat, SchemaRegistry, SchemaValidator, SmartDefaultProvider } from './interface';
+import { SchemaFormat, SchemaRegistry, SchemaValidator, SchemaValidatorError, SmartDefaultProvider } from './interface';
 import { JsonVisitor } from './visitor';
+export declare class SchemaValidationException extends BaseException {
+    readonly errors: SchemaValidatorError[];
+    constructor(errors?: SchemaValidatorError[]);
+    static createMessages(errors?: SchemaValidatorError[]): string[];
+}
 export declare class CoreSchemaRegistry implements SchemaRegistry {
     private _ajv;
     private _uriCache;

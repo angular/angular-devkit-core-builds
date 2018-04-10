@@ -17,9 +17,6 @@ export declare class WorkspaceToolNotFoundException extends BaseException {
 export declare class ProjectToolNotFoundException extends BaseException {
     constructor(name: string);
 }
-export declare class SchemaValidationException extends BaseException {
-    constructor(errors: string[]);
-}
 export declare class WorkspaceNotYetLoadedException extends BaseException {
     constructor();
 }
