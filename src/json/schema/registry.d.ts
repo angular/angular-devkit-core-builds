@@ -13,7 +13,7 @@ import { SchemaFormat, SchemaRegistry, SchemaValidator, SchemaValidatorError, Sm
 import { JsonVisitor } from './visitor';
 export declare class SchemaValidationException extends BaseException {
     readonly errors: SchemaValidatorError[];
-    constructor(errors?: SchemaValidatorError[]);
+    constructor(errors?: SchemaValidatorError[], baseMessage?: string);
     static createMessages(errors?: SchemaValidatorError[]): string[];
 }
 export declare class CoreSchemaRegistry implements SchemaRegistry {
