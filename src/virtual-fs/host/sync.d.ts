@@ -8,7 +8,7 @@
 import { Observable } from 'rxjs';
 import { BaseException } from '../../exception/exception';
 import { Path, PathFragment } from '../path';
-import { FileBuffer, Host, HostCapabilities, HostWatchEvent, HostWatchOptions, Stats } from './interface';
+import { FileBuffer, FileBufferLike, Host, HostCapabilities, HostWatchEvent, HostWatchOptions, Stats } from './interface';
 export declare class SynchronousDelegateExpectedException extends BaseException {
     constructor();
 }
@@ -21,7 +21,7 @@ export declare class SyncDelegateHost<T extends object = {}> {
     protected _doSyncCall<ResultT>(observable: Observable<ResultT>): ResultT;
     readonly capabilities: HostCapabilities;
     readonly delegate: Host<T>;
-    write(path: Path, content: FileBuffer): void;
+    write(path: Path, content: FileBufferLike): void;
     read(path: Path): FileBuffer;
     delete(path: Path): void;
     rename(from: Path, to: Path): void;
