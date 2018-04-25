@@ -39,7 +39,7 @@ export declare class Workspace {
     readonly newProjectRoot: string | undefined;
     listProjectNames(): string[];
     getProject(projectName: string): WorkspaceProject;
-    getDefaultProject(): WorkspaceProject | null;
+    getDefaultProjectName(): string | null;
     getProjectByPath(path: Path): string | null;
     getCli(): WorkspaceTool;
     getSchematics(): WorkspaceTool;
