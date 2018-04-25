@@ -8,6 +8,7 @@
 import { Observable } from 'rxjs';
 import { JsonObject, Path, virtualFs } from '..';
 import { BaseException } from '../exception/exception';
+import { WorkspaceProject, WorkspaceTool } from './workspace-schema';
 export declare class ProjectNotFoundException extends BaseException {
     constructor(name: string);
 }
@@ -19,25 +20,6 @@ export declare class ProjectToolNotFoundException extends BaseException {
 }
 export declare class WorkspaceNotYetLoadedException extends BaseException {
     constructor();
-}
-export interface WorkspaceJson {
-    version: number;
-    newProjectRoot: Path;
-    cli: WorkspaceTool;
-    schematics: WorkspaceTool;
-    architect: WorkspaceTool;
-    projects: {
-        [k: string]: WorkspaceProject;
-    };
-}
-export interface WorkspaceProject {
-    projectType: 'application' | 'library';
-    root: Path;
-    cli: WorkspaceTool;
-    schematics: WorkspaceTool;
-    architect: WorkspaceTool;
-}
-export interface WorkspaceTool extends JsonObject {
 }
 export declare class Workspace {
     private _root;
@@ -54,9 +36,11 @@ export declare class Workspace {
     readonly root: Path;
     readonly host: virtualFs.Host<{}>;
     readonly version: number;
-    readonly newProjectRoot: Path;
+    readonly newProjectRoot: string | undefined;
     listProjectNames(): string[];
     getProject(projectName: string): WorkspaceProject;
+    getDefaultProject(): WorkspaceProject | null;
+    getProjectByPath(path: Path): string | null;
     getCli(): WorkspaceTool;
     getSchematics(): WorkspaceTool;
     getArchitect(): WorkspaceTool;
