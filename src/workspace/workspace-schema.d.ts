@@ -54,7 +54,11 @@ export interface WorkspaceProject {
      */
     root: string;
     /**
-     * The prefix to apply to generated selectors."
+     * The root of the source files, assets and index.html file structure.
+     */
+    sourceRoot?: string;
+    /**
+     * The prefix to apply to generated selectors.
      */
     prefix: string;
     /**
