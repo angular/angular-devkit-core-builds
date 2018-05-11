@@ -6,8 +6,9 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Observable } from 'rxjs';
-import { JsonObject, Path, virtualFs } from '..';
-import { BaseException } from '../exception/exception';
+import { BaseException } from '../exception';
+import { JsonObject } from '../json';
+import { Path, virtualFs } from '../virtual-fs';
 import { WorkspaceProject, WorkspaceTool } from './workspace-schema';
 export declare class ProjectNotFoundException extends BaseException {
     constructor(name: string);
