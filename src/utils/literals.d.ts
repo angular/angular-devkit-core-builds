@@ -10,3 +10,4 @@ export declare function oneLine(strings: TemplateStringsArray, ...values: any[])
 export declare function indentBy(indentations: number): TemplateTag;
 export declare function stripIndent(strings: TemplateStringsArray, ...values: any[]): string;
 export declare function stripIndents(strings: TemplateStringsArray, ...values: any[]): string;
+export declare function trimNewlines(strings: TemplateStringsArray, ...values: any[]): string;
