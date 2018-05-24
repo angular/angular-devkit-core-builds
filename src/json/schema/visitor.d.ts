@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Observable } from 'rxjs';
-import { JsonArray, JsonObject, JsonValue } from '..';
+import { JsonArray, JsonObject, JsonValue } from '../interface';
 import { JsonPointer } from './interface';
 export interface JsonSchemaVisitor {
     (current: JsonObject | JsonArray, pointer: JsonPointer, parentSchema?: JsonObject | JsonArray, index?: string): void;
