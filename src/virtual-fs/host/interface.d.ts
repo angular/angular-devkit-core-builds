@@ -36,16 +36,18 @@ export interface HostWatchEvent {
 export interface HostCapabilities {
     synchronous: boolean;
 }
-export interface Host<StatsT extends object = {}> {
+export interface ReadonlyHost<StatsT extends object = {}> {
     readonly capabilities: HostCapabilities;
-    write(path: Path, content: FileBufferLike): Observable<void>;
     read(path: Path): Observable<FileBuffer>;
-    delete(path: Path): Observable<void>;
-    rename(from: Path, to: Path): Observable<void>;
     list(path: Path): Observable<PathFragment[]>;
     exists(path: Path): Observable<boolean>;
     isDirectory(path: Path): Observable<boolean>;
     isFile(path: Path): Observable<boolean>;
-    stat(path: Path): Observable<Stats<StatsT>> | null;
+    stat(path: Path): Observable<Stats<StatsT> | null> | null;
+}
+export interface Host<StatsT extends object = {}> extends ReadonlyHost<StatsT> {
+    write(path: Path, content: FileBufferLike): Observable<void>;
+    delete(path: Path): Observable<void>;
+    rename(from: Path, to: Path): Observable<void>;
     watch(path: Path, options?: HostWatchOptions): Observable<HostWatchEvent> | null;
 }

@@ -8,6 +8,9 @@
 export declare class BaseException extends Error {
     constructor(message?: string);
 }
+export declare class UnknownException extends Error {
+    constructor(message: string);
+}
 export declare class FileDoesNotExistException extends BaseException {
     constructor(path: string);
 }

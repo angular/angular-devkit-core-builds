@@ -6,6 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { BaseException } from '../exception';
+import { TemplateTag } from '../utils/literals';
 export declare class InvalidPathException extends BaseException {
     constructor(path: string);
 }
@@ -88,6 +89,7 @@ export declare function fragment(path: string): PathFragment;
  *   - If a path is absolute, having a `..` at the start is invalid (and will throw).
  */
 export declare function normalize(path: string): Path;
+export declare const path: TemplateTag<Path>;
 export declare type WindowsPath = string & {
     __PRIVATE_DEVKIT_WINDOWS_PATH: void;
 };

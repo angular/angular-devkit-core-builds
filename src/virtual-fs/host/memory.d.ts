@@ -12,9 +12,10 @@ export interface SimpleMemoryHostStats {
     readonly content: FileBuffer | null;
 }
 export declare class SimpleMemoryHost implements Host<{}> {
-    private _cache;
+    protected _cache: Map<Path, Stats<SimpleMemoryHostStats>>;
     private _watchers;
     protected _newDirStats(): {
+        inspect(): string;
         isFile(): boolean;
         isDirectory(): boolean;
         size: number;
@@ -25,6 +26,7 @@ export declare class SimpleMemoryHost implements Host<{}> {
         content: null;
     };
     protected _newFileStats(content: FileBuffer, oldStats?: Stats<SimpleMemoryHostStats>): {
+        inspect(): string;
         isFile(): boolean;
         isDirectory(): boolean;
         size: number;
@@ -43,14 +45,15 @@ export declare class SimpleMemoryHost implements Host<{}> {
      * and internal states.
      */
     protected _write(path: Path, content: FileBuffer): void;
-    _read(path: Path): FileBuffer;
-    _delete(path: Path): void;
-    _rename(from: Path, to: Path): void;
-    _list(path: Path): PathFragment[];
-    _exists(path: Path): boolean;
-    _isDirectory(path: Path): boolean;
-    _isFile(path: Path): boolean;
-    _stat(path: Path): Stats<SimpleMemoryHostStats>;
+    protected _read(path: Path): FileBuffer;
+    protected _delete(path: Path): void;
+    protected _rename(from: Path, to: Path): void;
+    protected _list(path: Path): PathFragment[];
+    protected _exists(path: Path): boolean;
+    protected _isDirectory(path: Path): boolean;
+    protected _isFile(path: Path): boolean;
+    protected _stat(path: Path): Stats<SimpleMemoryHostStats> | null;
+    protected _watch(path: Path, options?: HostWatchOptions): Observable<HostWatchEvent>;
     write(path: Path, content: FileBuffer): Observable<void>;
     read(path: Path): Observable<FileBuffer>;
     delete(path: Path): Observable<void>;
@@ -59,6 +62,6 @@ export declare class SimpleMemoryHost implements Host<{}> {
     exists(path: Path): Observable<boolean>;
     isDirectory(path: Path): Observable<boolean>;
     isFile(path: Path): Observable<boolean>;
-    stat(path: Path): Observable<Stats<{}>>;
+    stat(path: Path): Observable<Stats<{}> | null> | null;
     watch(path: Path, options?: HostWatchOptions): Observable<HostWatchEvent> | null;
 }
