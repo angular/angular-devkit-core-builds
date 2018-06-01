@@ -47,6 +47,7 @@ export declare class CordHost extends SimpleMemoryHost {
     protected _filesToDelete: Set<Path>;
     protected _filesToOverwrite: Set<Path>;
     constructor(_back: ReadonlyHost);
+    readonly backend: ReadonlyHost;
     readonly capabilities: HostCapabilities;
     /**
      * Create a copy of this host, including all actions made.
