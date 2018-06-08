@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Observable } from 'rxjs';
-import { Path, PathFragment } from '..';
+import { Path, PathFragment } from '../path';
 import { FileBuffer, Host, HostCapabilities, HostWatchOptions, ReadonlyHost } from './interface';
 import { SimpleMemoryHost } from './memory';
 export interface CordHostCreate {

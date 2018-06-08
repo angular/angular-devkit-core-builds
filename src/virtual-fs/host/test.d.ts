@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Observable } from 'rxjs';
-import { Path } from '..';
+import { Path } from '../path';
 import { FileBuffer, HostWatchEvent, HostWatchOptions, Stats } from './interface';
 import { SimpleMemoryHost, SimpleMemoryHostStats } from './memory';
 import { SyncDelegateHost } from './sync';
