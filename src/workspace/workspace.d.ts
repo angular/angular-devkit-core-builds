@@ -22,6 +22,11 @@ export declare class ProjectToolNotFoundException extends BaseException {
 export declare class WorkspaceNotYetLoadedException extends BaseException {
     constructor();
 }
+export declare class AmbiguousProjectPathException extends BaseException {
+    readonly path: Path;
+    readonly projects: ReadonlyArray<string>;
+    constructor(path: Path, projects: ReadonlyArray<string>);
+}
 export declare class Workspace {
     private _root;
     private _host;
