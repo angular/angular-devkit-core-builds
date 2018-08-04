@@ -44,7 +44,7 @@ export declare enum JsonParseMode {
     Default = 0,
     Loose = 255,
     Json = 0,
-    Json5 = 255,
+    Json5 = 255
 }
 /**
  * Parse the JSON string and return its AST. The AST may be losing data (end comments are
