@@ -6,10 +6,11 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import * as experimental from './experimental';
+import * as json from './json';
 import * as logging from './logger';
 import * as terminal from './terminal';
 export * from './exception/exception';
 export * from './json';
 export * from './utils';
 export * from './virtual-fs';
-export { experimental, logging, terminal, };
+export { experimental, json, logging, terminal, };

@@ -70,6 +70,5 @@ export interface JsonAstComment extends JsonAstNodeBase {
     readonly content: string;
 }
 export declare type JsonValue = JsonAstNode['value'];
-export declare const JsonValue: {
-    isJsonObject(value: string | number | boolean | JsonArray | JsonObject | null): value is JsonObject;
-};
+export declare function isJsonObject(value: JsonValue): value is JsonObject;
+export declare function isJsonArray(value: JsonValue): value is JsonArray;
