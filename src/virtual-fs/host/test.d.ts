@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Observable } from 'rxjs';
-import { Path } from '../path';
+import { Path, PathFragment } from '../path';
 import { FileBuffer, HostWatchEvent, HostWatchOptions, Stats } from './interface';
 import { SimpleMemoryHost, SimpleMemoryHostStats } from './memory';
 import { SyncDelegateHost } from './sync';
@@ -33,7 +33,7 @@ export declare class TestHost extends SimpleMemoryHost {
     protected _read(path: Path): ArrayBuffer;
     protected _delete(path: Path): void;
     protected _rename(from: Path, to: Path): void;
-    protected _list(path: Path): import("../path").PathFragment[];
+    protected _list(path: Path): PathFragment[];
     protected _exists(path: Path): boolean;
     protected _isDirectory(path: Path): boolean;
     protected _isFile(path: Path): boolean;
@@ -41,7 +41,7 @@ export declare class TestHost extends SimpleMemoryHost {
     protected _watch(path: Path, options?: HostWatchOptions): Observable<HostWatchEvent>;
     $write(path: string, content: string): void;
     $read(path: string): string;
-    $list(path: string): import("../path").PathFragment[];
+    $list(path: string): PathFragment[];
     $exists(path: string): boolean;
     $isDirectory(path: string): boolean;
     $isFile(path: string): boolean;
