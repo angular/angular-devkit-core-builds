@@ -9,7 +9,7 @@ import * as ajv from 'ajv';
 import { Observable } from 'rxjs';
 import { BaseException } from '../../exception/exception';
 import { JsonObject } from '../interface';
-import { SchemaFormat, SchemaRegistry, SchemaValidator, SchemaValidatorError, SmartDefaultProvider } from './interface';
+import { PromptProvider, SchemaFormat, SchemaRegistry, SchemaValidator, SchemaValidatorError, SmartDefaultProvider } from './interface';
 import { JsonVisitor } from './visitor';
 export declare class SchemaValidationException extends BaseException {
     readonly errors: SchemaValidatorError[];
@@ -21,9 +21,11 @@ export declare class CoreSchemaRegistry implements SchemaRegistry {
     private _uriCache;
     private _pre;
     private _post;
+    private _currentCompilationSchemaInfo?;
+    private _validatorCache;
     private _smartDefaultKeyword;
+    private _promptProvider?;
     private _sourceMap;
-    private _smartDefaultRecord;
     constructor(formats?: SchemaFormat[]);
     private _fetch;
     /**
@@ -47,5 +49,8 @@ export declare class CoreSchemaRegistry implements SchemaRegistry {
     compile(schema: JsonObject): Observable<SchemaValidator>;
     addFormat(format: SchemaFormat): void;
     addSmartDefaultProvider<T>(source: string, provider: SmartDefaultProvider<T>): void;
+    usePromptProvider(provider: PromptProvider): void;
+    private _applyPrompts;
+    private static _set;
     private _applySmartDefaults;
 }
