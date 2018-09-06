@@ -6,14 +6,8 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Observable } from 'rxjs';
-import { JsonArray, JsonObject, JsonValue } from '../interface';
-import { JsonPointer } from './interface';
-export interface JsonSchemaVisitor {
-    (current: JsonObject | JsonArray, pointer: JsonPointer, parentSchema?: JsonObject | JsonArray, index?: string): void;
-}
-export interface JsonVisitor {
-    (value: JsonValue, pointer: JsonPointer, schema?: JsonObject, root?: JsonObject | JsonArray): Observable<JsonValue> | JsonValue;
-}
+import { JsonObject, JsonValue } from '../interface';
+import { JsonSchemaVisitor, JsonVisitor } from './interface';
 export interface ReferenceResolver<ContextT> {
     (ref: string, context?: ContextT): {
         context?: ContextT;

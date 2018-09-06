@@ -53,10 +53,12 @@ export interface SchemaValidatorResult {
     errors?: SchemaValidatorError[];
 }
 export interface SchemaValidatorOptions {
-    withPrompts: boolean;
+    applyPreTransforms?: boolean;
+    applyPostTransforms?: boolean;
+    withPrompts?: boolean;
 }
 export interface SchemaValidator {
-    (data: any, options?: Partial<SchemaValidatorOptions>): Observable<SchemaValidatorResult>;
+    (data: JsonValue, options?: SchemaValidatorOptions): Observable<SchemaValidatorResult>;
 }
 export interface SchemaFormatter {
     readonly async: boolean;
@@ -90,7 +92,28 @@ export declare type PromptProvider = (definitions: Array<PromptDefinition>) => S
 }>;
 export interface SchemaRegistry {
     compile(schema: Object): Observable<SchemaValidator>;
+    flatten(schema: JsonObject | string): Observable<JsonObject>;
     addFormat(format: SchemaFormat): void;
     addSmartDefaultProvider<T>(source: string, provider: SmartDefaultProvider<T>): void;
     usePromptProvider(provider: PromptProvider): void;
+    /**
+     * Add a transformation step before the validation of any Json.
+     * @param {JsonVisitor} visitor The visitor to transform every value.
+     * @param {JsonVisitor[]} deps A list of other visitors to run before.
+     */
+    addPreTransform(visitor: JsonVisitor, deps?: JsonVisitor[]): void;
+    /**
+     * Add a transformation step after the validation of any Json. The JSON will not be validated
+     * after the POST, so if transformations are not compatible with the Schema it will not result
+     * in an error.
+     * @param {JsonVisitor} visitor The visitor to transform every value.
+     * @param {JsonVisitor[]} deps A list of other visitors to run before.
+     */
+    addPostTransform(visitor: JsonVisitor, deps?: JsonVisitor[]): void;
+}
+export interface JsonSchemaVisitor {
+    (current: JsonObject | JsonArray, pointer: JsonPointer, parentSchema?: JsonObject | JsonArray, index?: string): void;
+}
+export interface JsonVisitor {
+    (value: JsonValue, pointer: JsonPointer, schema?: JsonObject, root?: JsonObject | JsonArray): Observable<JsonValue> | JsonValue;
 }
