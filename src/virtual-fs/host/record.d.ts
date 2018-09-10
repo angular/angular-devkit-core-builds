@@ -82,7 +82,6 @@ export declare class CordHost extends SimpleMemoryHost {
     exists(path: Path): Observable<boolean>;
     isDirectory(path: Path): Observable<boolean>;
     isFile(path: Path): Observable<boolean>;
-    stat(path: Path): null;
     watch(path: Path, options?: HostWatchOptions): null;
     willCreate(path: Path): boolean;
     willOverwrite(path: Path): boolean;
