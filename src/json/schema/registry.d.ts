@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { BaseException } from '../../exception/exception';
 import { JsonObject } from '../interface';
 import { JsonVisitor, PromptProvider, SchemaFormat, SchemaRegistry, SchemaValidator, SchemaValidatorError, SmartDefaultProvider } from './interface';
-export declare type UriHandler = (uri: string) => Observable<JsonObject> | null | undefined;
+export declare type UriHandler = (uri: string) => Observable<JsonObject> | Promise<JsonObject> | null | undefined;
 export declare class SchemaValidationException extends BaseException {
     readonly errors: SchemaValidatorError[];
     constructor(errors?: SchemaValidatorError[], baseMessage?: string);
