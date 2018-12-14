@@ -5,6 +5,8 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import * as jobs from './experimental/jobs/index';
-import * as workspace from './workspace/index';
-export { jobs, workspace, };
+export * from './experimental/job-registry';
+export * from './fs';
+export * from './cli-logger';
+export * from './host';
+export { ModuleNotFoundException, ResolveOptions, resolve } from './resolve';
