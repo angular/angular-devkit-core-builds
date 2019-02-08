@@ -25,7 +25,7 @@ export interface JobHandler<ArgT extends JsonValue, InputT extends JsonValue, Ou
  */
 export interface JobHandlerContext<MinimumArgumentValueT extends JsonValue = JsonValue, MinimumInputValueT extends JsonValue = JsonValue, MinimumOutputValueT extends JsonValue = JsonValue> {
     readonly description: JobDescription;
-    readonly scheduler: Scheduler<MinimumArgumentValueT, MinimumInputValueT, MinimumOutputValueT>;
+    readonly scheduler: Scheduler<JsonValue, JsonValue, JsonValue>;
     readonly dependencies: Job<JsonValue, JsonValue, JsonValue>[];
     readonly inboundBus: Observable<JobInboundMessage<MinimumInputValueT>>;
 }

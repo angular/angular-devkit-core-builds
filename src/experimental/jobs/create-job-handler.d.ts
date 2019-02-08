@@ -21,7 +21,7 @@ export declare class ChannelAlreadyExistException extends BaseException {
 export interface SimpleJobHandlerContext<A extends JsonValue, I extends JsonValue, O extends JsonValue> extends JobHandlerContext<A, I, O> {
     logger: LoggerApi;
     createChannel: (name: string) => Observer<JsonValue>;
-    input: Observable<JsonValue>;
+    input: Observable<I>;
 }
 /**
  * A simple version of the JobHandler. This simplifies a lot of the interaction with the job
@@ -42,7 +42,7 @@ export declare function createJobHandler<A extends JsonValue, I extends JsonValu
  * @param loader A factory function that returns a promise/observable of a JobHandler.
  * @param options Same options as createJob.
  */
-export declare function createJobFactory<A extends JsonValue, I extends JsonValue, O extends JsonValue>(loader: () => Promise<JobHandler<A, I, O>>, options: Partial<JobDescription>): JobHandler<A, I, O>;
+export declare function createJobFactory<A extends JsonValue, I extends JsonValue, O extends JsonValue>(loader: () => Promise<JobHandler<A, I, O>>, options?: Partial<JobDescription>): JobHandler<A, I, O>;
 /**
  * Creates a job that logs out input/output messages of another Job. The messages are still
  * propagated to the other job.
