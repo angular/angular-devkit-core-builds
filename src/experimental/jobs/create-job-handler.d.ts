@@ -9,7 +9,7 @@
 import { Observable, Observer } from 'rxjs';
 import { BaseException } from '../../exception/index';
 import { JsonValue } from '../../json/index';
-import { LoggerApi } from '../../logger/index';
+import { LoggerApi } from '../../logger';
 import { JobDescription, JobHandler, JobHandlerContext } from './api';
 export declare class ChannelAlreadyExistException extends BaseException {
     constructor(name: string);
@@ -19,7 +19,6 @@ export declare class ChannelAlreadyExistException extends BaseException {
  * the basic `JobHandlerContext` with additional functionality.
  */
 export interface SimpleJobHandlerContext<A extends JsonValue, I extends JsonValue, O extends JsonValue> extends JobHandlerContext<A, I, O> {
-    logger: LoggerApi;
     createChannel: (name: string) => Observer<JsonValue>;
     input: Observable<I>;
 }
