@@ -13,10 +13,10 @@
     "core"
   ],
   "dependencies": {
-    "ajv": "6.9.1",
+    "ajv": "6.9.2",
     "chokidar": "2.1.2",
     "fast-json-stable-stringify": "2.0.0",
-    "rxjs": "6.3.3",
+    "rxjs": "6.4.0",
     "source-map": "0.7.3"
   },
   "repository": {
