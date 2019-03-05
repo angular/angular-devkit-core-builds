@@ -7,9 +7,12 @@
  */
 import { Observable } from 'rxjs';
 import { BaseException } from '../exception';
-import { JsonObject } from '../json';
+import { JsonObject, schema } from '../json';
 import { Path, virtualFs } from '../virtual-fs';
 import { WorkspaceProject, WorkspaceTool } from './workspace-schema';
+export declare class WorkspaceFileNotFoundException extends BaseException {
+    constructor(path: Path);
+}
 export declare class ProjectNotFoundException extends BaseException {
     constructor(name: string);
 }
@@ -30,11 +33,14 @@ export declare class AmbiguousProjectPathException extends BaseException {
 export declare class Workspace {
     private _root;
     private _host;
+    protected static _workspaceFileNames: string[];
     private readonly _workspaceSchemaPath;
     private _workspaceSchema;
     private _workspace;
     private _registry;
-    constructor(_root: Path, _host: virtualFs.Host<{}>);
+    constructor(_root: Path, _host: virtualFs.Host<{}>, registry?: schema.CoreSchemaRegistry);
+    static findWorkspaceFile(host: virtualFs.Host<{}>, path: Path): Promise<Path | null>;
+    static fromPath(host: virtualFs.Host<{}>, path: Path, registry: schema.CoreSchemaRegistry): Promise<Workspace>;
     loadWorkspaceFromJson(json: {}): Observable<this>;
     loadWorkspaceFromHost(workspacePath: Path): Observable<this>;
     private _loadWorkspaceSchema;
