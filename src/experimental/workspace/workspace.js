@@ -55,7 +55,7 @@ async function _findUp(host, names, from) {
     do {
         for (const name of names) {
             const p = virtual_fs_1.join(from, name);
-            if (await host.exists(p)) {
+            if (await host.exists(p).toPromise()) {
                 return p;
             }
         }
@@ -262,7 +262,5 @@ class Workspace {
 Workspace._workspaceFileNames = [
     'angular.json',
     '.angular.json',
-    'workspace.json',
-    '.workspace.json',
 ];
 exports.Workspace = Workspace;
