@@ -119,8 +119,8 @@ function relative(from, to) {
         p = '';
     }
     else {
-        const splitFrom = from.split(exports.NormalizedSep);
-        const splitTo = to.split(exports.NormalizedSep);
+        const splitFrom = split(from);
+        const splitTo = split(to);
         while (splitFrom.length > 0 && splitTo.length > 0 && splitFrom[0] == splitTo[0]) {
             splitFrom.shift();
             splitTo.shift();
