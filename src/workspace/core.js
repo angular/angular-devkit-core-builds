@@ -8,7 +8,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * found in the LICENSE file at https://angular.io/license
  */
 const virtual_fs_1 = require("../virtual-fs");
-const definitions_1 = require("./definitions");
+const reader_1 = require("./json/reader");
+const writer_1 = require("./json/writer");
 const formatLookup = new WeakMap();
 var WorkspaceFormat;
 (function (WorkspaceFormat) {
@@ -38,8 +39,6 @@ async function readWorkspace(path, host, format) {
             }
             const potential = virtual_fs_1.getSystemPath(virtual_fs_1.join(directory, name));
             if (await host.isFile(potential)) {
-                // TEMP - remove disable when actual reader is used
-                // tslint:disable-next-line:no-dead-store
                 path = potential;
                 format = nameFormat;
                 found = true;
@@ -62,12 +61,7 @@ async function readWorkspace(path, host, format) {
     let workspace;
     switch (format) {
         case WorkspaceFormat.JSON:
-            // TEMP: remove the following two statements when JSON support is introduced
-            await host.readFile(path);
-            workspace = {
-                extensions: {},
-                projects: new definitions_1.ProjectDefinitionCollection(),
-            };
+            workspace = await reader_1.readJsonWorkspace(path, host);
             break;
         default:
             throw new Error('Unsupported workspace format.');
@@ -76,7 +70,7 @@ async function readWorkspace(path, host, format) {
     return workspace;
 }
 exports.readWorkspace = readWorkspace;
-async function writeWorkspace(workspace, _host, _path, format) {
+async function writeWorkspace(workspace, host, path, format) {
     if (format === undefined) {
         format = formatLookup.get(workspace);
         if (format === undefined) {
@@ -85,7 +79,7 @@ async function writeWorkspace(workspace, _host, _path, format) {
     }
     switch (format) {
         case WorkspaceFormat.JSON:
-            throw new Error('Not Implemented.');
+            return writer_1.writeJsonWorkspace(workspace, host, path);
         default:
             throw new Error('Unsupported workspace format.');
     }
