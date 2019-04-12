@@ -20,6 +20,8 @@ const logging = require("./logger/index");
 exports.logging = logging;
 const terminal = require("./terminal/index");
 exports.terminal = terminal;
+const workspace = require("./workspace");
+exports.workspace = workspace;
 __export(require("./exception/exception"));
 __export(require("./json/index"));
 __export(require("./utils/index"));

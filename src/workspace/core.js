@@ -67,7 +67,7 @@ async function readWorkspace(path, host, format) {
             throw new Error('Unsupported workspace format.');
     }
     formatLookup.set(workspace, WorkspaceFormat.JSON);
-    return workspace;
+    return { workspace };
 }
 exports.readWorkspace = readWorkspace;
 async function writeWorkspace(workspace, host, path, format) {

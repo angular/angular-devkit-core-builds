@@ -48,3 +48,6 @@ __export(require("./utils/lang"));
 __export(require("./virtual-fs/path"));
 __export(require("./virtual-fs/host/index"));
 // End virtualFs namespace
+// Start workspace namespace
+__export(require("./workspace/index"));
+// End workspace namespace
