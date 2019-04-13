@@ -9,16 +9,16 @@ class LoggingAnalytics {
         this._logger = _logger;
     }
     event(category, action, options) {
-        this._logger.info('event ' + JSON.stringify(Object.assign({ category, action }, options)));
+        this._logger.info('event ' + JSON.stringify({ category, action, ...options }));
     }
     screenview(screenName, appName, options) {
-        this._logger.info('screenview ' + JSON.stringify(Object.assign({ screenName, appName }, options)));
+        this._logger.info('screenview ' + JSON.stringify({ screenName, appName, ...options }));
     }
     pageview(path, options) {
-        this._logger.info('pageview ' + JSON.stringify(Object.assign({ path }, options)));
+        this._logger.info('pageview ' + JSON.stringify({ path, ...options }));
     }
     timing(category, variable, time, options) {
-        this._logger.info('timing ' + JSON.stringify(Object.assign({ category, variable, time }, options)));
+        this._logger.info('timing ' + JSON.stringify({ category, variable, time, ...options }));
     }
     flush() {
         return Promise.resolve();

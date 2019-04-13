@@ -236,7 +236,12 @@ class CoreSchemaRegistry {
         }
         return validator
             .pipe(operators_1.map(validate => (data, options) => {
-            const validationOptions = Object.assign({ withPrompts: true, applyPostTransforms: true, applyPreTransforms: true }, options);
+            const validationOptions = {
+                withPrompts: true,
+                applyPostTransforms: true,
+                applyPreTransforms: true,
+                ...options,
+            };
             const validationContext = {
                 promptFieldsWithValue: new Set(),
             };

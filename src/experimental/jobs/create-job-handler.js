@@ -59,7 +59,10 @@ function createJobHandler(fn, options = {}) {
             });
             // Execute the function with the additional context.
             const channels = new Map();
-            const newContext = Object.assign({}, context, { input: inputChannel.asObservable(), createChannel(name) {
+            const newContext = {
+                ...context,
+                input: inputChannel.asObservable(),
+                createChannel(name) {
                     if (channels.has(name)) {
                         throw new ChannelAlreadyExistException(name);
                     }
@@ -82,7 +85,8 @@ function createJobHandler(fn, options = {}) {
                         subscription.add(channelSub);
                     }
                     return channelSubject;
-                } });
+                },
+            };
             subject.next({ kind: api_1.JobOutboundMessageKind.Start, description });
             let result = fn(argument, newContext);
             // If the result is a promise, simply wait for it to complete before reporting the result.

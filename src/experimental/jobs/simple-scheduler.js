@@ -91,7 +91,15 @@ class SimpleScheduler {
             if (handler === null) {
                 return rxjs_1.of(null);
             }
-            const description = Object.assign({}, JSON.parse(JSON.stringify(handler.jobDescription)), { name: handler.jobDescription.name || name, argument: handler.jobDescription.argument || true, input: handler.jobDescription.input || true, output: handler.jobDescription.output || true, channels: handler.jobDescription.channels || {} });
+            const description = {
+                // Make a copy of it to be sure it's proper JSON.
+                ...JSON.parse(JSON.stringify(handler.jobDescription)),
+                name: handler.jobDescription.name || name,
+                argument: handler.jobDescription.argument || true,
+                input: handler.jobDescription.input || true,
+                output: handler.jobDescription.output || true,
+                channels: handler.jobDescription.channels || {},
+            };
             const handlerWithExtra = Object.assign(handler.bind(undefined), {
                 jobDescription: description,
                 argumentV: this._schemaRegistry.compile(description.argument).pipe(operators_1.shareReplay(1)),
@@ -277,7 +285,10 @@ class SimpleScheduler {
                         if (!output.success) {
                             throw new JobOutputSchemaValidationError(output.errors);
                         }
-                        return rxjs_1.of(Object.assign({}, message, { output: output.data }));
+                        return rxjs_1.of({
+                            ...message,
+                            output: output.data,
+                        });
                     }));
                 }
             }));

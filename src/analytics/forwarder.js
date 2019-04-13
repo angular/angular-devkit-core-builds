@@ -21,7 +21,7 @@ class ForwardingAnalytics {
             kind: AnalyticsReportKind.Event,
             category,
             action,
-            options: Object.assign({}, options),
+            options: { ...options },
         });
     }
     screenview(screenName, appName, options) {
@@ -29,14 +29,14 @@ class ForwardingAnalytics {
             kind: AnalyticsReportKind.Screenview,
             screenName,
             appName,
-            options: Object.assign({}, options),
+            options: { ...options },
         });
     }
     pageview(path, options) {
         this._fn({
             kind: AnalyticsReportKind.Pageview,
             path,
-            options: Object.assign({}, options),
+            options: { ...options },
         });
     }
     timing(category, variable, time, options) {
@@ -45,7 +45,7 @@ class ForwardingAnalytics {
             category,
             variable,
             time,
-            options: Object.assign({}, options),
+            options: { ...options },
         });
     }
     // We do not support flushing.

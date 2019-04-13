@@ -112,7 +112,12 @@ function resolve(x, options) {
             const localDir = path.dirname(caller);
             if (localDir !== options.basedir) {
                 try {
-                    return resolve(x, Object.assign({}, options, { checkLocal: false, checkGlobal: false, basedir: localDir }));
+                    return resolve(x, {
+                        ...options,
+                        checkLocal: false,
+                        checkGlobal: false,
+                        basedir: localDir,
+                    });
                 }
                 catch (e) {
                     // Just swap the basePath with the original call one.
@@ -128,7 +133,12 @@ function resolve(x, options) {
         const globalDir = path.dirname(_getGlobalNodeModules());
         if (globalDir !== options.basedir) {
             try {
-                return resolve(x, Object.assign({}, options, { checkLocal: false, checkGlobal: false, basedir: globalDir }));
+                return resolve(x, {
+                    ...options,
+                    checkLocal: false,
+                    checkGlobal: false,
+                    basedir: globalDir,
+                });
             }
             catch (e) {
                 // Just swap the basePath with the original call one.

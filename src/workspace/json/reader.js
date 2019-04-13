@@ -184,7 +184,10 @@ function parseProject(projectName, projectNode, context) {
         });
     }
     else {
-        project = Object.assign({}, base, properties);
+        project = {
+            ...base,
+            ...properties,
+        };
     }
     return project;
 }

@@ -34,17 +34,17 @@ function mergeSchemas(...schemas) {
         }
         else if (Array.isArray(prev.allOf)) {
             if (Array.isArray(curr.allOf)) {
-                return Object.assign({}, prev, { allOf: [...prev.allOf, ...curr.allOf] });
+                return { ...prev, allOf: [...prev.allOf, ...curr.allOf] };
             }
             else {
-                return Object.assign({}, prev, { allOf: [...prev.allOf, curr] });
+                return { ...prev, allOf: [...prev.allOf, curr] };
             }
         }
         else if (Array.isArray(curr.allOf)) {
-            return Object.assign({}, prev, { allOf: [prev, ...curr.allOf] });
+            return { ...prev, allOf: [prev, ...curr.allOf] };
         }
         else {
-            return Object.assign({}, prev, { allOf: [prev, curr] });
+            return { ...prev, allOf: [prev, curr] };
         }
     }, true);
 }

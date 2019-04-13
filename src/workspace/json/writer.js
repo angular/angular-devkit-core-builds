@@ -32,7 +32,12 @@ async function writeJsonWorkspace(workspace, host, path, options = {}) {
 }
 exports.writeJsonWorkspace = writeJsonWorkspace;
 function convertJsonWorkspace(workspace, schema) {
-    const obj = Object.assign({ $schema: schema || './node_modules/@angular/cli/lib/config/schema.json', version: 1 }, workspace.extensions, { projects: convertJsonProjectCollection(workspace.projects) });
+    const obj = {
+        $schema: schema || './node_modules/@angular/cli/lib/config/schema.json',
+        version: 1,
+        ...workspace.extensions,
+        projects: convertJsonProjectCollection(workspace.projects),
+    };
     return obj;
 }
 function convertJsonProjectCollection(collection) {
@@ -50,16 +55,26 @@ function convertJsonProject(project) {
             targets[targetName] = convertJsonTarget(target);
         }
     }
-    const obj = Object.assign({}, project.extensions, { root: project.root }, (project.sourceRoot === undefined ? {} : { sourceRoot: project.sourceRoot }), (project.prefix === undefined ? {} : { prefix: project.prefix }), (targets === undefined ? {} : { architect: targets }));
+    const obj = {
+        ...project.extensions,
+        root: project.root,
+        ...(project.sourceRoot === undefined ? {} : { sourceRoot: project.sourceRoot }),
+        ...(project.prefix === undefined ? {} : { prefix: project.prefix }),
+        ...(targets === undefined ? {} : { architect: targets }),
+    };
     return obj;
 }
 function isEmpty(obj) {
     return obj === undefined || Object.keys(obj).length === 0;
 }
 function convertJsonTarget(target) {
-    return Object.assign({ builder: target.builder }, (isEmpty(target.options) ? {} : { options: target.options }), (isEmpty(target.configurations)
-        ? {}
-        : { configurations: target.configurations }));
+    return {
+        builder: target.builder,
+        ...(isEmpty(target.options) ? {} : { options: target.options }),
+        ...(isEmpty(target.configurations)
+            ? {}
+            : { configurations: target.configurations }),
+    };
 }
 function convertJsonTargetCollection(collection) {
     const targets = Object.create(null);

@@ -132,7 +132,7 @@ class Workspace {
             throw new ProjectNotFoundException(projectName);
         }
         // Return only the project properties, and remove the tools.
-        const workspaceProjectClone = Object.assign({}, workspaceProject);
+        const workspaceProjectClone = { ...workspaceProject };
         delete workspaceProjectClone['cli'];
         delete workspaceProjectClone['schematics'];
         delete workspaceProjectClone['architect'];

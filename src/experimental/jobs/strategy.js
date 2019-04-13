@@ -49,7 +49,7 @@ var strategy;
                     // Update state.
                     rxjs_1.of(state), run).pipe(operators_1.finalize(() => subscription.unsubscribe()));
                 }
-                run = handler(argument, Object.assign({}, context, { inboundBus: inboundBus.asObservable() })).pipe(operators_1.tap(message => {
+                run = handler(argument, { ...context, inboundBus: inboundBus.asObservable() }).pipe(operators_1.tap(message => {
                     if (message.kind == api_1.JobOutboundMessageKind.Start
                         || message.kind == api_1.JobOutboundMessageKind.OnReady
                         || message.kind == api_1.JobOutboundMessageKind.End) {
