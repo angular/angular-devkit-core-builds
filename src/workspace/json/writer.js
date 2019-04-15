@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const magic_string_1 = require("magic-string");
 const metadata_1 = require("./metadata");
+const utilities_1 = require("./utilities");
 async function writeJsonWorkspace(workspace, host, path, options = {}) {
     const metadata = workspace[metadata_1.JsonWorkspaceSymbol];
     if (metadata) {
@@ -154,7 +155,7 @@ function updateJsonWorkspace(metadata) {
         const multiline = node.start.line !== node.end.line;
         const pathSegments = path.split('/');
         const depth = pathSegments.length - 1; // TODO: more complete analysis
-        const propertyOrIndex = pathSegments[depth];
+        const propertyOrIndex = utilities_1.unescapeKey(pathSegments[depth]);
         const jsonValue = normalizeValue(value, type);
         if (op === 'add' && jsonValue === undefined) {
             continue;

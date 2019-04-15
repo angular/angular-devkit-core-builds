@@ -46,7 +46,7 @@ async function readJsonWorkspace(path, host) {
 }
 exports.readJsonWorkspace = readJsonWorkspace;
 const specialWorkspaceExtensions = ['cli', 'defaultProject', 'newProjectRoot', 'schematics'];
-const specialProjectExtensions = ['cli', 'schematics'];
+const specialProjectExtensions = ['cli', 'schematics', 'projectType'];
 function parseWorkspace(workspaceNode, context) {
     const jsonMetadata = context.metadata;
     let projects;
@@ -81,7 +81,7 @@ function parseWorkspace(workspaceNode, context) {
     if (context.trackChanges && projectsNode) {
         const parentNode = projectsNode;
         collectionListener = (name, action, newValue) => {
-            jsonMetadata.addChange(action, `/projects/${name}`, parentNode, newValue, 'project');
+            jsonMetadata.addChange(action, `/projects/${utilities_1.escapeKey(name)}`, parentNode, newValue, 'project');
         };
     }
     const projectCollection = new definitions_1.ProjectDefinitionCollection(projects, collectionListener);
@@ -158,7 +158,7 @@ function parseProject(projectName, projectNode, context) {
     if (context.trackChanges && targetsNode) {
         const parentNode = targetsNode;
         collectionListener = (name, action, newValue) => {
-            jsonMetadata.addChange(action, `/projects/${projectName}/targets/${name}`, parentNode, newValue, 'target');
+            jsonMetadata.addChange(action, `/projects/${projectName}/targets/${utilities_1.escapeKey(name)}`, parentNode, newValue, 'target');
         };
     }
     const base = {

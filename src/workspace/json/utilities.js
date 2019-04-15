@@ -24,6 +24,20 @@ function createPropertyDescriptor(value) {
         value,
     };
 }
+function escapeKey(key) {
+    if (typeof key === 'number') {
+        return key;
+    }
+    return key.replace('~', '~0').replace('/', '~1');
+}
+exports.escapeKey = escapeKey;
+function unescapeKey(key) {
+    if (typeof key === 'number') {
+        return key;
+    }
+    return key.replace('~1', '/').replace('~0', '~');
+}
+exports.unescapeKey = unescapeKey;
 function createVirtualAstObject(root, options = {}) {
     const reporter = (path, parent, node, old, current) => {
         if (options.listener) {
@@ -58,7 +72,7 @@ function create(ast, path, reporter, excluded = new Set(), included, base) {
             else if (excluded.has(p) || (included && !included.has(p))) {
                 return undefined;
             }
-            const propertyPath = path + '/' + p;
+            const propertyPath = path + '/' + escapeKey(p);
             const cacheEntry = cache.get(propertyPath);
             if (cacheEntry) {
                 if (cacheEntry.value) {
@@ -79,7 +93,7 @@ function create(ast, path, reporter, excluded = new Set(), included, base) {
             else if (typeof p === 'symbol' || excluded.has(p)) {
                 return false;
             }
-            return cache.has(path + '/' + p) || findNode(ast, p) !== undefined;
+            return cache.has(path + '/' + escapeKey(p)) || findNode(ast, p) !== undefined;
         },
         get(target, p) {
             if (typeof p === 'symbol' || Reflect.has(target, p)) {
@@ -88,7 +102,7 @@ function create(ast, path, reporter, excluded = new Set(), included, base) {
             else if (excluded.has(p) || (included && !included.has(p))) {
                 return undefined;
             }
-            const propertyPath = path + '/' + p;
+            const propertyPath = path + '/' + escapeKey(p);
             const cacheEntry = cache.get(propertyPath);
             if (cacheEntry) {
                 return cacheEntry.value;
@@ -119,7 +133,7 @@ function create(ast, path, reporter, excluded = new Set(), included, base) {
             }
             // TODO: Check if is JSON value
             const jsonValue = value;
-            const propertyPath = path + '/' + p;
+            const propertyPath = path + '/' + escapeKey(p);
             const cacheEntry = cache.get(propertyPath);
             if (cacheEntry) {
                 const oldValue = cacheEntry.value;
@@ -146,7 +160,7 @@ function create(ast, path, reporter, excluded = new Set(), included, base) {
             else if (excluded.has(p) || (included && !included.has(p))) {
                 return false;
             }
-            const propertyPath = path + '/' + p;
+            const propertyPath = path + '/' + escapeKey(p);
             const cacheEntry = cache.get(propertyPath);
             if (cacheEntry) {
                 const oldValue = cacheEntry.value;
@@ -185,7 +199,7 @@ function create(ast, path, reporter, excluded = new Set(), included, base) {
             for (const key of cache.keys()) {
                 const relativeKey = key.substr(path.length + 1);
                 if (relativeKey.length > 0 && !relativeKey.includes('/')) {
-                    keys.push(relativeKey);
+                    keys.push(unescapeKey(relativeKey));
                 }
             }
             return [...new Set([...keys, ...Reflect.ownKeys(target)])];
