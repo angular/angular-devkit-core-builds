@@ -51,3 +51,6 @@ __export(require("./virtual-fs/host/index"));
 // Start workspace namespace
 __export(require("./workspace/index"));
 // End workspace namespace
+// Start analytics namespace
+__export(require("./analytics/index"));
+// End analytics namespace

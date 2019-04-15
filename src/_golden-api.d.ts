@@ -33,3 +33,4 @@ export * from './utils/lang';
 export * from './virtual-fs/path';
 export * from './virtual-fs/host/index';
 export * from './workspace/index';
+export * from './analytics/index';
