@@ -152,7 +152,8 @@ function updateJsonWorkspace(metadata) {
     const removedCommas = new Set();
     const nodeChanges = new Map();
     for (const { op, path, node, value, type } of metadata.changes) {
-        const multiline = node.start.line !== node.end.line;
+        // targets/projects are typically large objects so always use multiline
+        const multiline = node.start.line !== node.end.line || type !== 'json';
         const pathSegments = path.split('/');
         const depth = pathSegments.length - 1; // TODO: more complete analysis
         const propertyOrIndex = utilities_1.unescapeKey(pathSegments[depth]);

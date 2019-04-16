@@ -89,7 +89,9 @@ class ProjectDefinitionCollection extends DefinitionCollection {
         };
         if (definition.targets) {
             for (const [name, target] of Object.entries(definition.targets)) {
-                project.targets.set(name, target);
+                if (target) {
+                    project.targets.set(name, target);
+                }
             }
         }
         for (const [name, value] of Object.entries(definition)) {
