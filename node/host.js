@@ -220,7 +220,7 @@ class NodeJsSyncHost {
                 catch (err) {
                     return rxjs_1.throwError(err);
                 }
-                return rxjs_1.EMPTY;
+                return rxjs_1.of(undefined);
             }
         }));
     }
