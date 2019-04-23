@@ -47,7 +47,7 @@ export declare class ProjectDefinitionCollection extends DefinitionCollection<Pr
         prefix?: string;
         targets?: Record<string, TargetDefinition | undefined>;
         [key: string]: unknown;
-    }): this;
+    }): ProjectDefinition;
     set(name: string, value: ProjectDefinition): this;
     private _validateName;
 }
@@ -55,7 +55,7 @@ export declare class TargetDefinitionCollection extends DefinitionCollection<Tar
     constructor(initial?: Record<string, TargetDefinition>, listener?: DefinitionCollectionListener<TargetDefinition>);
     add(definition: {
         name: string;
-    } & TargetDefinition): this;
+    } & TargetDefinition): TargetDefinition;
     set(name: string, value: TargetDefinition): this;
     private _validateName;
 }

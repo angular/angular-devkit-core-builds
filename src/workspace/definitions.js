@@ -113,7 +113,7 @@ class ProjectDefinitionCollection extends DefinitionCollection {
             }
         }
         super.set(definition.name, project);
-        return this;
+        return project;
     }
     set(name, value) {
         this._validateName(name);
@@ -142,7 +142,7 @@ class TargetDefinitionCollection extends DefinitionCollection {
             configurations: definition.configurations,
         };
         super.set(definition.name, target);
-        return this;
+        return target;
     }
     set(name, value) {
         this._validateName(name);
