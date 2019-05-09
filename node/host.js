@@ -114,7 +114,7 @@ class NodeJsAsyncHost {
         return _callFs(fs.stat, src_1.getSystemPath(path)).pipe(operators_1.map(stat => stat.isDirectory()));
     }
     isFile(path) {
-        return _callFs(fs.stat, src_1.getSystemPath(path)).pipe(operators_1.map(stat => stat.isDirectory()));
+        return _callFs(fs.stat, src_1.getSystemPath(path)).pipe(operators_1.map(stat => stat.isFile()));
     }
     // Some hosts may not support stat.
     stat(path) {
