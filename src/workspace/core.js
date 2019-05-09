@@ -11,14 +11,23 @@ const virtual_fs_1 = require("../virtual-fs");
 const reader_1 = require("./json/reader");
 const writer_1 = require("./json/writer");
 const formatLookup = new WeakMap();
+/**
+ * Supported workspace formats
+ */
 var WorkspaceFormat;
 (function (WorkspaceFormat) {
     WorkspaceFormat[WorkspaceFormat["JSON"] = 0] = "JSON";
 })(WorkspaceFormat = exports.WorkspaceFormat || (exports.WorkspaceFormat = {}));
+/**
+ * @private
+ */
 function _test_addWorkspaceFile(name, format) {
     workspaceFiles[name] = format;
 }
 exports._test_addWorkspaceFile = _test_addWorkspaceFile;
+/**
+ * @private
+ */
 function _test_removeWorkspaceFile(name) {
     delete workspaceFiles[name];
 }
@@ -28,6 +37,22 @@ const workspaceFiles = {
     'angular.json': WorkspaceFormat.JSON,
     '.angular.json': WorkspaceFormat.JSON,
 };
+/**
+ * Reads and constructs a `WorkspaceDefinition`.  If the function is provided with a path to a
+ * directory instead of a file, a search of the directory's files will commence to attempt to
+ * locate a known workspace file.  Currently the following are considered known workspace files:
+ * - `angular.json`
+ * - `.angular.json`
+ *
+ * @param path The path to either a workspace file or a directory containing a workspace file.
+ * @param host The `WorkspaceHost` to use to access the file and directory data.
+ * @param format An optional `WorkspaceFormat` value. Used if the path specifies a non-standard
+ * file name that would prevent automatically discovering the format.
+ *
+ *
+ * @return An `Promise` of the read result object with the `WorkspaceDefinition` contained within
+ * the `workspace` property.
+ */
 async function readWorkspace(path, host, format) {
     if (await host.isDirectory(path)) {
         // TODO: Warn if multiple found (requires diagnostics support)
@@ -70,6 +95,24 @@ async function readWorkspace(path, host, format) {
     return { workspace };
 }
 exports.readWorkspace = readWorkspace;
+/**
+ * Writes a `WorkspaceDefinition` to the underlying storage via the provided `WorkspaceHost`.
+ * If the `WorkspaceDefinition` was created via the `readWorkspace` function, metadata will be
+ * used to determine the path and format of the Workspace.  In all other cases, the `path` and
+ * `format` options must be specified as they would be otherwise unknown.
+ *
+ * @param workspace The `WorkspaceDefinition` that will be written.
+ * @param host The `WorkspaceHost` to use to access/write the file and directory data.
+ * @param path The path to a file location for the output. Required if `readWorkspace` was not
+ * used to create the `WorkspaceDefinition`.  Optional otherwise; will override the
+ * `WorkspaceDefinition` metadata if provided.
+ * @param format The `WorkspaceFormat` to use for output. Required if `readWorkspace` was not
+ * used to create the `WorkspaceDefinition`.  Optional otherwise; will override the
+ * `WorkspaceDefinition` metadata if provided.
+ *
+ *
+ * @return An `Promise` of type `void`.
+ */
 async function writeWorkspace(workspace, host, path, format) {
     if (format === undefined) {
         format = formatLookup.get(workspace);
