@@ -428,6 +428,7 @@ class CoreSchemaRegistry {
                     id: path,
                     type,
                     message,
+                    priority: 0,
                     raw: schema,
                     items,
                     multiselect: type === 'list' ? schema.multiselect : false,
@@ -479,6 +480,7 @@ class CoreSchemaRegistry {
         if (!provider) {
             return rxjs_1.of(data);
         }
+        prompts.sort((a, b) => b.priority - a.priority);
         return rxjs_1.from(provider(prompts)).pipe(operators_1.map(answers => {
             for (const path in answers) {
                 const pathFragments = path.split('/').map(pf => {

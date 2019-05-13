@@ -79,6 +79,7 @@ export interface PromptDefinition {
     type: string;
     message: string;
     default?: string | string[] | number | boolean | null;
+    priority: number;
     validator?: (value: string) => boolean | string | Promise<boolean | string>;
     items?: Array<string | {
         value: JsonValue;
