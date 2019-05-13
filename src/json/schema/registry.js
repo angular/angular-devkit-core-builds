@@ -550,7 +550,7 @@ class CoreSchemaRegistry {
                 const fragments = JSON.parse(pointer);
                 const source = this._sourceMap.get(schema.$source);
                 let value = source ? source(schema) : rxjs_1.of(undefined);
-                if (!rxjs_1.isObservable(value)) {
+                if (!utils_1.isObservable(value)) {
                     value = rxjs_1.of(value);
                 }
                 return value.pipe(
