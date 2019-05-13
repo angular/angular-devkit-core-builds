@@ -9,7 +9,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const rxjs_1 = require("rxjs");
 const operators_1 = require("rxjs/operators");
-const utils_1 = require("../../utils");
 const pointer_1 = require("./pointer");
 function _getObjectSubSchema(schema, key) {
     if (typeof schema !== 'object' || schema === null) {
@@ -46,9 +45,7 @@ root) {
         }
     }
     const value = visitor(json, ptr, schema, root);
-    return (utils_1.isObservable(value)
-        ? value
-        : rxjs_1.of(value)).pipe(operators_1.concatMap((value) => {
+    return (rxjs_1.isObservable(value) ? value : rxjs_1.of(value)).pipe(operators_1.concatMap(value => {
         if (Array.isArray(value)) {
             return rxjs_1.concat(rxjs_1.from(value).pipe(operators_1.mergeMap((item, i) => {
                 return _visitJsonRecursive(item, visitor, pointer_1.joinJsonPointer(ptr, '' + i), _getObjectSubSchema(schema, '' + i), refResolver, context, root || value).pipe(operators_1.tap(x => value[i] = x));
