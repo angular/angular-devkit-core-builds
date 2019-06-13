@@ -246,7 +246,7 @@ class Workspace {
     validateAgainstSchema(contentJson, schemaJson) {
         // JSON validation modifies the content, so we validate a copy of it instead.
         const contentJsonCopy = JSON.parse(JSON.stringify(contentJson));
-        return this._registry.compile(schemaJson).pipe(operators_1.concatMap(validator => validator(contentJsonCopy)), operators_1.concatMap(validatorResult => {
+        return this._registry.compile(schemaJson).pipe(operators_1.concatMap(validator => validator(contentJsonCopy)), operators_1.concatMap((validatorResult) => {
             if (validatorResult.success) {
                 return rxjs_1.of(contentJsonCopy);
             }
