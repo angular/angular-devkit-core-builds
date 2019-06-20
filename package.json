@@ -1,6 +1,6 @@
 {
   "name": "@angular-devkit/core",
-  "version": "8.1.0-beta.2+32.bf4d972",
+  "version": "8.1.0-beta.2+39.c0eadbe",
   "description": "Angular DevKit - Core Utility Library",
   "main": "src/index.js",
   "typings": "src/index.d.ts",
@@ -35,6 +35,7 @@
   "homepage": "https://github.com/angular/angular-cli",
   "husky": {
     "hooks": {
+      "pre-commit": "lint-staged",
       "pre-push": "node ./bin/devkit-admin hooks/pre-push"
     }
   }
