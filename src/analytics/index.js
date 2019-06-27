@@ -19,7 +19,7 @@ var NgCliAnalyticsDimensions;
 (function (NgCliAnalyticsDimensions) {
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["CpuCount"] = 1] = "CpuCount";
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["CpuSpeed"] = 2] = "CpuSpeed";
-    NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["RamInMegabytes"] = 3] = "RamInMegabytes";
+    NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["RamInGigabytes"] = 3] = "RamInGigabytes";
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["NodeVersion"] = 4] = "NodeVersion";
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["NgAddCollection"] = 6] = "NgAddCollection";
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["NgBuildBuildEventLog"] = 7] = "NgBuildBuildEventLog";
@@ -48,7 +48,7 @@ var NgCliAnalyticsMetrics;
 exports.NgCliAnalyticsDimensionsFlagInfo = {
     CpuCount: ['CPU Count', 'number'],
     CpuSpeed: ['CPU Speed', 'number'],
-    RamInMegabytes: ['RAM (In MB)', 'number'],
+    RamInGigabytes: ['RAM (In GB)', 'number'],
     NodeVersion: ['Node Version', 'number'],
     NgAddCollection: ['--collection', 'string'],
     NgBuildBuildEventLog: ['--buildEventLog', 'boolean'],
