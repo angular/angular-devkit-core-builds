@@ -21,7 +21,7 @@ export * from './noop';
 export declare enum NgCliAnalyticsDimensions {
     CpuCount = 1,
     CpuSpeed = 2,
-    RamInMegabytes = 3,
+    RamInGigabytes = 3,
     NodeVersion = 4,
     NgAddCollection = 6,
     NgBuildBuildEventLog = 7,
