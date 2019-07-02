@@ -27,7 +27,7 @@ var NgCliAnalyticsDimensions;
 })(NgCliAnalyticsDimensions = exports.NgCliAnalyticsDimensions || (exports.NgCliAnalyticsDimensions = {}));
 var NgCliAnalyticsMetrics;
 (function (NgCliAnalyticsMetrics) {
-    NgCliAnalyticsMetrics[NgCliAnalyticsMetrics["UNUSED_1"] = 1] = "UNUSED_1";
+    NgCliAnalyticsMetrics[NgCliAnalyticsMetrics["NgComponentCount"] = 1] = "NgComponentCount";
     NgCliAnalyticsMetrics[NgCliAnalyticsMetrics["UNUSED_2"] = 2] = "UNUSED_2";
     NgCliAnalyticsMetrics[NgCliAnalyticsMetrics["UNUSED_3"] = 3] = "UNUSED_3";
     NgCliAnalyticsMetrics[NgCliAnalyticsMetrics["UNUSED_4"] = 4] = "UNUSED_4";
@@ -57,7 +57,7 @@ exports.NgCliAnalyticsDimensionsFlagInfo = {
 // This table is used when generating the analytics.md file. It should match the enum above
 // or the validate-user-analytics script will fail.
 exports.NgCliAnalyticsMetricsFlagInfo = {
-    UNUSED_1: ['UNUSED_1', 'none'],
+    NgComponentCount: ['NgComponentCount', 'number'],
     UNUSED_2: ['UNUSED_2', 'none'],
     UNUSED_3: ['UNUSED_3', 'none'],
     UNUSED_4: ['UNUSED_4', 'none'],
