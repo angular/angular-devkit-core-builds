@@ -28,7 +28,7 @@ export declare enum NgCliAnalyticsDimensions {
     BuildErrors = 20
 }
 export declare enum NgCliAnalyticsMetrics {
-    UNUSED_1 = 1,
+    NgComponentCount = 1,
     UNUSED_2 = 2,
     UNUSED_3 = 3,
     UNUSED_4 = 4,
