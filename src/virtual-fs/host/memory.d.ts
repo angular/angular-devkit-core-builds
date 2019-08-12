@@ -64,5 +64,4 @@ export declare class SimpleMemoryHost implements Host<{}> {
     isFile(path: Path): Observable<boolean>;
     stat(path: Path): Observable<Stats<{}> | null> | null;
     watch(path: Path, options?: HostWatchOptions): Observable<HostWatchEvent> | null;
-    reset(): void;
 }
