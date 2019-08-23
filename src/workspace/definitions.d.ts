@@ -22,7 +22,7 @@ export interface TargetDefinition {
     configurations?: Record<string, Record<string, JsonValue | undefined> | undefined>;
     builder: string;
 }
-export declare type DefinitionCollectionListener<V> = (name: string, action: 'add' | 'remove' | 'replace', newValue: V | undefined, oldValue: V | undefined) => void;
+export declare type DefinitionCollectionListener<V extends object> = (name: string, action: 'add' | 'remove' | 'replace', newValue: V | undefined, oldValue: V | undefined, collection: DefinitionCollection<V>) => void;
 declare class DefinitionCollection<V extends object> implements ReadonlyMap<string, V> {
     private _listener?;
     private _map;
