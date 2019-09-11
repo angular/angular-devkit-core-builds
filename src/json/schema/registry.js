@@ -15,7 +15,6 @@ const Url = require("url");
 const exception_1 = require("../../exception/exception");
 const utils_1 = require("../../utils");
 const interface_1 = require("../interface");
-const utility_1 = require("./utility");
 const visitor_1 = require("./visitor");
 class SchemaValidationException extends exception_1.BaseException {
     constructor(errors, baseMessage = 'Schema validation failed with the following errors:') {
@@ -397,45 +396,29 @@ class CoreSchemaRegistry {
                     type = schema.type;
                     items = schema.items;
                 }
-                const propertyTypes = utility_1.getTypesOfSchema(parentSchema);
                 if (!type) {
-                    if (propertyTypes.size === 1 && propertyTypes.has('boolean')) {
+                    if (parentSchema.type === 'boolean') {
                         type = 'confirmation';
                     }
                     else if (Array.isArray(parentSchema.enum)) {
-                        type = 'list';
-                    }
-                    else if (propertyTypes.size === 1 &&
-                        propertyTypes.has('array') &&
-                        parentSchema.items &&
-                        Array.isArray(parentSchema.items.enum)) {
                         type = 'list';
                     }
                     else {
                         type = 'input';
                     }
                 }
-                let multiselect;
-                if (type === 'list') {
-                    multiselect =
-                        schema.multiselect === undefined
-                            ? propertyTypes.size === 1 && propertyTypes.has('array')
-                            : schema.multiselect;
-                    const enumValues = multiselect
-                        ? parentSchema.items && parentSchema.items.enum
-                        : parentSchema.enum;
-                    if (!items && Array.isArray(enumValues)) {
-                        items = [];
-                        for (const value of enumValues) {
-                            if (typeof value == 'string') {
-                                items.push(value);
-                            }
-                            else if (typeof value == 'object') {
-                                // Invalid
-                            }
-                            else {
-                                items.push({ label: value.toString(), value });
-                            }
+                if (type === 'list' && !items && Array.isArray(parentSchema.enum)) {
+                    type = 'list';
+                    items = [];
+                    for (const value of parentSchema.enum) {
+                        if (typeof value == 'string') {
+                            items.push(value);
+                        }
+                        else if (typeof value == 'object') {
+                            // Invalid
+                        }
+                        else {
+                            items.push({ label: value.toString(), value });
                         }
                     }
                 }
@@ -445,14 +428,21 @@ class CoreSchemaRegistry {
                     message,
                     raw: schema,
                     items,
-                    multiselect,
+                    multiselect: type === 'list' ? schema.multiselect : false,
                     default: typeof parentSchema.default == 'object' ? undefined : parentSchema.default,
                     async validator(data) {
-                        try {
-                            return await it.self.validate(parentSchema, data);
+                        const result = it.self.validate(parentSchema, data);
+                        if (typeof result === 'boolean') {
+                            return result;
                         }
-                        catch (_a) {
-                            return false;
+                        else {
+                            try {
+                                await result;
+                                return true;
+                            }
+                            catch (_a) {
+                                return false;
+                            }
                         }
                     },
                 };
