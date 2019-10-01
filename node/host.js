@@ -99,7 +99,7 @@ class NodeJsAsyncHost {
         return _callFs(fs.rename, src_1.getSystemPath(from), src_1.getSystemPath(to));
     }
     list(path) {
-        return _callFs(fs.readdir, src_1.getSystemPath(path)).pipe(operators_1.map(names => names.map(name => src_1.fragment(name))));
+        return _callFs(fs.readdir, src_1.getSystemPath(path)).pipe(operators_1.map((names) => names.map(name => src_1.fragment(name))));
     }
     exists(path) {
         // Exists is a special case because it cannot error.
