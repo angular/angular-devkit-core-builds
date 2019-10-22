@@ -13,6 +13,7 @@ const src_1 = require("../src");
 const fs_1 = require("./fs");
 /**
  * Exception thrown when a module could not be resolved.
+ * @deprecated since version 8. Use `MODULE_NOT_FOUND` Node error code instead.
  */
 class ModuleNotFoundException extends src_1.BaseException {
     constructor(moduleName, basePath) {
@@ -66,6 +67,7 @@ function _getGlobalNodeModules() {
         : path.resolve(globalPrefix || '', 'node_modules');
 }
 let _resolveHook = null;
+/** @deprecated since version 8. Use `require.resolve` instead. */
 function setResolveHook(hook) {
     _resolveHook = hook;
 }
@@ -77,6 +79,7 @@ exports.setResolveHook = setResolveHook;
  * @returns {string} Path to the index to include, or if `resolvePackageJson` option was
  *                   passed, a path to that file.
  * @throws {ModuleNotFoundException} If no module with that name was found anywhere.
+ * @deprecated since version 8. Use `require.resolve` instead.
  */
 function resolve(packageName, options) {
     if (_resolveHook) {
