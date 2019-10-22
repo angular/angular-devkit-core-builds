@@ -18,12 +18,11 @@ const json = require("./json/index");
 exports.json = json;
 const logging = require("./logger/index");
 exports.logging = logging;
-const ɵterminal = require("./terminal/index");
+const terminal = require("./terminal/index");
+exports.terminal = terminal;
 const workspaces = require("./workspace");
 exports.workspaces = workspaces;
 __export(require("./exception/exception"));
 __export(require("./json/index"));
 __export(require("./utils/index"));
 __export(require("./virtual-fs/index"));
-/** @deprecated since version 8 - Instead use other 3rd party libraries like `colors` and `chalk`. */
-exports.terminal = ɵterminal;
