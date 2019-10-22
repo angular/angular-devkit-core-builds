@@ -43,10 +43,10 @@ export interface ResolveOptions {
 export declare function setResolveHook(hook: ((x: string, options: ResolveOptions) => string | null) | null): void;
 /**
  * Resolve a package using a logic similar to npm require.resolve, but with more options.
- * @param x The package name to resolve.
+ * @param packageName The package name to resolve.
  * @param options A list of options. See documentation of those options.
  * @returns {string} Path to the index to include, or if `resolvePackageJson` option was
  *                   passed, a path to that file.
  * @throws {ModuleNotFoundException} If no module with that name was found anywhere.
  */
-export declare function resolve(x: string, options: ResolveOptions): string;
+export declare function resolve(packageName: string, options: ResolveOptions): string;
