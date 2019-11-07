@@ -22,7 +22,7 @@ export interface TargetDefinition {
     configurations?: Record<string, Record<string, JsonValue | undefined> | undefined>;
     builder: string;
 }
-export declare type DefinitionCollectionListener<V> = (name: string, action: 'add' | 'remove' | 'replace', newValue: V | undefined, oldValue: V | undefined) => void;
+export declare type DefinitionCollectionListener<V extends object> = (name: string, action: 'add' | 'remove' | 'replace', newValue: V | undefined, oldValue: V | undefined, collection: DefinitionCollection<V>) => void;
 declare class DefinitionCollection<V extends object> implements ReadonlyMap<string, V> {
     private _listener?;
     private _map;
@@ -47,7 +47,7 @@ export declare class ProjectDefinitionCollection extends DefinitionCollection<Pr
         prefix?: string;
         targets?: Record<string, TargetDefinition | undefined>;
         [key: string]: unknown;
-    }): this;
+    }): ProjectDefinition;
     set(name: string, value: ProjectDefinition): this;
     private _validateName;
 }
@@ -55,7 +55,7 @@ export declare class TargetDefinitionCollection extends DefinitionCollection<Tar
     constructor(initial?: Record<string, TargetDefinition>, listener?: DefinitionCollectionListener<TargetDefinition>);
     add(definition: {
         name: string;
-    } & TargetDefinition): this;
+    } & TargetDefinition): TargetDefinition;
     set(name: string, value: TargetDefinition): this;
     private _validateName;
 }

@@ -19,15 +19,16 @@ var NgCliAnalyticsDimensions;
 (function (NgCliAnalyticsDimensions) {
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["CpuCount"] = 1] = "CpuCount";
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["CpuSpeed"] = 2] = "CpuSpeed";
-    NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["RamInMegabytes"] = 3] = "RamInMegabytes";
+    NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["RamInGigabytes"] = 3] = "RamInGigabytes";
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["NodeVersion"] = 4] = "NodeVersion";
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["NgAddCollection"] = 6] = "NgAddCollection";
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["NgBuildBuildEventLog"] = 7] = "NgBuildBuildEventLog";
+    NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["NgIvyEnabled"] = 8] = "NgIvyEnabled";
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["BuildErrors"] = 20] = "BuildErrors";
 })(NgCliAnalyticsDimensions = exports.NgCliAnalyticsDimensions || (exports.NgCliAnalyticsDimensions = {}));
 var NgCliAnalyticsMetrics;
 (function (NgCliAnalyticsMetrics) {
-    NgCliAnalyticsMetrics[NgCliAnalyticsMetrics["UNUSED_1"] = 1] = "UNUSED_1";
+    NgCliAnalyticsMetrics[NgCliAnalyticsMetrics["NgComponentCount"] = 1] = "NgComponentCount";
     NgCliAnalyticsMetrics[NgCliAnalyticsMetrics["UNUSED_2"] = 2] = "UNUSED_2";
     NgCliAnalyticsMetrics[NgCliAnalyticsMetrics["UNUSED_3"] = 3] = "UNUSED_3";
     NgCliAnalyticsMetrics[NgCliAnalyticsMetrics["UNUSED_4"] = 4] = "UNUSED_4";
@@ -48,16 +49,17 @@ var NgCliAnalyticsMetrics;
 exports.NgCliAnalyticsDimensionsFlagInfo = {
     CpuCount: ['CPU Count', 'number'],
     CpuSpeed: ['CPU Speed', 'number'],
-    RamInMegabytes: ['RAM (In MB)', 'number'],
+    RamInGigabytes: ['RAM (In GB)', 'number'],
     NodeVersion: ['Node Version', 'number'],
     NgAddCollection: ['--collection', 'string'],
     NgBuildBuildEventLog: ['--buildEventLog', 'boolean'],
+    NgIvyEnabled: ['Ivy Enabled', 'boolean'],
     BuildErrors: ['Build Errors (comma separated)', 'string'],
 };
 // This table is used when generating the analytics.md file. It should match the enum above
 // or the validate-user-analytics script will fail.
 exports.NgCliAnalyticsMetricsFlagInfo = {
-    UNUSED_1: ['UNUSED_1', 'none'],
+    NgComponentCount: ['NgComponentCount', 'number'],
     UNUSED_2: ['UNUSED_2', 'none'],
     UNUSED_3: ['UNUSED_3', 'none'],
     UNUSED_4: ['UNUSED_4', 'none'],

@@ -246,7 +246,7 @@ class Workspace {
     validateAgainstSchema(contentJson, schemaJson) {
         // JSON validation modifies the content, so we validate a copy of it instead.
         const contentJsonCopy = JSON.parse(JSON.stringify(contentJson));
-        return this._registry.compile(schemaJson).pipe(operators_1.concatMap(validator => validator(contentJsonCopy)), operators_1.concatMap(validatorResult => {
+        return this._registry.compile(schemaJson).pipe(operators_1.concatMap(validator => validator(contentJsonCopy)), operators_1.concatMap((validatorResult) => {
             if (validatorResult.success) {
                 return rxjs_1.of(contentJsonCopy);
             }
@@ -259,8 +259,8 @@ class Workspace {
         return this._host.read(virtual_fs_1.normalize(path)).pipe(operators_1.map(buffer => virtual_fs_1.virtualFs.fileBufferToString(buffer)), operators_1.map(str => json_1.parseJson(str, json_1.JsonParseMode.Loose)));
     }
 }
+exports.Workspace = Workspace;
 Workspace._workspaceFileNames = [
     'angular.json',
     '.angular.json',
 ];
-exports.Workspace = Workspace;

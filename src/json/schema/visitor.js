@@ -9,7 +9,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const rxjs_1 = require("rxjs");
 const operators_1 = require("rxjs/operators");
-const utils_1 = require("../../utils");
 const pointer_1 = require("./pointer");
 function _getObjectSubSchema(schema, key) {
     if (typeof schema !== 'object' || schema === null) {
@@ -17,8 +16,8 @@ function _getObjectSubSchema(schema, key) {
     }
     // Is it an object schema?
     if (typeof schema.properties == 'object' || schema.type == 'object') {
-        if (typeof schema.properties == 'object'
-            && typeof schema.properties[key] == 'object') {
+        if (typeof schema.properties == 'object' &&
+            typeof schema.properties[key] == 'object') {
             return schema.properties[key];
         }
         if (typeof schema.additionalProperties == 'object') {
@@ -32,8 +31,7 @@ function _getObjectSubSchema(schema, key) {
     }
     return undefined;
 }
-function _visitJsonRecursive(json, visitor, ptr, schema, refResolver, context, // tslint:disable-line:no-any
-root) {
+function _visitJsonRecursive(json, visitor, ptr, schema, refResolver, context, root) {
     if (schema === true || schema === false) {
         // There's no schema definition, so just visit the JSON recursively.
         schema = undefined;
@@ -46,17 +44,20 @@ root) {
         }
     }
     const value = visitor(json, ptr, schema, root);
-    return (utils_1.isObservable(value)
-        ? value
-        : rxjs_1.of(value)).pipe(operators_1.concatMap((value) => {
+    return (rxjs_1.isObservable(value) ? value : rxjs_1.of(value)).pipe(operators_1.concatMap(value => {
         if (Array.isArray(value)) {
             return rxjs_1.concat(rxjs_1.from(value).pipe(operators_1.mergeMap((item, i) => {
-                return _visitJsonRecursive(item, visitor, pointer_1.joinJsonPointer(ptr, '' + i), _getObjectSubSchema(schema, '' + i), refResolver, context, root || value).pipe(operators_1.tap(x => value[i] = x));
+                return _visitJsonRecursive(item, visitor, pointer_1.joinJsonPointer(ptr, '' + i), _getObjectSubSchema(schema, '' + i), refResolver, context, root || value).pipe(operators_1.tap(x => (value[i] = x)));
             }), operators_1.ignoreElements()), rxjs_1.of(value));
         }
         else if (typeof value == 'object' && value !== null) {
             return rxjs_1.concat(rxjs_1.from(Object.getOwnPropertyNames(value)).pipe(operators_1.mergeMap(key => {
-                return _visitJsonRecursive(value[key], visitor, pointer_1.joinJsonPointer(ptr, key), _getObjectSubSchema(schema, key), refResolver, context, root || value).pipe(operators_1.tap(x => value[key] = x));
+                return _visitJsonRecursive(value[key], visitor, pointer_1.joinJsonPointer(ptr, key), _getObjectSubSchema(schema, key), refResolver, context, root || value).pipe(operators_1.tap(x => {
+                    const descriptor = Object.getOwnPropertyDescriptor(value, key);
+                    if (descriptor && descriptor.writable && value[key] !== x) {
+                        value[key] = x;
+                    }
+                }));
             }), operators_1.ignoreElements()), rxjs_1.of(value));
         }
         else {

@@ -15,6 +15,7 @@ const Url = require("url");
 const exception_1 = require("../../exception/exception");
 const utils_1 = require("../../utils");
 const interface_1 = require("../interface");
+const utility_1 = require("./utility");
 const visitor_1 = require("./visitor");
 class SchemaValidationException extends exception_1.BaseException {
     constructor(errors, baseMessage = 'Schema validation failed with the following errors:') {
@@ -396,22 +397,36 @@ class CoreSchemaRegistry {
                     type = schema.type;
                     items = schema.items;
                 }
+                const propertyTypes = utility_1.getTypesOfSchema(parentSchema);
                 if (!type) {
-                    if (parentSchema.type === 'boolean') {
+                    if (propertyTypes.size === 1 && propertyTypes.has('boolean')) {
                         type = 'confirmation';
                     }
                     else if (Array.isArray(parentSchema.enum)) {
+                        type = 'list';
+                    }
+                    else if (propertyTypes.size === 1 &&
+                        propertyTypes.has('array') &&
+                        parentSchema.items &&
+                        Array.isArray(parentSchema.items.enum)) {
                         type = 'list';
                     }
                     else {
                         type = 'input';
                     }
                 }
-                if (type === 'list' && !items) {
-                    if (Array.isArray(parentSchema.enum)) {
-                        type = 'list';
+                let multiselect;
+                if (type === 'list') {
+                    multiselect =
+                        schema.multiselect === undefined
+                            ? propertyTypes.size === 1 && propertyTypes.has('array')
+                            : schema.multiselect;
+                    const enumValues = multiselect
+                        ? parentSchema.items && parentSchema.items.enum
+                        : parentSchema.enum;
+                    if (!items && Array.isArray(enumValues)) {
                         items = [];
-                        for (const value of parentSchema.enum) {
+                        for (const value of enumValues) {
                             if (typeof value == 'string') {
                                 items.push(value);
                             }
@@ -428,24 +443,16 @@ class CoreSchemaRegistry {
                     id: path,
                     type,
                     message,
-                    priority: 0,
                     raw: schema,
                     items,
-                    multiselect: type === 'list' ? schema.multiselect : false,
+                    multiselect,
                     default: typeof parentSchema.default == 'object' ? undefined : parentSchema.default,
                     async validator(data) {
-                        const result = it.self.validate(parentSchema, data);
-                        if (typeof result === 'boolean') {
-                            return result;
+                        try {
+                            return await it.self.validate(parentSchema, data);
                         }
-                        else {
-                            try {
-                                await result;
-                                return true;
-                            }
-                            catch (_a) {
-                                return false;
-                            }
+                        catch (_a) {
+                            return false;
                         }
                     },
                 };
@@ -480,7 +487,6 @@ class CoreSchemaRegistry {
         if (!provider) {
             return rxjs_1.of(data);
         }
-        prompts.sort((a, b) => b.priority - a.priority);
         return rxjs_1.from(provider(prompts)).pipe(operators_1.map(answers => {
             for (const path in answers) {
                 const pathFragments = path.split('/').map(pf => {
@@ -552,7 +558,7 @@ class CoreSchemaRegistry {
                 const fragments = JSON.parse(pointer);
                 const source = this._sourceMap.get(schema.$source);
                 let value = source ? source(schema) : rxjs_1.of(undefined);
-                if (!utils_1.isObservable(value)) {
+                if (!rxjs_1.isObservable(value)) {
                     value = rxjs_1.of(value);
                 }
                 return value.pipe(
