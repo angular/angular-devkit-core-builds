@@ -446,11 +446,7 @@ class CoreSchemaRegistry {
                     raw: schema,
                     items,
                     multiselect,
-                    default: typeof parentSchema.default == 'object' &&
-                        parentSchema.default !== null &&
-                        !Array.isArray(parentSchema.default)
-                        ? undefined
-                        : parentSchema.default,
+                    default: typeof parentSchema.default == 'object' ? undefined : parentSchema.default,
                     async validator(data) {
                         try {
                             return await it.self.validate(parentSchema, data);
