@@ -39,7 +39,7 @@ export declare class SimpleMemoryHost implements Host<{}> {
     constructor();
     protected _toAbsolute(path: Path): Path;
     protected _updateWatchers(path: Path, type: HostWatchEventType): void;
-    readonly capabilities: HostCapabilities;
+    get capabilities(): HostCapabilities;
     /**
      * List of protected methods that give direct access outside the observables to the cache
      * and internal states.
