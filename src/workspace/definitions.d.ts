@@ -32,7 +32,7 @@ declare class DefinitionCollection<V extends object> implements ReadonlyMap<stri
     forEach<T>(callbackfn: (value: V, key: string, map: DefinitionCollection<V>) => void, thisArg?: T): void;
     get(key: string): V | undefined;
     has(key: string): boolean;
-    readonly size: number;
+    get size(): number;
     [Symbol.iterator](): IterableIterator<[string, V]>;
     entries(): IterableIterator<[string, V]>;
     keys(): IterableIterator<string>;
