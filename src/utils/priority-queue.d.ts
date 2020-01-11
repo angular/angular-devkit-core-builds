@@ -14,6 +14,6 @@ export declare class PriorityQueue<T> {
     push(item: T): void;
     pop(): T | undefined;
     peek(): T | undefined;
-    get size(): number;
+    readonly size: number;
     toArray(): Array<T>;
 }

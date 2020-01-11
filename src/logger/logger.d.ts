@@ -33,8 +33,7 @@ export declare class Logger extends Observable<LogEntry> implements LoggerApi {
     protected _metadata: LoggerMetadata;
     private _obs;
     private _subscription;
-    protected get _observable(): Observable<LogEntry>;
-    protected set _observable(v: Observable<LogEntry>);
+    protected _observable: Observable<LogEntry>;
     constructor(name: string, parent?: Logger | null);
     asApi(): LoggerApi;
     createChild(name: string): Logger;
