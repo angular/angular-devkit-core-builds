@@ -17,7 +17,7 @@ export declare class PartiallyOrderedSet<T> implements Set<T> {
     protected _checkCircularDependencies(item: T, deps: Set<T>): void;
     clear(): void;
     has(item: T): boolean;
-    readonly size: number;
+    get size(): number;
     forEach(callbackfn: (value: T, value2: T, set: PartiallyOrderedSet<T>) => void, thisArg?: any): void;
     /**
      * Returns an iterable of [v,v] pairs for every value `v` in the set.
@@ -34,5 +34,5 @@ export declare class PartiallyOrderedSet<T> implements Set<T> {
     add(item: T, deps?: (Set<T> | T[])): this;
     delete(item: T): boolean;
     [Symbol.iterator](): Generator<T, void, unknown>;
-    readonly [Symbol.toStringTag]: 'Set';
+    get [Symbol.toStringTag](): 'Set';
 }
