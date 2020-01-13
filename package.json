@@ -1,6 +1,6 @@
 {
   "name": "@angular-devkit/core",
-  "version": "9.0.0-next.19+321.046c5ee",
+  "version": "9.0.0-next.19+331.d4f1ff8",
   "description": "Angular DevKit - Core Utility Library",
   "main": "src/index.js",
   "typings": "src/index.d.ts",
@@ -15,7 +15,7 @@
   "dependencies": {
     "ajv": "6.10.2",
     "fast-json-stable-stringify": "2.1.0",
-    "magic-string": "0.25.5",
+    "magic-string": "0.25.6",
     "rxjs": "6.5.4",
     "source-map": "0.7.3"
   },
