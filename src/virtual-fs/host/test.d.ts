@@ -25,10 +25,10 @@ export declare namespace test {
         constructor(map?: {
             [path: string]: string;
         });
-        get records(): TestLogRecord[];
+        readonly records: TestLogRecord[];
         clearRecords(): void;
-        get files(): Path[];
-        get sync(): SyncDelegateHost<{}>;
+        readonly files: Path[];
+        readonly sync: SyncDelegateHost<{}>;
         clone(): TestHost;
         protected _write(path: Path, content: FileBuffer): void;
         protected _read(path: Path): ArrayBuffer;

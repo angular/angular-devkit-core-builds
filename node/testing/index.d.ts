@@ -15,7 +15,7 @@ export declare class TempScopedNodeJsSyncHost extends virtualFs.ScopedHost<fs.St
     protected _sync: virtualFs.SyncDelegateHost<fs.Stats>;
     protected _root: Path;
     constructor();
-    get files(): Path[];
-    get root(): Path;
-    get sync(): virtualFs.SyncDelegateHost<fs.Stats>;
+    readonly files: Path[];
+    readonly root: Path;
+    readonly sync: virtualFs.SyncDelegateHost<fs.Stats>;
 }
