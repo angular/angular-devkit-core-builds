@@ -8,6 +8,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * found in the LICENSE file at https://angular.io/license
  */
 const fs = require("fs");
+const path = require("path");
 const rxjs_1 = require("rxjs");
 const operators_1 = require("rxjs/operators");
 const src_1 = require("../src");
@@ -229,6 +230,10 @@ class NodeJsSyncHost {
             // TODO: remove this try+catch when issue https://github.com/ReactiveX/rxjs/issues/3740 is
             // fixed.
             try {
+                const toSystemPath = src_1.getSystemPath(to);
+                if (!fs.existsSync(path.dirname(toSystemPath))) {
+                    fs.mkdirSync(path.dirname(toSystemPath), { recursive: true });
+                }
                 fs.renameSync(src_1.getSystemPath(from), src_1.getSystemPath(to));
                 obs.next();
                 obs.complete();
