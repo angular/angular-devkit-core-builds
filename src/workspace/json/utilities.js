@@ -75,7 +75,7 @@ function create(ast, path, reporter, excluded = new Set(), included, base) {
             const propertyPath = path + '/' + escapeKey(p);
             const cacheEntry = cache.get(propertyPath);
             if (cacheEntry) {
-                if (cacheEntry.value) {
+                if (cacheEntry.value !== undefined) {
                     return createPropertyDescriptor(cacheEntry.value);
                 }
                 return undefined;
