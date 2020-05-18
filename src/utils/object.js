@@ -7,6 +7,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.deepCopy = exports.mapObject = void 0;
 function mapObject(obj, mapper) {
     return Object.keys(obj).reduce((acc, k) => {
         acc[k] = mapper(k, obj[k]);

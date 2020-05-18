@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SyncDelegateHost = exports.SynchronousDelegateExpectedException = void 0;
 const exception_1 = require("../../exception");
 class SynchronousDelegateExpectedException extends exception_1.BaseException {
     constructor() { super(`Expected a synchronous delegate but got an asynchronous one.`); }

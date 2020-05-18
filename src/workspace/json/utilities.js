@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.createVirtualAstObject = exports.unescapeKey = exports.escapeKey = void 0;
 const stableStringify = require("fast-json-stable-stringify");
 function findNode(parent, p) {
     if (parent.kind === 'object') {
