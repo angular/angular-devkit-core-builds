@@ -10,6 +10,7 @@ exports.CoreSchemaRegistry = exports.SchemaValidationException = void 0;
  */
 const ajv = require("ajv");
 const http = require("http");
+const https = require("https");
 const rxjs_1 = require("rxjs");
 const operators_1 = require("rxjs/operators");
 const Url = require("url");
@@ -82,7 +83,9 @@ class CoreSchemaRegistry {
         }
         // If none are found, handle using http client.
         return new Promise((resolve, reject) => {
-            http.get(uri, res => {
+            const url = new Url.URL(uri);
+            const client = url.protocol === 'https:' ? https : http;
+            client.get(url, res => {
                 if (!res.statusCode || res.statusCode >= 300) {
                     // Consume the rest of the data to free memory.
                     res.resume();
