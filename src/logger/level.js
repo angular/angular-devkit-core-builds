@@ -17,24 +17,21 @@ class LevelTransformLogger extends logger_1.Logger {
     }
 }
 exports.LevelTransformLogger = LevelTransformLogger;
-let LevelCapLogger = /** @class */ (() => {
-    class LevelCapLogger extends LevelTransformLogger {
-        constructor(name, parent = null, levelCap) {
-            super(name, parent, (level) => {
-                return (LevelCapLogger.levelMap[levelCap][level] || level);
-            });
-            this.name = name;
-            this.parent = parent;
-            this.levelCap = levelCap;
-        }
+class LevelCapLogger extends LevelTransformLogger {
+    constructor(name, parent = null, levelCap) {
+        super(name, parent, (level) => {
+            return (LevelCapLogger.levelMap[levelCap][level] || level);
+        });
+        this.name = name;
+        this.parent = parent;
+        this.levelCap = levelCap;
     }
-    LevelCapLogger.levelMap = {
-        debug: { debug: 'debug', info: 'debug', warn: 'debug', error: 'debug', fatal: 'debug' },
-        info: { debug: 'debug', info: 'info', warn: 'info', error: 'info', fatal: 'info' },
-        warn: { debug: 'debug', info: 'info', warn: 'warn', error: 'warn', fatal: 'warn' },
-        error: { debug: 'debug', info: 'info', warn: 'warn', error: 'error', fatal: 'error' },
-        fatal: { debug: 'debug', info: 'info', warn: 'warn', error: 'error', fatal: 'fatal' },
-    };
-    return LevelCapLogger;
-})();
+}
 exports.LevelCapLogger = LevelCapLogger;
+LevelCapLogger.levelMap = {
+    debug: { debug: 'debug', info: 'debug', warn: 'debug', error: 'debug', fatal: 'debug' },
+    info: { debug: 'debug', info: 'info', warn: 'info', error: 'info', fatal: 'info' },
+    warn: { debug: 'debug', info: 'info', warn: 'warn', error: 'warn', fatal: 'warn' },
+    error: { debug: 'debug', info: 'info', warn: 'warn', error: 'error', fatal: 'error' },
+    fatal: { debug: 'debug', info: 'info', warn: 'warn', error: 'error', fatal: 'fatal' },
+};
