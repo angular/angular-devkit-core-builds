@@ -1,5 +1,4 @@
 /// <reference types="node" />
-import Socket = NodeJS.Socket;
 export interface StreamCapabilities {
     readable: boolean;
     writable: boolean;
@@ -28,4 +27,4 @@ export interface StreamCapabilities {
      */
     columns: number | null;
 }
-export declare function getCapabilities(stream: Socket, isTerminalStream?: boolean): StreamCapabilities;
+export declare function getCapabilities(stream: NodeJS.WriteStream, isTerminalStream?: boolean): StreamCapabilities;
