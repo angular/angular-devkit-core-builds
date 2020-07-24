@@ -38,7 +38,6 @@ var strategy;
      */
     function reuse(replayMessages = false) {
         let inboundBus = new rxjs_1.Subject();
-        let runContext = null;
         let run = null;
         let state = null;
         return (handler, options) => {
@@ -61,7 +60,6 @@ var strategy;
                     inboundBus = new rxjs_1.Subject();
                     run = null;
                 }), replayMessages ? operators_1.shareReplay() : operators_1.share());
-                runContext = context;
                 return run;
             };
             return Object.assign(newHandler, handler, options || {});

@@ -200,7 +200,7 @@ class SimpleScheduler {
      * Create the job.
      * @private
      */
-    _createJob(name, argument, handler, inboundBus, outboundBus, options) {
+    _createJob(name, argument, handler, inboundBus, outboundBus) {
         const schemaRegistry = this._schemaRegistry;
         const channelsSubject = new Map();
         const channels = new Map();
@@ -367,7 +367,7 @@ class SimpleScheduler {
                 return handler(argument, context);
             })).subscribe(subscriber);
         }))));
-        return this._createJob(name, argument, handler, inboundBus, outboundBus, options);
+        return this._createJob(name, argument, handler, inboundBus, outboundBus);
     }
 }
 exports.SimpleScheduler = SimpleScheduler;
