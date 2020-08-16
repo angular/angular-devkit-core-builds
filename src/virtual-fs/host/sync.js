@@ -20,11 +20,9 @@ class SyncDelegateHost {
         let completed = false;
         let result = undefined;
         let errorResult = undefined;
-        observable.subscribe({
-            next(x) { result = x; },
-            error(err) { errorResult = err; },
-            complete() { completed = true; },
-        });
+        // Perf note: this is not using an observer object to avoid a performance penalty in RxJS.
+        // See https://github.com/ReactiveX/rxjs/pull/5646 for details.
+        observable.subscribe((x) => result = x, (err) => errorResult = err, () => completed = true);
         if (errorResult !== undefined) {
             throw errorResult;
         }
