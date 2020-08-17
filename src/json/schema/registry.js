@@ -577,5 +577,16 @@ class CoreSchemaRegistry {
             });
         }));
     }
+    useXDeprecatedProvider(onUsage) {
+        this._ajv.addKeyword('x-deprecated', {
+            validate: (schema, _data, _parentSchema, _dataPath, _parentDataObject, propertyName) => {
+                if (schema) {
+                    onUsage(`Option "${propertyName}" is deprecated${typeof schema == 'string' ? ': ' + schema : '.'}`);
+                }
+                return true;
+            },
+            errors: false,
+        });
+    }
 }
 exports.CoreSchemaRegistry = CoreSchemaRegistry;

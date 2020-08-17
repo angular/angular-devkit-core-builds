@@ -96,6 +96,7 @@ export interface SchemaRegistry {
     addFormat(format: SchemaFormat): void;
     addSmartDefaultProvider<T>(source: string, provider: SmartDefaultProvider<T>): void;
     usePromptProvider(provider: PromptProvider): void;
+    useXDeprecatedProvider(onUsage: (message: string) => void): void;
     /**
      * Add a transformation step before the validation of any Json.
      * @param {JsonVisitor} visitor The visitor to transform every value.

@@ -70,4 +70,5 @@ export declare class CoreSchemaRegistry implements SchemaRegistry {
     private _applyPrompts;
     private static _set;
     private _applySmartDefaults;
+    useXDeprecatedProvider(onUsage: (message: string) => void): void;
 }
