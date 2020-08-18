@@ -5,7 +5,7 @@ import { JsonObject } from '../interface';
  * @public
  */
 export declare type JsonSchema = JsonObject | boolean;
-export declare function isJsonSchema(value: any): value is JsonSchema;
+export declare function isJsonSchema(value: unknown): value is JsonSchema;
 /**
  * Return a schema that is the merge of all subschemas, ie. it should validate all the schemas
  * that were passed in. It is possible to make an invalid schema this way, e.g. by using

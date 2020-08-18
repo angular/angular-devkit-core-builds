@@ -39,8 +39,6 @@ class NodeModuleJobRegistry {
         if (!handler) {
             return rxjs_1.of(null);
         }
-        // TODO: this should be unknown
-        // tslint:disable-next-line:no-any
         function _getValue(...fields) {
             return fields.find(x => src_1.schema.isJsonSchema(x)) || true;
         }

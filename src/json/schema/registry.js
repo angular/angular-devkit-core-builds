@@ -323,7 +323,6 @@ class CoreSchemaRegistry {
         }));
     }
     addFormat(format) {
-        // tslint:disable-next-line:no-any
         const validate = (data) => {
             const result = format.formatter.validate(data);
             if (typeof result == 'boolean') {

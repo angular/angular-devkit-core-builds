@@ -329,4 +329,4 @@ export interface Scheduler<MinimumArgumentValueT extends JsonValue = JsonValue, 
      */
     schedule<A extends MinimumArgumentValueT, I extends MinimumInputValueT, O extends MinimumOutputValueT>(name: JobName, argument: A, options?: ScheduleJobOptions): Job<A, I, O>;
 }
-export declare function isJobHandler<A extends JsonValue, I extends JsonValue, O extends JsonValue>(value: any): value is JobHandler<A, I, O>;
+export declare function isJobHandler<A extends JsonValue, I extends JsonValue, O extends JsonValue>(value: unknown): value is JobHandler<A, I, O>;

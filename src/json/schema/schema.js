@@ -10,8 +10,6 @@ exports.mergeSchemas = exports.isJsonSchema = void 0;
  */
 const utils_1 = require("../../utils");
 const interface_1 = require("../interface");
-// TODO: this should be unknown
-// tslint:disable-next-line:no-any
 function isJsonSchema(value) {
     return interface_1.isJsonObject(value) || value === false || value === true;
 }
