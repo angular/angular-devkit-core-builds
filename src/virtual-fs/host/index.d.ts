@@ -7,6 +7,7 @@
  */
 export * from './alias';
 export * from './buffer';
+export * from './create';
 export * from './empty';
 export * from './interface';
 export * from './memory';
