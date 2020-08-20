@@ -53,7 +53,7 @@ function fileBufferToString(fileBuffer) {
             if (i + chunkLength > bufLength) {
                 chunkLength = bufLength - i;
             }
-            result += String.fromCharCode.apply(null, bufView.subarray(i, i + chunkLength));
+            result += String.fromCharCode.apply(null, [...bufView.subarray(i, i + chunkLength)]);
         }
         return result;
     }

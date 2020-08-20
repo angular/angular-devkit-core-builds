@@ -21,7 +21,7 @@ export declare namespace test {
     };
     class TestHost extends SimpleMemoryHost {
         protected _records: TestLogRecord[];
-        protected _sync: SyncDelegateHost<{}>;
+        protected _sync: SyncDelegateHost<{}> | null;
         constructor(map?: {
             [path: string]: string;
         });

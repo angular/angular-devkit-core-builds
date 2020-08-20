@@ -23,6 +23,7 @@ class SchemaValidationException extends exception_1.BaseException {
     constructor(errors, baseMessage = 'Schema validation failed with the following errors:') {
         if (!errors || errors.length === 0) {
             super('Schema validation failed.');
+            this.errors = [];
             return;
         }
         const messages = SchemaValidationException.createMessages(errors);
@@ -285,10 +286,10 @@ class CoreSchemaRegistry {
                 }
             }), operators_1.switchMap(updatedData => {
                 const result = validate.call(validationContext, updatedData);
-                return typeof result == 'boolean'
+                return typeof result === 'boolean'
                     ? rxjs_1.of([updatedData, result])
                     : rxjs_1.from(result
-                        .then(r => [updatedData, true])
+                        .then(() => [updatedData, true])
                         .catch((err) => {
                         if (err.ajv) {
                             validate.errors = err.errors;

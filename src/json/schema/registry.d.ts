@@ -43,7 +43,7 @@ export declare class CoreSchemaRegistry implements SchemaRegistry {
      * @param {JsonVisitor[]} deps A list of other visitors to run before.
      */
     addPostTransform(visitor: JsonVisitor, deps?: JsonVisitor[]): void;
-    protected _resolver(ref: string, validate: ajv.ValidateFunction): {
+    protected _resolver(ref: string, validate?: ajv.ValidateFunction): {
         context?: ajv.ValidateFunction;
         schema?: JsonObject;
     };
