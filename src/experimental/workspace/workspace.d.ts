@@ -35,7 +35,7 @@ export declare class Workspace {
     private _host;
     protected static _workspaceFileNames: string[];
     private readonly _workspaceSchemaPath;
-    private _workspaceSchema;
+    private _workspaceSchema?;
     private _workspace;
     private _registry;
     constructor(_root: Path, _host: virtualFs.Host<{}>, registry?: schema.CoreSchemaRegistry);

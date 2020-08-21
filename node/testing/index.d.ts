@@ -12,7 +12,7 @@ import { Path, virtualFs } from '../../src';
  * A Sync Scoped Host that creates a temporary directory and scope to it.
  */
 export declare class TempScopedNodeJsSyncHost extends virtualFs.ScopedHost<fs.Stats> {
-    protected _sync: virtualFs.SyncDelegateHost<fs.Stats>;
+    protected _sync?: virtualFs.SyncDelegateHost<fs.Stats>;
     protected _root: Path;
     constructor();
     get files(): Path[];

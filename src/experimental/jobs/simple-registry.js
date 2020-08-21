@@ -62,7 +62,8 @@ class SimpleJobRegistry {
             output,
             input,
         };
-        this._jobNames.set(name, Object.assign(handler.bind(undefined), { jobDescription }));
+        const jobHandler = Object.assign(handler.bind(undefined), { jobDescription });
+        this._jobNames.set(name, jobHandler);
     }
     /**
      * Returns the job names of all jobs.
