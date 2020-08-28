@@ -18,9 +18,6 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./exception/exception"), exports);
-// Start experimental namespace
-__exportStar(require("./experimental/workspace/index"), exports);
-// End experimental namespace
 // Start json namespace
 __exportStar(require("./json/interface"), exports);
 __exportStar(require("./json/parser"), exports);
