@@ -6,7 +6,6 @@
  * found in the LICENSE file at https://angular.io/license
  */
 export * from './exception/exception';
-export * from './experimental/workspace/index';
 export * from './json/interface';
 export * from './json/parser';
 export * from './json/schema/interface';
