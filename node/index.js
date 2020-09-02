@@ -10,7 +10,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fs = exports.experimental = exports.resolve = exports.ModuleNotFoundException = void 0;
+exports.fs = exports.experimental = void 0;
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -24,6 +24,3 @@ const fs = require("./fs");
 exports.fs = fs;
 __exportStar(require("./cli-logger"), exports);
 __exportStar(require("./host"), exports);
-var resolve_1 = require("./resolve");
-Object.defineProperty(exports, "ModuleNotFoundException", { enumerable: true, get: function () { return resolve_1.ModuleNotFoundException; } });
-Object.defineProperty(exports, "resolve", { enumerable: true, get: function () { return resolve_1.resolve; } });
