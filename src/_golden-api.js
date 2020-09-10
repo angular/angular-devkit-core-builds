@@ -35,10 +35,6 @@ __exportStar(require("./logger/logger"), exports);
 __exportStar(require("./logger/null-logger"), exports);
 __exportStar(require("./logger/transform-logger"), exports);
 // End logging namespace
-// Start terminal namespace
-__exportStar(require("./terminal/text"), exports);
-__exportStar(require("./terminal/colors"), exports);
-// End terminal namespace
 // Start utils namespace
 __exportStar(require("./utils/literals"), exports);
 __exportStar(require("./utils/strings"), exports);

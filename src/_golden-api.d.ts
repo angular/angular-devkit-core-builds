@@ -19,8 +19,6 @@ export * from './logger/level';
 export * from './logger/logger';
 export * from './logger/null-logger';
 export * from './logger/transform-logger';
-export * from './terminal/text';
-export * from './terminal/colors';
 export * from './utils/literals';
 export * from './utils/strings';
 export * from './utils/array';
