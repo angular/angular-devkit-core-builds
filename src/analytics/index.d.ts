@@ -24,6 +24,7 @@ export declare enum NgCliAnalyticsDimensions {
     RamInGigabytes = 3,
     NodeVersion = 4,
     NgAddCollection = 6,
+    /** @deprecated */
     NgBuildBuildEventLog = 7,
     NgIvyEnabled = 8,
     BuildErrors = 20

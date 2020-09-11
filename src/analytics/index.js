@@ -38,6 +38,7 @@ var NgCliAnalyticsDimensions;
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["RamInGigabytes"] = 3] = "RamInGigabytes";
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["NodeVersion"] = 4] = "NodeVersion";
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["NgAddCollection"] = 6] = "NgAddCollection";
+    /** @deprecated */
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["NgBuildBuildEventLog"] = 7] = "NgBuildBuildEventLog";
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["NgIvyEnabled"] = 8] = "NgIvyEnabled";
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["BuildErrors"] = 20] = "BuildErrors";
