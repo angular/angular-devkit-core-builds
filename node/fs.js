@@ -9,6 +9,7 @@ exports.isDirectory = exports.isFile = void 0;
  * found in the LICENSE file at https://angular.io/license
  */
 const fs_1 = require("fs");
+/** @deprecated Since v11.0, unused by the Angular tooling */
 function isFile(filePath) {
     let stat;
     try {
@@ -23,6 +24,7 @@ function isFile(filePath) {
     return stat.isFile() || stat.isFIFO();
 }
 exports.isFile = isFile;
+/** @deprecated Since v11.0, unused by the Angular tooling */
 function isDirectory(filePath) {
     let stat;
     try {
