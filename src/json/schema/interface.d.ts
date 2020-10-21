@@ -86,6 +86,7 @@ export interface PromptDefinition {
     }>;
     raw?: string | JsonObject;
     multiselect?: boolean;
+    propertyTypes: Set<string>;
 }
 export declare type PromptProvider = (definitions: Array<PromptDefinition>) => SubscribableOrPromise<{
     [id: string]: JsonValue;

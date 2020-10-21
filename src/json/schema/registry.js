@@ -450,6 +450,7 @@ class CoreSchemaRegistry {
                     raw: schema,
                     items,
                     multiselect,
+                    propertyTypes,
                     default: typeof parentSchema.default == 'object' &&
                         parentSchema.default !== null &&
                         !Array.isArray(parentSchema.default)
