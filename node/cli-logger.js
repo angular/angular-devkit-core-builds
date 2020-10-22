@@ -16,14 +16,20 @@ const src_1 = require("../src");
 function createConsoleLogger(verbose = false, stdout = process.stdout, stderr = process.stderr, colors) {
     const logger = new src_1.logging.IndentLogger('cling');
     logger
-        .pipe(operators_1.filter(entry => entry.level !== 'debug' || verbose))
+        .pipe(operators_1.filter(entry => (entry.level != 'debug' || verbose)))
         .subscribe(entry => {
-        const color = colors && colors[entry.level];
+        let color = colors && colors[entry.level];
         let output = stdout;
         switch (entry.level) {
+            case 'info':
+                break;
             case 'warn':
+                color = color || (s => src_1.terminal.bold(src_1.terminal.yellow(s)));
+                output = stderr;
+                break;
             case 'fatal':
             case 'error':
+                color = color || (s => src_1.terminal.bold(src_1.terminal.red(s)));
                 output = stderr;
                 break;
         }

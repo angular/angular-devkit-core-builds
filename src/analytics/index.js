@@ -39,6 +39,7 @@ var NgCliAnalyticsDimensions;
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["RamInGigabytes"] = 3] = "RamInGigabytes";
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["NodeVersion"] = 4] = "NodeVersion";
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["NgAddCollection"] = 6] = "NgAddCollection";
+    NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["NgBuildBuildEventLog"] = 7] = "NgBuildBuildEventLog";
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["NgIvyEnabled"] = 8] = "NgIvyEnabled";
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["BuildErrors"] = 20] = "BuildErrors";
 })(NgCliAnalyticsDimensions = exports.NgCliAnalyticsDimensions || (exports.NgCliAnalyticsDimensions = {}));
@@ -68,6 +69,7 @@ exports.NgCliAnalyticsDimensionsFlagInfo = {
     RamInGigabytes: ['RAM (In GB)', 'number'],
     NodeVersion: ['Node Version', 'number'],
     NgAddCollection: ['--collection', 'string'],
+    NgBuildBuildEventLog: ['--buildEventLog', 'boolean'],
     NgIvyEnabled: ['Ivy Enabled', 'boolean'],
     BuildErrors: ['Build Errors (comma separated)', 'string'],
 };

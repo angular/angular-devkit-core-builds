@@ -6,6 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 export * from './exception/exception';
+export * from './experimental/workspace/index';
 export * from './json/interface';
 export * from './json/parser';
 export * from './json/schema/interface';
@@ -19,6 +20,8 @@ export * from './logger/level';
 export * from './logger/logger';
 export * from './logger/null-logger';
 export * from './logger/transform-logger';
+export * from './terminal/text';
+export * from './terminal/colors';
 export * from './utils/literals';
 export * from './utils/strings';
 export * from './utils/array';

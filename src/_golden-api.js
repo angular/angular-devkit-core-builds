@@ -18,6 +18,9 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./exception/exception"), exports);
+// Start experimental namespace
+__exportStar(require("./experimental/workspace/index"), exports);
+// End experimental namespace
 // Start json namespace
 __exportStar(require("./json/interface"), exports);
 __exportStar(require("./json/parser"), exports);
@@ -35,6 +38,10 @@ __exportStar(require("./logger/logger"), exports);
 __exportStar(require("./logger/null-logger"), exports);
 __exportStar(require("./logger/transform-logger"), exports);
 // End logging namespace
+// Start terminal namespace
+__exportStar(require("./terminal/text"), exports);
+__exportStar(require("./terminal/colors"), exports);
+// End terminal namespace
 // Start utils namespace
 __exportStar(require("./utils/literals"), exports);
 __exportStar(require("./utils/strings"), exports);

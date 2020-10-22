@@ -11,7 +11,10 @@ exports.addUndefinedDefaults = void 0;
 const interface_1 = require("../interface");
 const utility_1 = require("./utility");
 function addUndefinedDefaults(value, _pointer, schema) {
-    if (typeof schema === 'boolean' || schema === undefined) {
+    if (schema === true || schema === false) {
+        return value;
+    }
+    if (schema === undefined) {
         return value;
     }
     const types = utility_1.getTypesOfSchema(schema);
@@ -57,33 +60,12 @@ function addUndefinedDefaults(value, _pointer, schema) {
             return newValue;
         }
         for (const [propName, schemaObject] of Object.entries(schema.properties)) {
-            if (propName === '$schema' || !interface_1.isJsonObject(schemaObject)) {
+            if (newValue[propName] !== undefined || propName === '$schema') {
                 continue;
             }
-            const value = newValue[propName];
-            if (value === undefined) {
-                newValue[propName] = schemaObject.default;
-            }
-            else if (interface_1.isJsonObject(value)) {
-                // Basic support for oneOf and anyOf.
-                const propertySchemas = schemaObject.oneOf || schemaObject.anyOf;
-                const allProperties = Object.keys(value);
-                // Locate a schema which declares all the properties that the object contains.
-                const adjustedSchema = interface_1.isJsonArray(propertySchemas) && propertySchemas.find(s => {
-                    if (!interface_1.isJsonObject(s)) {
-                        return false;
-                    }
-                    const schemaType = utility_1.getTypesOfSchema(s);
-                    if (schemaType.size === 1 && schemaType.has('object') && interface_1.isJsonObject(s.properties)) {
-                        const properties = Object.keys(s.properties);
-                        return allProperties.every(key => properties.includes(key));
-                    }
-                    return false;
-                });
-                if (adjustedSchema && interface_1.isJsonObject(adjustedSchema)) {
-                    newValue[propName] = addUndefinedDefaults(value, _pointer, adjustedSchema);
-                }
-            }
+            // TODO: Does not currently handle more complex schemas (oneOf/anyOf/etc.)
+            const defaultValue = schemaObject.default;
+            newValue[propName] = defaultValue;
         }
         return newValue;
     }

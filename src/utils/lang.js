@@ -1,14 +1,6 @@
 "use strict";
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-// Borrowed from @angular/core
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isPromise = void 0;
+exports.isObservable = exports.isPromise = void 0;
 /**
  * Determine if the argument is shaped like a Promise
  */
@@ -19,3 +11,18 @@ function isPromise(obj) {
     return !!obj && typeof obj.then === 'function';
 }
 exports.isPromise = isPromise;
+/**
+ * Determine if the argument is an Observable
+ * @deprecated as of 8.0; use rxjs' built-in version
+ */
+// tslint:disable-next-line:no-any
+function isObservable(obj) {
+    if (!obj || typeof obj !== 'object') {
+        return false;
+    }
+    if (Symbol.observable && Symbol.observable in obj) {
+        return true;
+    }
+    return typeof obj.subscribe === 'function';
+}
+exports.isObservable = isObservable;

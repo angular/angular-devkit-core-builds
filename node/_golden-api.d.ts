@@ -9,3 +9,4 @@ export * from './experimental/jobs/job-registry';
 export * from './fs';
 export * from './cli-logger';
 export * from './host';
+export { ModuleNotFoundException, ResolveOptions, resolve } from './resolve';

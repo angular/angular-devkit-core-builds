@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.jobs = void 0;
+exports.workspace = exports.jobs = void 0;
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -10,3 +10,5 @@ exports.jobs = void 0;
  */
 const jobs = require("./experimental/jobs/index");
 exports.jobs = jobs;
+const workspace = require("./experimental/workspace/index");
+exports.workspace = workspace;
