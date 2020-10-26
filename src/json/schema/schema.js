@@ -8,6 +8,7 @@ exports.mergeSchemas = exports.isJsonSchema = void 0;
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+const utils_1 = require("../../utils");
 const interface_1 = require("../interface");
 function isJsonSchema(value) {
     return interface_1.isJsonObject(value) || value === false || value === true;
@@ -20,10 +21,7 @@ exports.isJsonSchema = isJsonSchema;
  * @param schemas All schemas to be merged.
  */
 function mergeSchemas(...schemas) {
-    return schemas.reduce((prev, curr) => {
-        if (curr === undefined) {
-            return prev;
-        }
+    return utils_1.clean(schemas).reduce((prev, curr) => {
         if (prev === false || curr === false) {
             return false;
         }
