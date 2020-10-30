@@ -54,7 +54,21 @@ class NodeJsAsyncHost {
         return { synchronous: false };
     }
     write(path, content) {
-        return _callFs(fs.mkdir, src_1.getSystemPath(src_1.dirname(path)), { recursive: true }).pipe(operators_1.mergeMap(() => _callFs(fs.writeFile, src_1.getSystemPath(path), new Uint8Array(content))));
+        return new rxjs_1.Observable(obs => {
+            // Create folders if necessary.
+            const _createDir = (path) => {
+                if (fs.existsSync(src_1.getSystemPath(path))) {
+                    return;
+                }
+                if (src_1.dirname(path) === path) {
+                    throw new Error();
+                }
+                _createDir(src_1.dirname(path));
+                fs.mkdirSync(src_1.getSystemPath(path));
+            };
+            _createDir(src_1.dirname(path));
+            _callFs(fs.writeFile, src_1.getSystemPath(path), new Uint8Array(content)).subscribe(obs);
+        });
     }
     read(path) {
         return _callFs(fs.readFile, src_1.getSystemPath(path)).pipe(operators_1.map(buffer => new Uint8Array(buffer).buffer));
@@ -149,26 +163,55 @@ class NodeJsSyncHost {
     }
     write(path, content) {
         return new rxjs_1.Observable(obs => {
-            fs.mkdirSync(src_1.getSystemPath(src_1.dirname(path)), { recursive: true });
-            fs.writeFileSync(src_1.getSystemPath(path), new Uint8Array(content));
-            obs.next();
-            obs.complete();
+            // TODO: remove this try+catch when issue https://github.com/ReactiveX/rxjs/issues/3740 is
+            // fixed.
+            try {
+                // Create folders if necessary.
+                const _createDir = (path) => {
+                    if (fs.existsSync(src_1.getSystemPath(path))) {
+                        return;
+                    }
+                    _createDir(src_1.dirname(path));
+                    fs.mkdirSync(src_1.getSystemPath(path));
+                };
+                _createDir(src_1.dirname(path));
+                fs.writeFileSync(src_1.getSystemPath(path), new Uint8Array(content));
+                obs.next();
+                obs.complete();
+            }
+            catch (err) {
+                obs.error(err);
+            }
         });
     }
     read(path) {
         return new rxjs_1.Observable(obs => {
-            const buffer = fs.readFileSync(src_1.getSystemPath(path));
-            obs.next(new Uint8Array(buffer).buffer);
-            obs.complete();
+            // TODO: remove this try+catch when issue https://github.com/ReactiveX/rxjs/issues/3740 is
+            // fixed.
+            try {
+                const buffer = fs.readFileSync(src_1.getSystemPath(path));
+                obs.next(new Uint8Array(buffer).buffer);
+                obs.complete();
+            }
+            catch (err) {
+                obs.error(err);
+            }
         });
     }
     delete(path) {
         return this.isDirectory(path).pipe(operators_1.concatMap(isDir => {
+            // TODO: remove this try+catch when issue https://github.com/ReactiveX/rxjs/issues/3740 is
+            // fixed.
             if (isDir) {
                 const dirPaths = fs.readdirSync(src_1.getSystemPath(path));
                 const rmDirComplete = new rxjs_1.Observable((obs) => {
-                    fs.rmdirSync(src_1.getSystemPath(path));
-                    obs.complete();
+                    try {
+                        fs.rmdirSync(src_1.getSystemPath(path));
+                        obs.complete();
+                    }
+                    catch (e) {
+                        obs.error(e);
+                    }
                 });
                 return rxjs_1.concat(...dirPaths.map(name => this.delete(src_1.join(path, name))), rmDirComplete);
             }
@@ -185,24 +228,47 @@ class NodeJsSyncHost {
     }
     rename(from, to) {
         return new rxjs_1.Observable(obs => {
-            const toSystemPath = src_1.getSystemPath(to);
-            fs.mkdirSync(path.dirname(toSystemPath), { recursive: true });
-            fs.renameSync(src_1.getSystemPath(from), toSystemPath);
-            obs.next();
-            obs.complete();
+            // TODO: remove this try+catch when issue https://github.com/ReactiveX/rxjs/issues/3740 is
+            // fixed.
+            try {
+                const toSystemPath = src_1.getSystemPath(to);
+                if (!fs.existsSync(path.dirname(toSystemPath))) {
+                    fs.mkdirSync(path.dirname(toSystemPath), { recursive: true });
+                }
+                fs.renameSync(src_1.getSystemPath(from), src_1.getSystemPath(to));
+                obs.next();
+                obs.complete();
+            }
+            catch (err) {
+                obs.error(err);
+            }
         });
     }
     list(path) {
         return new rxjs_1.Observable(obs => {
-            const names = fs.readdirSync(src_1.getSystemPath(path));
-            obs.next(names.map(name => src_1.fragment(name)));
-            obs.complete();
+            // TODO: remove this try+catch when issue https://github.com/ReactiveX/rxjs/issues/3740 is
+            // fixed.
+            try {
+                const names = fs.readdirSync(src_1.getSystemPath(path));
+                obs.next(names.map(name => src_1.fragment(name)));
+                obs.complete();
+            }
+            catch (err) {
+                obs.error(err);
+            }
         });
     }
     exists(path) {
         return new rxjs_1.Observable(obs => {
-            obs.next(fs.existsSync(src_1.getSystemPath(path)));
-            obs.complete();
+            // TODO: remove this try+catch when issue https://github.com/ReactiveX/rxjs/issues/3740 is
+            // fixed.
+            try {
+                obs.next(fs.existsSync(src_1.getSystemPath(path)));
+                obs.complete();
+            }
+            catch (err) {
+                obs.error(err);
+            }
         });
     }
     isDirectory(path) {
@@ -216,8 +282,15 @@ class NodeJsSyncHost {
     // Some hosts may not support stat.
     stat(path) {
         return new rxjs_1.Observable(obs => {
-            obs.next(fs.statSync(src_1.getSystemPath(path)));
-            obs.complete();
+            // TODO: remove this try+catch when issue https://github.com/ReactiveX/rxjs/issues/3740 is
+            // fixed.
+            try {
+                obs.next(fs.statSync(src_1.getSystemPath(path)));
+                obs.complete();
+            }
+            catch (err) {
+                obs.error(err);
+            }
         });
     }
     // Some hosts may not support watching.
