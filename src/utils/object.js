@@ -31,7 +31,7 @@ function deepCopy(value) {
         if (valueCasted['toJSON']) {
             return JSON.parse(valueCasted['toJSON']());
         }
-        const copy = Object.create(Object.getPrototypeOf(valueCasted));
+        const copy = new (Object.getPrototypeOf(valueCasted).constructor)();
         valueCasted[copySymbol] = copy;
         for (const key of Object.getOwnPropertyNames(valueCasted)) {
             copy[key] = deepCopy(valueCasted[key]);

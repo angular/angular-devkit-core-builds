@@ -27,10 +27,9 @@ function stringToFileBuffer(str) {
     }
 }
 exports.stringToFileBuffer = stringToFileBuffer;
-const fileBuffer = (strings, ...values) => {
+exports.fileBuffer = (strings, ...values) => {
     return stringToFileBuffer(String.raw(strings, ...values));
 };
-exports.fileBuffer = fileBuffer;
 function fileBufferToString(fileBuffer) {
     if (fileBuffer.toString.length == 1) {
         return fileBuffer.toString('utf-8');

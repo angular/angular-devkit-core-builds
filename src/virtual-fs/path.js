@@ -250,10 +250,9 @@ function noCacheNormalize(path) {
     }
 }
 exports.noCacheNormalize = noCacheNormalize;
-const path = (strings, ...values) => {
+exports.path = (strings, ...values) => {
     return normalize(String.raw(strings, ...values));
 };
-exports.path = path;
 function asWindowsPath(path) {
     const drive = path.match(/^\/(\w)(?:\/(.*))?$/);
     if (drive) {
