@@ -457,12 +457,25 @@ class CoreSchemaRegistry {
                         ? undefined
                         : parentSchema.default,
                     async validator(data) {
+                        var _a;
                         try {
-                            return await it.self.validate(parentSchema, data);
+                            const result = await it.self.validate(parentSchema, data);
+                            // If the schema is sync then false will be returned on validation failure
+                            if (result) {
+                                return result;
+                            }
+                            else if ((_a = it.self.errors) === null || _a === void 0 ? void 0 : _a.length) {
+                                // Validation errors will be present on the Ajv instance when sync
+                                return it.self.errors[0].message;
+                            }
                         }
-                        catch (_a) {
-                            return false;
+                        catch (e) {
+                            // If the schema is async then an error will be thrown on validation failure
+                            if (Array.isArray(e.errors) && e.errors.length) {
+                                return e.errors[0].message;
+                            }
                         }
+                        return false;
                     },
                 };
                 compilationSchemInfo.promptDefinitions.push(definition);
