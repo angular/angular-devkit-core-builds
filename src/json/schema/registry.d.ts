@@ -58,7 +58,6 @@ export declare class CoreSchemaRegistry implements SchemaRegistry {
      * See: https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.appendix.B.2
      */
     flatten(schema: JsonObject): Observable<JsonObject>;
-    private _flatten;
     /**
      * Compile and return a validation function for the Schema.
      *
@@ -67,7 +66,6 @@ export declare class CoreSchemaRegistry implements SchemaRegistry {
      * @returns An Observable of the Validation function.
      */
     compile(schema: JsonSchema): Observable<SchemaValidator>;
-    private _compile;
     addFormat(format: SchemaFormat): void;
     addSmartDefaultProvider<T>(source: string, provider: SmartDefaultProvider<T>): void;
     registerUriHandler(handler: UriHandler): void;
