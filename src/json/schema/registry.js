@@ -69,18 +69,23 @@ class CoreSchemaRegistry {
         this._ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
         this._ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-06.json'));
     }
-    _fetch(uri) {
+    async _fetch(uri) {
         const maybeSchema = this._uriCache.get(uri);
         if (maybeSchema) {
-            return Promise.resolve(maybeSchema);
+            return maybeSchema;
         }
         // Try all handlers, one after the other.
-        for (const maybeHandler of this._uriHandlers) {
-            const handler = maybeHandler(uri);
-            if (handler) {
-                // The AJV API only understands Promises.
-                return rxjs_1.from(handler).pipe(operators_1.tap(json => this._uriCache.set(uri, json))).toPromise();
+        for (const handler of this._uriHandlers) {
+            let handlerResult = handler(uri);
+            if (handlerResult === null || handlerResult === undefined) {
+                continue;
             }
+            if (rxjs_1.isObservable(handlerResult)) {
+                handlerResult = handlerResult.toPromise();
+            }
+            const value = await handlerResult;
+            this._uriCache.set(uri, value);
+            return value;
         }
         // If none are found, handle using http client.
         return new Promise((resolve, reject) => {
@@ -171,43 +176,29 @@ class CoreSchemaRegistry {
      * See: https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.appendix.B.2
      */
     flatten(schema) {
+        return rxjs_1.from(this._flatten(schema));
+    }
+    async _flatten(schema) {
         this._ajv.removeSchema(schema);
-        // Supports both synchronous and asynchronous compilation, by trying the synchronous
-        // version first, then if refs are missing this will fails.
-        // We also add any refs from external fetched schemas so that those will also be used
-        // in synchronous (if available).
-        let validator;
-        try {
-            this._currentCompilationSchemaInfo = undefined;
-            validator = rxjs_1.of(this._ajv.compile(schema)).pipe(operators_1.tap(() => this._currentCompilationSchemaInfo = undefined));
-        }
-        catch (e) {
-            // Propagate the error.
-            if (!(e instanceof ajv.MissingRefError)) {
-                return rxjs_1.throwError(e);
-            }
-            this._currentCompilationSchemaInfo = undefined;
-            validator = rxjs_1.from(this._ajv.compileAsync(schema)).pipe(operators_1.tap(() => this._currentCompilationSchemaInfo = undefined));
-        }
-        return validator.pipe(operators_1.switchMap(validate => {
-            const self = this;
-            function visitor(current, pointer, parentSchema, index) {
-                if (current
-                    && parentSchema
-                    && index
-                    && interface_1.isJsonObject(current)
-                    && current.hasOwnProperty('$ref')
-                    && typeof current['$ref'] == 'string') {
-                    const resolved = self._resolver(current['$ref'], validate);
-                    if (resolved.schema) {
-                        parentSchema[index] = resolved.schema;
-                    }
+        this._currentCompilationSchemaInfo = undefined;
+        const validate = await this._ajv.compileAsync(schema);
+        const self = this;
+        function visitor(current, pointer, parentSchema, index) {
+            if (current
+                && parentSchema
+                && index
+                && interface_1.isJsonObject(current)
+                && current.hasOwnProperty('$ref')
+                && typeof current['$ref'] == 'string') {
+                const resolved = self._resolver(current['$ref'], validate);
+                if (resolved.schema) {
+                    parentSchema[index] = resolved.schema;
                 }
             }
-            const schema = utils_1.deepCopy(validate.schema);
-            visitor_1.visitJsonSchema(schema, visitor);
-            return rxjs_1.of(schema);
-        }));
+        }
+        const schemaCopy = utils_1.deepCopy(validate.schema);
+        visitor_1.visitJsonSchema(schemaCopy, visitor);
+        return schemaCopy;
     }
     /**
      * Compile and return a validation function for the Schema.
@@ -217,34 +208,23 @@ class CoreSchemaRegistry {
      * @returns An Observable of the Validation function.
      */
     compile(schema) {
+        return rxjs_1.from(this._compile(schema)).pipe(operators_1.map(validate => (value, options) => rxjs_1.from(validate(value, options))));
+    }
+    async _compile(schema) {
         const schemaInfo = {
             smartDefaultRecord: new Map(),
             promptDefinitions: [],
         };
         this._ajv.removeSchema(schema);
-        // Supports both synchronous and asynchronous compilation, by trying the synchronous
-        // version first, then if refs are missing this will fails.
-        // We also add any refs from external fetched schemas so that those will also be used
-        // in synchronous (if available).
         let validator;
         try {
             this._currentCompilationSchemaInfo = schemaInfo;
-            validator = rxjs_1.of(this._ajv.compile(schema));
+            validator = await this._ajv.compileAsync(schema);
         }
-        catch (e) {
-            // Propagate the error.
-            if (!(e instanceof ajv.MissingRefError)) {
-                return rxjs_1.throwError(e);
-            }
-            try {
-                validator = rxjs_1.from(this._ajv.compileAsync(schema));
-            }
-            catch (e) {
-                return rxjs_1.throwError(e);
-            }
+        finally {
+            this._currentCompilationSchemaInfo = undefined;
         }
-        return validator
-            .pipe(operators_1.map(validate => (data, options) => {
+        const validate = async (data, options) => {
             const validationOptions = {
                 withPrompts: true,
                 applyPostTransforms: true,
@@ -254,77 +234,66 @@ class CoreSchemaRegistry {
             const validationContext = {
                 promptFieldsWithValue: new Set(),
             };
-            let result = rxjs_1.of(data);
+            // Apply pre-validation transforms
             if (validationOptions.applyPreTransforms) {
-                // tslint:disable-next-line:no-any https://github.com/ReactiveX/rxjs/issues/3989
-                result = result.pipe(...[...this._pre].map(visitor => operators_1.concatMap((data) => {
-                    return visitor_1.visitJson(data, visitor, schema, this._resolver, validate);
-                })));
-            }
-            return result.pipe(operators_1.switchMap(updateData => this._applySmartDefaults(updateData, schemaInfo.smartDefaultRecord)), operators_1.switchMap(updatedData => {
-                if (validationOptions.withPrompts === false) {
-                    return rxjs_1.of(updatedData);
+                for (const visitor of this._pre.values()) {
+                    data = await visitor_1.visitJson(data, visitor, schema, this._resolver, validator).toPromise();
                 }
+            }
+            // Apply smart defaults
+            await this._applySmartDefaults(data, schemaInfo.smartDefaultRecord);
+            // Apply prompts
+            if (validationOptions.withPrompts) {
                 const visitor = (value, pointer) => {
                     if (value !== undefined) {
                         validationContext.promptFieldsWithValue.add(pointer);
                     }
                     return value;
                 };
-                if (schema === false || schema === true) {
-                    return rxjs_1.of(updatedData);
-                }
-                return visitor_1.visitJson(updatedData, visitor, schema, this._resolver, validate);
-            }), operators_1.switchMap(updatedData => {
-                if (validationOptions.withPrompts === false) {
-                    return rxjs_1.of(updatedData);
+                if (typeof schema === 'object') {
+                    await visitor_1.visitJson(data, visitor, schema, this._resolver, validator).toPromise();
                 }
                 const definitions = schemaInfo.promptDefinitions
                     .filter(def => !validationContext.promptFieldsWithValue.has(def.id));
-                if (this._promptProvider && definitions.length > 0) {
-                    return rxjs_1.from(this._applyPrompts(updatedData, definitions));
+                if (definitions.length > 0) {
+                    await this._applyPrompts(data, definitions);
                 }
-                else {
-                    return rxjs_1.of(updatedData);
+            }
+            // Validate using ajv
+            const result = validator.call(validationContext, data);
+            let errors;
+            if (typeof result === 'boolean') {
+                // Synchronous result
+                if (!result) {
+                    errors = validator.errors || [];
                 }
-            }), operators_1.switchMap(updatedData => {
-                const result = validate.call(validationContext, updatedData);
-                return typeof result === 'boolean'
-                    ? rxjs_1.of([updatedData, result])
-                    : rxjs_1.from(result
-                        .then(() => [updatedData, true])
-                        .catch((err) => {
-                        if (err.ajv) {
-                            validate.errors = err.errors;
-                            return Promise.resolve([updatedData, false]);
-                        }
-                        return Promise.reject(err);
-                    }));
-            }), operators_1.switchMap(([data, valid]) => {
-                if (valid) {
-                    let result = rxjs_1.of(data);
-                    if (validationOptions.applyPostTransforms) {
-                        // tslint:disable-next-line:no-any https://github.com/ReactiveX/rxjs/issues/3989
-                        result = result.pipe(...[...this._post].map(visitor => operators_1.concatMap((data) => {
-                            return visitor_1.visitJson(data, visitor, schema, this._resolver, validate);
-                        })));
+            }
+            else {
+                // Asynchronous result
+                try {
+                    await result;
+                }
+                catch (e) {
+                    if (e.ajv) {
+                        errors = e.errors || [];
                     }
-                    return result.pipe(operators_1.map(data => [data, valid]));
+                    else {
+                        throw e;
+                    }
                 }
-                else {
-                    return rxjs_1.of([data, valid]);
+            }
+            if (errors) {
+                return { data, success: false, errors };
+            }
+            // Apply post-validation transforms
+            if (validationOptions.applyPostTransforms) {
+                for (const visitor of this._post.values()) {
+                    data = await visitor_1.visitJson(data, visitor, schema, this._resolver, validator).toPromise();
                 }
-            }), operators_1.map(([data, valid]) => {
-                if (valid) {
-                    return { data, success: true };
-                }
-                return {
-                    data,
-                    success: false,
-                    errors: (validate.errors || []),
-                };
-            }));
-        }));
+            }
+            return { data, success: true };
+        };
+        return validate;
     }
     addFormat(format) {
         const validate = (data) => {
@@ -507,25 +476,23 @@ class CoreSchemaRegistry {
             },
         });
     }
-    _applyPrompts(data, prompts) {
+    async _applyPrompts(data, prompts) {
         const provider = this._promptProvider;
         if (!provider) {
-            return rxjs_1.of(data);
+            return;
         }
-        return rxjs_1.from(provider(prompts)).pipe(operators_1.map(answers => {
-            for (const path in answers) {
-                const pathFragments = path.split('/').map(pf => {
-                    if (/^\d+$/.test(pf)) {
-                        return pf;
-                    }
-                    else {
-                        return '\'' + pf + '\'';
-                    }
-                });
-                CoreSchemaRegistry._set(data, pathFragments.slice(1), answers[path], null, undefined, true);
-            }
-            return data;
-        }));
+        const answers = await rxjs_1.from(provider(prompts)).toPromise();
+        for (const path in answers) {
+            const pathFragments = path.split('/').map(pf => {
+                if (/^\d+$/.test(pf)) {
+                    return pf;
+                }
+                else {
+                    return '\'' + pf + '\'';
+                }
+            });
+            CoreSchemaRegistry._set(data, pathFragments.slice(1), answers[path], null, undefined, true);
+        }
     }
     static _set(
     // tslint:disable-next-line:no-any
@@ -576,23 +543,19 @@ class CoreSchemaRegistry {
             parent[parentProperty] = value;
         }
     }
-    _applySmartDefaults(data, smartDefaults) {
-        // tslint:disable-next-line:no-any https://github.com/ReactiveX/rxjs/issues/3989
-        return rxjs_1.of(data).pipe(...[...smartDefaults.entries()].map(([pointer, schema]) => {
-            return operators_1.concatMap(data => {
-                const fragments = JSON.parse(pointer);
-                const source = this._sourceMap.get(schema.$source);
-                let value = source ? source(schema) : rxjs_1.of(undefined);
-                if (!rxjs_1.isObservable(value)) {
-                    value = rxjs_1.of(value);
-                }
-                return value.pipe(
-                // Synchronously set the new data at the proper JsonSchema path.
-                operators_1.tap(x => CoreSchemaRegistry._set(data, fragments, x)), 
-                // But return the data object.
-                operators_1.map(() => data));
-            });
-        }));
+    async _applySmartDefaults(data, smartDefaults) {
+        for (const [pointer, schema] of smartDefaults.entries()) {
+            const fragments = JSON.parse(pointer);
+            const source = this._sourceMap.get(schema.$source);
+            if (!source) {
+                continue;
+            }
+            let value = source(schema);
+            if (rxjs_1.isObservable(value)) {
+                value = await value.toPromise();
+            }
+            CoreSchemaRegistry._set(data, fragments, value);
+        }
     }
     useXDeprecatedProvider(onUsage) {
         this._ajv.addKeyword('x-deprecated', {

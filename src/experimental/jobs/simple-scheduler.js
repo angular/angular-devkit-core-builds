@@ -208,7 +208,7 @@ class SimpleScheduler {
         let pingId = 0;
         // Create the input channel by having a filter.
         const input = new rxjs_1.Subject();
-        input.pipe(operators_1.switchMap(message => handler.pipe(operators_1.switchMap(handler => {
+        input.pipe(operators_1.concatMap(message => handler.pipe(operators_1.switchMap(handler => {
             if (handler === null) {
                 throw new exception_1.JobDoesNotExistException(name);
             }
