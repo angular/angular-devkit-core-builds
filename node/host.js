@@ -8,11 +8,20 @@ exports.NodeJsSyncHost = exports.NodeJsAsyncHost = void 0;
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const fs = require("fs");
-const path = require("path");
+const fs_1 = require("fs");
+const path_1 = require("path");
 const rxjs_1 = require("rxjs");
 const operators_1 = require("rxjs/operators");
 const src_1 = require("../src");
+async function exists(path) {
+    try {
+        await fs_1.promises.access(path, fs_1.constants.F_OK);
+        return true;
+    }
+    catch (_a) {
+        return false;
+    }
+}
 // This will only be initialized if the watch() method is called.
 // Otherwise chokidar appears only in type positions, and shouldn't be referenced
 // in the JavaScript output.
@@ -32,19 +41,6 @@ function loadFSWatcher() {
         }
     }
 }
-function _callFs(fn, ...args) {
-    return new rxjs_1.Observable(obs => {
-        fn(...args, (err, result) => {
-            if (err) {
-                obs.error(err);
-            }
-            else {
-                obs.next(result);
-                obs.complete();
-            }
-        });
-    });
-}
 /**
  * An implementation of the Virtual FS using Node as the background. There are two versions; one
  * synchronous and one asynchronous.
@@ -54,59 +50,54 @@ class NodeJsAsyncHost {
         return { synchronous: false };
     }
     write(path, content) {
-        return _callFs(fs.mkdir, src_1.getSystemPath(src_1.dirname(path)), { recursive: true }).pipe(operators_1.mergeMap(() => _callFs(fs.writeFile, src_1.getSystemPath(path), new Uint8Array(content))));
+        return rxjs_1.from(fs_1.promises.mkdir(src_1.getSystemPath(src_1.dirname(path)), { recursive: true }))
+            .pipe(operators_1.mergeMap(() => fs_1.promises.writeFile(src_1.getSystemPath(path), content)));
     }
     read(path) {
-        return _callFs(fs.readFile, src_1.getSystemPath(path)).pipe(operators_1.map(buffer => new Uint8Array(buffer).buffer));
+        return rxjs_1.from(fs_1.promises.readFile(src_1.getSystemPath(path)))
+            .pipe(operators_1.map(buffer => new Uint8Array(buffer).buffer));
     }
     delete(path) {
-        return this.isDirectory(path).pipe(operators_1.mergeMap(isDirectory => {
+        return this.isDirectory(path).pipe(operators_1.mergeMap(async (isDirectory) => {
             if (isDirectory) {
-                const allFiles = [];
-                const allDirs = [];
-                const _recurseList = (path) => {
-                    for (const fragment of fs.readdirSync(src_1.getSystemPath(path))) {
-                        if (fs.statSync(src_1.getSystemPath(src_1.join(path, fragment))).isDirectory()) {
-                            _recurseList(src_1.join(path, fragment));
-                            allDirs.push(src_1.join(path, fragment));
+                const recursiveDelete = async (dirPath) => {
+                    for (const fragment of (await fs_1.promises.readdir(dirPath))) {
+                        const sysPath = path_1.join(dirPath, fragment);
+                        const stats = await fs_1.promises.stat(sysPath);
+                        if (stats.isDirectory()) {
+                            await recursiveDelete(sysPath);
+                            await fs_1.promises.rmdir(sysPath);
                         }
                         else {
-                            allFiles.push(src_1.join(path, fragment));
+                            await fs_1.promises.unlink(sysPath);
                         }
                     }
                 };
-                _recurseList(path);
-                return rxjs_1.concat(rxjs_1.from(allFiles).pipe(operators_1.mergeMap(p => _callFs(fs.unlink, src_1.getSystemPath(p))), operators_1.ignoreElements()), rxjs_1.from(allDirs).pipe(operators_1.concatMap(p => _callFs(fs.rmdir, src_1.getSystemPath(p)))));
+                await recursiveDelete(src_1.getSystemPath(path));
             }
             else {
-                return _callFs(fs.unlink, src_1.getSystemPath(path));
+                await fs_1.promises.unlink(src_1.getSystemPath(path));
             }
-        }), operators_1.map(() => undefined));
+        }));
     }
     rename(from, to) {
-        return _callFs(fs.rename, src_1.getSystemPath(from), src_1.getSystemPath(to));
+        return rxjs_1.from(fs_1.promises.rename(src_1.getSystemPath(from), src_1.getSystemPath(to)));
     }
     list(path) {
-        return _callFs(fs.readdir, src_1.getSystemPath(path)).pipe(operators_1.map((names) => names.map(name => src_1.fragment(name))));
+        return rxjs_1.from(fs_1.promises.readdir(src_1.getSystemPath(path))).pipe(operators_1.map((names) => names.map(name => src_1.fragment(name))));
     }
     exists(path) {
-        // Exists is a special case because it cannot error.
-        return new rxjs_1.Observable(obs => {
-            fs.exists(path, exists => {
-                obs.next(exists);
-                obs.complete();
-            });
-        });
+        return rxjs_1.from(exists(path));
     }
     isDirectory(path) {
-        return _callFs(fs.stat, src_1.getSystemPath(path)).pipe(operators_1.map(stat => stat.isDirectory()));
+        return this.stat(path).pipe(operators_1.map(stat => stat.isDirectory()));
     }
     isFile(path) {
-        return _callFs(fs.stat, src_1.getSystemPath(path)).pipe(operators_1.map(stat => stat.isFile()));
+        return this.stat(path).pipe(operators_1.map(stat => stat.isFile()));
     }
     // Some hosts may not support stat.
     stat(path) {
-        return _callFs(fs.stat, src_1.getSystemPath(path));
+        return rxjs_1.from(fs_1.promises.stat(src_1.getSystemPath(path)));
     }
     // Some hosts may not support watching.
     watch(path, _options) {
@@ -149,15 +140,15 @@ class NodeJsSyncHost {
     }
     write(path, content) {
         return new rxjs_1.Observable(obs => {
-            fs.mkdirSync(src_1.getSystemPath(src_1.dirname(path)), { recursive: true });
-            fs.writeFileSync(src_1.getSystemPath(path), new Uint8Array(content));
+            fs_1.mkdirSync(src_1.getSystemPath(src_1.dirname(path)), { recursive: true });
+            fs_1.writeFileSync(src_1.getSystemPath(path), new Uint8Array(content));
             obs.next();
             obs.complete();
         });
     }
     read(path) {
         return new rxjs_1.Observable(obs => {
-            const buffer = fs.readFileSync(src_1.getSystemPath(path));
+            const buffer = fs_1.readFileSync(src_1.getSystemPath(path));
             obs.next(new Uint8Array(buffer).buffer);
             obs.complete();
         });
@@ -165,16 +156,16 @@ class NodeJsSyncHost {
     delete(path) {
         return this.isDirectory(path).pipe(operators_1.concatMap(isDir => {
             if (isDir) {
-                const dirPaths = fs.readdirSync(src_1.getSystemPath(path));
+                const dirPaths = fs_1.readdirSync(src_1.getSystemPath(path));
                 const rmDirComplete = new rxjs_1.Observable((obs) => {
-                    fs.rmdirSync(src_1.getSystemPath(path));
+                    fs_1.rmdirSync(src_1.getSystemPath(path));
                     obs.complete();
                 });
                 return rxjs_1.concat(...dirPaths.map(name => this.delete(src_1.join(path, name))), rmDirComplete);
             }
             else {
                 try {
-                    fs.unlinkSync(src_1.getSystemPath(path));
+                    fs_1.unlinkSync(src_1.getSystemPath(path));
                 }
                 catch (err) {
                     return rxjs_1.throwError(err);
@@ -186,22 +177,22 @@ class NodeJsSyncHost {
     rename(from, to) {
         return new rxjs_1.Observable(obs => {
             const toSystemPath = src_1.getSystemPath(to);
-            fs.mkdirSync(path.dirname(toSystemPath), { recursive: true });
-            fs.renameSync(src_1.getSystemPath(from), toSystemPath);
+            fs_1.mkdirSync(path_1.dirname(toSystemPath), { recursive: true });
+            fs_1.renameSync(src_1.getSystemPath(from), toSystemPath);
             obs.next();
             obs.complete();
         });
     }
     list(path) {
         return new rxjs_1.Observable(obs => {
-            const names = fs.readdirSync(src_1.getSystemPath(path));
+            const names = fs_1.readdirSync(src_1.getSystemPath(path));
             obs.next(names.map(name => src_1.fragment(name)));
             obs.complete();
         });
     }
     exists(path) {
         return new rxjs_1.Observable(obs => {
-            obs.next(fs.existsSync(src_1.getSystemPath(path)));
+            obs.next(fs_1.existsSync(src_1.getSystemPath(path)));
             obs.complete();
         });
     }
@@ -216,7 +207,7 @@ class NodeJsSyncHost {
     // Some hosts may not support stat.
     stat(path) {
         return new rxjs_1.Observable(obs => {
-            obs.next(fs.statSync(src_1.getSystemPath(path)));
+            obs.next(fs_1.statSync(src_1.getSystemPath(path)));
             obs.complete();
         });
     }
