@@ -8,6 +8,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deepCopy = exports.mapObject = void 0;
+/** @deprecated Since v12.0, unused by the Angular tooling */
 function mapObject(obj, mapper) {
     return Object.keys(obj).reduce((acc, k) => {
         acc[k] = mapper(k, obj[k]);
