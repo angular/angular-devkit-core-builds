@@ -76,6 +76,9 @@ function convertJsonTarget(target) {
         ...(isEmpty(target.configurations)
             ? {}
             : { configurations: target.configurations }),
+        ...(target.defaultConfiguration === undefined
+            ? {}
+            : { defaultConfiguration: target.defaultConfiguration }),
     };
 }
 function convertJsonTargetCollection(collection) {

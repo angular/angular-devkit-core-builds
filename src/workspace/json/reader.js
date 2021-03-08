@@ -215,7 +215,7 @@ function parseTargetsObject(projectName, targetsNode, context) {
         const name = key.value;
         if (context.trackChanges) {
             targets[name] = utilities_1.createVirtualAstObject(value, {
-                include: ['builder', 'options', 'configurations'],
+                include: ['builder', 'options', 'configurations', 'defaultConfiguration'],
                 listener(op, path, node, value) {
                     jsonMetadata.addChange(op, `/projects/${projectName}/targets/${name}${path}`, node, value);
                 },

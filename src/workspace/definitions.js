@@ -141,6 +141,7 @@ class TargetDefinitionCollection extends DefinitionCollection {
             builder: definition.builder,
             options: definition.options,
             configurations: definition.configurations,
+            defaultConfiguration: definition.defaultConfiguration,
         };
         super.set(definition.name, target);
         return target;
