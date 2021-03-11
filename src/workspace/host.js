@@ -22,7 +22,7 @@ function createWorkspaceHost(host) {
             try {
                 return await host.isDirectory(virtual_fs_1.normalize(path)).toPromise();
             }
-            catch (_a) {
+            catch {
                 // some hosts throw if path does not exist
                 return false;
             }
@@ -31,7 +31,7 @@ function createWorkspaceHost(host) {
             try {
                 return await host.isFile(virtual_fs_1.normalize(path)).toPromise();
             }
-            catch (_a) {
+            catch {
                 // some hosts throw if path does not exist
                 return false;
             }

@@ -18,7 +18,7 @@ async function exists(path) {
         await fs_1.promises.access(path, fs_1.constants.F_OK);
         return true;
     }
-    catch (_a) {
+    catch {
         return false;
     }
 }
