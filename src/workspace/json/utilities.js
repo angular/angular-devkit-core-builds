@@ -217,7 +217,7 @@ function create(ast, path, reporter, excluded = new Set(), included, base) {
             for (const key of cache.keys()) {
                 const relativeKey = key.substr(path.length + 1);
                 if (relativeKey.length > 0 && !relativeKey.includes('/')) {
-                    keys.push(unescapeKey(relativeKey));
+                    keys.push(`${unescapeKey(relativeKey)}`);
                 }
             }
             return [...new Set([...keys, ...Reflect.ownKeys(target)])];

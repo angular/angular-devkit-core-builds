@@ -37,6 +37,7 @@ function createDispatcher(options = {}) {
         addConditionalJob(predicate, name) {
             conditionalDelegateList.push([predicate, name]);
         },
+        // TODO: Remove return-only generic from createDispatcher() API.
     });
 }
 exports.createDispatcher = createDispatcher;
