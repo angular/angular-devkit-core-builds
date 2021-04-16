@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import * as ajv from 'ajv';
+import { ValidateFunction } from 'ajv';
 import { Observable } from 'rxjs';
 import { BaseException } from '../../exception/exception';
 import { JsonObject } from '../interface';
@@ -43,8 +43,8 @@ export declare class CoreSchemaRegistry implements SchemaRegistry {
      * @param {JsonVisitor[]} deps A list of other visitors to run before.
      */
     addPostTransform(visitor: JsonVisitor, deps?: JsonVisitor[]): void;
-    protected _resolver(ref: string, validate?: ajv.ValidateFunction): {
-        context?: ajv.ValidateFunction;
+    protected _resolver(ref: string, validate?: ValidateFunction): {
+        context?: ValidateFunction;
         schema?: JsonObject;
     };
     /**
@@ -76,4 +76,9 @@ export declare class CoreSchemaRegistry implements SchemaRegistry {
     private static _set;
     private _applySmartDefaults;
     useXDeprecatedProvider(onUsage: (message: string) => void): void;
+    /**
+     * Workaround to avoid a breaking change in downstream schematics.
+     * @deprecated will be removed in version 13.
+     */
+    private _replaceDeprecatedSchemaIdKeyword;
 }

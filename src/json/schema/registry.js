@@ -8,7 +8,8 @@ exports.CoreSchemaRegistry = exports.SchemaValidationException = void 0;
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const ajv = require("ajv");
+const ajv_1 = require("ajv");
+const ajv_formats_1 = require("ajv-formats");
 const http = require("http");
 const https = require("https");
 const rxjs_1 = require("rxjs");
@@ -35,7 +36,7 @@ class SchemaValidationException extends exception_1.BaseException {
             return [];
         }
         const messages = errors.map((err) => {
-            let message = `Data path ${JSON.stringify(err.dataPath)} ${err.message}`;
+            let message = `Data path ${JSON.stringify(err.instancePath)} ${err.message}`;
             if (err.keyword === 'additionalProperties') {
                 message += `(${err.params.additionalProperty})`;
             }
@@ -47,27 +48,21 @@ class SchemaValidationException extends exception_1.BaseException {
 exports.SchemaValidationException = SchemaValidationException;
 class CoreSchemaRegistry {
     constructor(formats = []) {
-        /**
-         * Build an AJV instance that will be used to validate schemas.
-         */
         this._uriCache = new Map();
         this._uriHandlers = new Set();
         this._pre = new utils_1.PartiallyOrderedSet();
         this._post = new utils_1.PartiallyOrderedSet();
         this._smartDefaultKeyword = false;
         this._sourceMap = new Map();
-        const formatsObj = {};
-        for (const format of formats) {
-            formatsObj[format.name] = format.formatter;
-        }
-        this._ajv = ajv({
-            formats: formatsObj,
+        this._ajv = new ajv_1.default({
+            strict: false,
             loadSchema: (uri) => this._fetch(uri),
-            schemaId: 'auto',
             passContext: true,
         });
-        this._ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
-        this._ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-06.json'));
+        ajv_formats_1.default(this._ajv);
+        for (const format of formats) {
+            this.addFormat(format);
+        }
     }
     async _fetch(uri) {
         const maybeSchema = this._uriCache.get(uri);
@@ -136,34 +131,26 @@ class CoreSchemaRegistry {
         this._post.add(visitor, deps);
     }
     _resolver(ref, validate) {
-        if (!validate || !validate.refs || !validate.refVal || !ref) {
+        if (!validate || !ref) {
             return {};
         }
-        let refMap = validate;
-        const rootRefMap = validate.root;
-        // Resolve from the root if it's different.
-        if (validate.root && validate.schema !== rootRefMap.schema) {
-            refMap = rootRefMap;
+        const schema = validate.schemaEnv.root.schema;
+        const id = typeof schema === 'object' ? schema.$id : null;
+        let fullReference = ref;
+        if (typeof id === 'string') {
+            fullReference = Url.resolve(id, ref);
+            if (ref.startsWith('#')) {
+                fullReference = id + fullReference;
+            }
         }
-        const schema = refMap.schema ? typeof refMap.schema == 'object' && refMap.schema : null;
-        const maybeId = schema ? schema.id || schema.$id : null;
-        if (typeof maybeId == 'string') {
-            ref = Url.resolve(maybeId, ref);
-        }
-        let fullReference = (ref[0] === '#' && maybeId) ? maybeId + ref : ref;
-        if (fullReference.endsWith('#')) {
+        if (fullReference.startsWith('#')) {
             fullReference = fullReference.slice(0, -1);
         }
-        // tslint:disable-next-line:no-any
-        const context = validate.refVal[validate.refs[fullReference]];
-        if (typeof context == 'function') {
-            // Context will be a function if the schema isn't loaded yet, and an actual schema if it's
-            // synchronously available.
-            return { context, schema: context && context.schema };
-        }
-        else {
-            return { context: validate, schema: context };
-        }
+        const resolvedSchema = this._ajv.getSchema(fullReference);
+        return {
+            context: resolvedSchema === null || resolvedSchema === void 0 ? void 0 : resolvedSchema.schemaEnv.validate,
+            schema: resolvedSchema === null || resolvedSchema === void 0 ? void 0 : resolvedSchema.schema,
+        };
     }
     /**
      * Flatten the Schema, resolving and replacing all the refs. Makes it into a synchronous schema
@@ -179,6 +166,7 @@ class CoreSchemaRegistry {
         return rxjs_1.from(this._flatten(schema));
     }
     async _flatten(schema) {
+        this._replaceDeprecatedSchemaIdKeyword(schema);
         this._ajv.removeSchema(schema);
         this._currentCompilationSchemaInfo = undefined;
         const validate = await this._ajv.compileAsync(schema);
@@ -211,6 +199,10 @@ class CoreSchemaRegistry {
         return rxjs_1.from(this._compile(schema)).pipe(operators_1.map(validate => (value, options) => rxjs_1.from(validate(value, options))));
     }
     async _compile(schema) {
+        if (typeof schema === 'boolean') {
+            return async (data) => ({ success: schema, data });
+        }
+        this._replaceDeprecatedSchemaIdKeyword(schema);
         const schemaInfo = {
             smartDefaultRecord: new Map(),
             promptDefinitions: [],
@@ -224,7 +216,8 @@ class CoreSchemaRegistry {
         finally {
             this._currentCompilationSchemaInfo = undefined;
         }
-        const validate = async (data, options) => {
+        return async (data, options) => {
+            var _a;
             const validationOptions = {
                 withPrompts: true,
                 applyPostTransforms: true,
@@ -237,7 +230,7 @@ class CoreSchemaRegistry {
             // Apply pre-validation transforms
             if (validationOptions.applyPreTransforms) {
                 for (const visitor of this._pre.values()) {
-                    data = await visitor_1.visitJson(data, visitor, schema, this._resolver, validator).toPromise();
+                    data = await visitor_1.visitJson(data, visitor, schema, this._resolver.bind(this), validator).toPromise();
                 }
             }
             // Apply smart defaults
@@ -251,7 +244,7 @@ class CoreSchemaRegistry {
                     return value;
                 };
                 if (typeof schema === 'object') {
-                    await visitor_1.visitJson(data, visitor, schema, this._resolver, validator).toPromise();
+                    await visitor_1.visitJson(data, visitor, schema, this._resolver.bind(this), validator).toPromise();
                 }
                 const definitions = schemaInfo.promptDefinitions
                     .filter(def => !validationContext.promptFieldsWithValue.has(def.id));
@@ -260,55 +253,21 @@ class CoreSchemaRegistry {
                 }
             }
             // Validate using ajv
-            const result = validator.call(validationContext, data);
-            let errors;
-            if (typeof result === 'boolean') {
-                // Synchronous result
-                if (!result) {
-                    errors = validator.errors || [];
-                }
-            }
-            else {
-                // Asynchronous result
-                try {
-                    await result;
-                }
-                catch (e) {
-                    if (e.ajv) {
-                        errors = e.errors || [];
-                    }
-                    else {
-                        throw e;
-                    }
-                }
-            }
-            if (errors) {
-                return { data, success: false, errors };
+            const success = await validator.call(validationContext, data);
+            if (!success) {
+                return { data, success, errors: (_a = validator.errors) !== null && _a !== void 0 ? _a : [] };
             }
             // Apply post-validation transforms
             if (validationOptions.applyPostTransforms) {
                 for (const visitor of this._post.values()) {
-                    data = await visitor_1.visitJson(data, visitor, schema, this._resolver, validator).toPromise();
+                    data = await visitor_1.visitJson(data, visitor, schema, this._resolver.bind(this), validator).toPromise();
                 }
             }
             return { data, success: true };
         };
-        return validate;
     }
     addFormat(format) {
-        const validate = (data) => {
-            const result = format.formatter.validate(data);
-            if (typeof result == 'boolean') {
-                return result;
-            }
-            else {
-                return result.toPromise();
-            }
-        };
-        this._ajv.addFormat(format.name, {
-            async: format.formatter.async,
-            validate,
-        });
+        this._ajv.addFormat(format.name, format.formatter);
     }
     addSmartDefaultProvider(source, provider) {
         if (this._sourceMap.has(source)) {
@@ -317,7 +276,8 @@ class CoreSchemaRegistry {
         this._sourceMap.set(source, provider);
         if (!this._smartDefaultKeyword) {
             this._smartDefaultKeyword = true;
-            this._ajv.addKeyword('$default', {
+            this._ajv.addKeyword({
+                keyword: '$default',
                 errors: false,
                 valid: true,
                 compile: (schema, _parentSchema, it) => {
@@ -326,9 +286,10 @@ class CoreSchemaRegistry {
                         return () => true;
                     }
                     // We cheat, heavily.
-                    compilationSchemInfo.smartDefaultRecord.set(
-                    // tslint:disable-next-line:no-any
-                    JSON.stringify(it.dataPathArr.slice(1, it.dataLevel + 1)), schema);
+                    const pathArray = it.dataPathArr
+                        .slice(1, it.dataLevel + 1)
+                        .map(p => typeof p === 'number' ? p : p.str.slice(1, -1));
+                    compilationSchemInfo.smartDefaultRecord.set(JSON.stringify(pathArray), schema);
                     return () => true;
                 },
                 metaSchema: {
@@ -351,7 +312,8 @@ class CoreSchemaRegistry {
         if (isSetup) {
             return;
         }
-        this._ajv.addKeyword('x-prompt', {
+        this._ajv.addKeyword({
+            keyword: 'x-prompt',
             errors: false,
             valid: true,
             compile: (schema, parentSchema, it) => {
@@ -359,9 +321,9 @@ class CoreSchemaRegistry {
                 if (!compilationSchemInfo) {
                     return () => true;
                 }
-                // tslint:disable-next-line:no-any
-                const pathArray = it.dataPathArr.slice(1, it.dataLevel + 1);
-                const path = '/' + pathArray.map(p => p.replace(/^\'/, '').replace(/\'$/, '')).join('/');
+                const path = '/' + it.dataPathArr
+                    .slice(1, it.dataLevel + 1)
+                    .map(p => typeof p === 'number' ? p : p.str.slice(1, -1)).join('/');
                 let type;
                 let items;
                 let message;
@@ -483,15 +445,8 @@ class CoreSchemaRegistry {
         }
         const answers = await rxjs_1.from(provider(prompts)).toPromise();
         for (const path in answers) {
-            const pathFragments = path.split('/').map(pf => {
-                if (/^\d+$/.test(pf)) {
-                    return pf;
-                }
-                else {
-                    return '\'' + pf + '\'';
-                }
-            });
-            CoreSchemaRegistry._set(data, pathFragments.slice(1), answers[path], null, undefined, true);
+            const pathFragments = path.split('/').slice(1);
+            CoreSchemaRegistry._set(data, pathFragments, answers[path], null, undefined, true);
         }
     }
     static _set(
@@ -510,34 +465,22 @@ class CoreSchemaRegistry {
                 }
                 return;
             }
-            else if (f.startsWith('key')) {
+            if (f.startsWith('key')) {
                 if (typeof data !== 'object') {
                     return;
                 }
-                Object.getOwnPropertyNames(data).forEach(property => {
+                for (const property in data) {
                     CoreSchemaRegistry._set(data[property], fragments.slice(i + 1), value, data, property);
-                });
-                return;
-            }
-            else if (f.startsWith('\'') && f[f.length - 1] == '\'') {
-                const property = f
-                    .slice(1, -1)
-                    .replace(/\\'/g, '\'')
-                    .replace(/\\n/g, '\n')
-                    .replace(/\\r/g, '\r')
-                    .replace(/\\f/g, '\f')
-                    .replace(/\\t/g, '\t');
-                // We know we need an object because the fragment is a property key.
-                if (!data && parent !== null && parentProperty) {
-                    data = parent[parentProperty] = {};
                 }
-                parent = data;
-                parentProperty = property;
-                data = data[property];
-            }
-            else {
                 return;
             }
+            // We know we need an object because the fragment is a property key.
+            if (!data && parent !== null && parentProperty) {
+                data = parent[parentProperty] = {};
+            }
+            parent = data;
+            parentProperty = f;
+            data = data[f];
         }
         if (parent && parentProperty && (force || parent[parentProperty] === undefined)) {
             parent[parentProperty] = value;
@@ -558,15 +501,28 @@ class CoreSchemaRegistry {
         }
     }
     useXDeprecatedProvider(onUsage) {
-        this._ajv.addKeyword('x-deprecated', {
-            validate: (schema, _data, _parentSchema, _dataPath, _parentDataObject, propertyName) => {
+        this._ajv.addKeyword({
+            keyword: 'x-deprecated',
+            validate: (schema, _data, _parentSchema, dataCxt) => {
                 if (schema) {
-                    onUsage(`Option "${propertyName}" is deprecated${typeof schema == 'string' ? ': ' + schema : '.'}`);
+                    onUsage(`Option "${dataCxt === null || dataCxt === void 0 ? void 0 : dataCxt.parentDataProperty}" is deprecated${typeof schema == 'string' ? ': ' + schema : '.'}`);
                 }
                 return true;
             },
             errors: false,
         });
+    }
+    /**
+     * Workaround to avoid a breaking change in downstream schematics.
+     * @deprecated will be removed in version 13.
+     */
+    _replaceDeprecatedSchemaIdKeyword(schema) {
+        if (typeof schema.id === 'string') {
+            schema.$id = schema.id;
+            delete schema.id;
+            // tslint:disable-next-line:no-console
+            console.warn(`"${schema.$id}" schema is using the keyword "id" which its support is deprecated. Use "$id" for schema ID.`);
+        }
     }
 }
 exports.CoreSchemaRegistry = CoreSchemaRegistry;
