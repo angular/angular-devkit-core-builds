@@ -450,37 +450,15 @@ class CoreSchemaRegistry {
         }
     }
     static _set(
-    // tslint:disable-next-line:no-any
-    data, fragments, value, 
-    // tslint:disable-next-line:no-any
-    parent = null, parentProperty, force) {
-        for (let i = 0; i < fragments.length; i++) {
-            const f = fragments[i];
-            if (f[0] == 'i') {
-                if (!Array.isArray(data)) {
-                    return;
-                }
-                for (let j = 0; j < data.length; j++) {
-                    CoreSchemaRegistry._set(data[j], fragments.slice(i + 1), value, data, '' + j);
-                }
-                return;
-            }
-            if (f.startsWith('key')) {
-                if (typeof data !== 'object') {
-                    return;
-                }
-                for (const property in data) {
-                    CoreSchemaRegistry._set(data[property], fragments.slice(i + 1), value, data, property);
-                }
-                return;
-            }
-            // We know we need an object because the fragment is a property key.
+    // tslint:disable-next-line: no-any
+    data, fragments, value, parent = null, parentProperty, force) {
+        for (const fragment of fragments) {
             if (!data && parent !== null && parentProperty) {
                 data = parent[parentProperty] = {};
             }
             parent = data;
-            parentProperty = f;
-            data = data[f];
+            parentProperty = fragment;
+            data = data[fragment];
         }
         if (parent && parentProperty && (force || parent[parentProperty] === undefined)) {
             parent[parentProperty] = value;
