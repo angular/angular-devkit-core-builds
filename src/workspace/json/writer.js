@@ -1,13 +1,13 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.writeJsonWorkspace = void 0;
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.writeJsonWorkspace = void 0;
 const magic_string_1 = require("magic-string");
 const metadata_1 = require("./metadata");
 const utilities_1 = require("./utilities");
