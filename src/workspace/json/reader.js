@@ -22,7 +22,7 @@ async function readJsonWorkspace(path, host) {
         throw new Error('Invalid workspace file - expected JSON object.');
     }
     // Version check
-    const versionNode = ast.properties.find(pair => pair.key.value === 'version');
+    const versionNode = ast.properties.find((pair) => pair.key.value === 'version');
     if (!versionNode) {
         throw new Error('Unknown format - version specifier not found.');
     }

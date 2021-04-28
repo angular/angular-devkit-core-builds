@@ -30,7 +30,9 @@ class Logger extends rxjs_1.Observable {
             this.parent._subject.subscribe(undefined, undefined, () => this.complete());
         }
     }
-    get _observable() { return this._obs; }
+    get _observable() {
+        return this._obs;
+    }
     set _observable(v) {
         if (this._subscription) {
             this._subscription.unsubscribe();
@@ -74,7 +76,9 @@ class Logger extends rxjs_1.Observable {
     }
     log(level, message, metadata = {}) {
         const entry = Object.assign({}, metadata, this._metadata, {
-            level, message, timestamp: +Date.now(),
+            level,
+            message,
+            timestamp: +Date.now(),
         });
         this._subject.next(entry);
     }

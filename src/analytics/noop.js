@@ -16,6 +16,8 @@ class NoopAnalytics {
     screenview() { }
     pageview() { }
     timing() { }
-    flush() { return Promise.resolve(); }
+    flush() {
+        return Promise.resolve();
+    }
 }
 exports.NoopAnalytics = NoopAnalytics;

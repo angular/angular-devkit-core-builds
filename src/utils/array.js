@@ -10,6 +10,6 @@ exports.clean = void 0;
  */
 /** @deprecated Since v12.0, unused by the Angular tooling */
 function clean(array) {
-    return array.filter(x => x !== undefined);
+    return array.filter((x) => x !== undefined);
 }
 exports.clean = clean;

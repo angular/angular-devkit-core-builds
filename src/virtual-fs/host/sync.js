@@ -10,7 +10,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SyncDelegateHost = exports.SynchronousDelegateExpectedException = void 0;
 const exception_1 = require("../../exception");
 class SynchronousDelegateExpectedException extends exception_1.BaseException {
-    constructor() { super(`Expected a synchronous delegate but got an asynchronous one.`); }
+    constructor() {
+        super(`Expected a synchronous delegate but got an asynchronous one.`);
+    }
 }
 exports.SynchronousDelegateExpectedException = SynchronousDelegateExpectedException;
 /**
@@ -29,7 +31,7 @@ class SyncDelegateHost {
         let errorResult = undefined;
         // Perf note: this is not using an observer object to avoid a performance penalty in RxJS.
         // See https://github.com/ReactiveX/rxjs/pull/5646 for details.
-        observable.subscribe((x) => result = x, (err) => errorResult = err, () => completed = true);
+        observable.subscribe((x) => (result = x), (err) => (errorResult = err), () => (completed = true));
         if (errorResult !== undefined) {
             throw errorResult;
         }

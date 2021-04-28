@@ -69,17 +69,18 @@ function addUndefinedDefaults(value, _pointer, schema) {
                 const propertySchemas = schemaObject.oneOf || schemaObject.anyOf;
                 const allProperties = Object.keys(value);
                 // Locate a schema which declares all the properties that the object contains.
-                const adjustedSchema = interface_1.isJsonArray(propertySchemas) && propertySchemas.find(s => {
-                    if (!interface_1.isJsonObject(s)) {
+                const adjustedSchema = interface_1.isJsonArray(propertySchemas) &&
+                    propertySchemas.find((s) => {
+                        if (!interface_1.isJsonObject(s)) {
+                            return false;
+                        }
+                        const schemaType = utility_1.getTypesOfSchema(s);
+                        if (schemaType.size === 1 && schemaType.has('object') && interface_1.isJsonObject(s.properties)) {
+                            const properties = Object.keys(s.properties);
+                            return allProperties.every((key) => properties.includes(key));
+                        }
                         return false;
-                    }
-                    const schemaType = utility_1.getTypesOfSchema(s);
-                    if (schemaType.size === 1 && schemaType.has('object') && interface_1.isJsonObject(s.properties)) {
-                        const properties = Object.keys(s.properties);
-                        return allProperties.every(key => properties.includes(key));
-                    }
-                    return false;
-                });
+                    });
                 if (adjustedSchema && interface_1.isJsonObject(adjustedSchema)) {
                     newValue[propName] = addUndefinedDefaults(value, _pointer, adjustedSchema);
                 }

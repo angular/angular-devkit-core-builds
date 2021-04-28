@@ -23,7 +23,7 @@ class JsonWorkspaceMetadata {
         return this.changes.length;
     }
     findChangesForPath(path) {
-        return this.changes.filter(c => c.path === path);
+        return this.changes.filter((c) => c.path === path);
     }
     addChange(op, path, node, value, type) {
         // Remove redundant operations

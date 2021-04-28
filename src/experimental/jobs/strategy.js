@@ -22,7 +22,7 @@ var strategy;
         return (handler, options) => {
             const newHandler = (argument, context) => {
                 const previous = latest;
-                latest = rxjs_1.concat(previous.pipe(operators_1.ignoreElements()), new rxjs_1.Observable(o => handler(argument, context).subscribe(o))).pipe(operators_1.shareReplay(0));
+                latest = rxjs_1.concat(previous.pipe(operators_1.ignoreElements()), new rxjs_1.Observable((o) => handler(argument, context).subscribe(o))).pipe(operators_1.shareReplay(0));
                 return latest;
             };
             return Object.assign(newHandler, {
@@ -49,10 +49,10 @@ var strategy;
                     // Update state.
                     rxjs_1.of(state), run).pipe(operators_1.finalize(() => subscription.unsubscribe()));
                 }
-                run = handler(argument, { ...context, inboundBus: inboundBus.asObservable() }).pipe(operators_1.tap(message => {
-                    if (message.kind == api_1.JobOutboundMessageKind.Start
-                        || message.kind == api_1.JobOutboundMessageKind.OnReady
-                        || message.kind == api_1.JobOutboundMessageKind.End) {
+                run = handler(argument, { ...context, inboundBus: inboundBus.asObservable() }).pipe(operators_1.tap((message) => {
+                    if (message.kind == api_1.JobOutboundMessageKind.Start ||
+                        message.kind == api_1.JobOutboundMessageKind.OnReady ||
+                        message.kind == api_1.JobOutboundMessageKind.End) {
                         state = message;
                     }
                 }, undefined, () => {

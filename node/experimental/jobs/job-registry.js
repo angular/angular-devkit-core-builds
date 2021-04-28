@@ -40,7 +40,7 @@ class NodeModuleJobRegistry {
             return rxjs_1.of(null);
         }
         function _getValue(...fields) {
-            return fields.find(x => src_1.schema.isJsonSchema(x)) || true;
+            return fields.find((x) => src_1.schema.isJsonSchema(x)) || true;
         }
         const argument = _getValue(pkg.argument, handler.argument);
         const input = _getValue(pkg.input, handler.input);

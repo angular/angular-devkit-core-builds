@@ -21,7 +21,7 @@ class FallbackRegistry {
         this._fallbacks.push(registry);
     }
     get(name) {
-        return rxjs_1.from(this._fallbacks).pipe(operators_1.concatMap(fb => fb.get(name)), operators_1.first(x => x !== null, null));
+        return rxjs_1.from(this._fallbacks).pipe(operators_1.concatMap((fb) => fb.get(name)), operators_1.first((x) => x !== null, null));
     }
 }
 exports.FallbackRegistry = FallbackRegistry;

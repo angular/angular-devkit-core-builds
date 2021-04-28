@@ -212,7 +212,7 @@ function updateJsonWorkspace(metadata) {
             case 'remove':
                 let removalIndex = -1;
                 if (node.kind === 'object') {
-                    removalIndex = elements.findIndex(e => {
+                    removalIndex = elements.findIndex((e) => {
                         return typeof e != 'string' && e.kind === 'keyvalue' && e.key.value === propertyOrIndex;
                     });
                 }
