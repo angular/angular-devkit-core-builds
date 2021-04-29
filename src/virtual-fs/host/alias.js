@@ -79,6 +79,8 @@ class AliasHost extends resolver_1.ResolverHost {
         }
         return maybeAlias || path;
     }
-    get aliases() { return this._aliases; }
+    get aliases() {
+        return this._aliases;
+    }
 }
 exports.AliasHost = AliasHost;

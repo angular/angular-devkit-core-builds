@@ -86,7 +86,7 @@ class CoreSchemaRegistry {
         return new Promise((resolve, reject) => {
             const url = new Url.URL(uri);
             const client = url.protocol === 'https:' ? https : http;
-            client.get(url, res => {
+            client.get(url, (res) => {
                 if (!res.statusCode || res.statusCode >= 300) {
                     // Consume the rest of the data to free memory.
                     res.resume();
@@ -95,7 +95,7 @@ class CoreSchemaRegistry {
                 else {
                     res.setEncoding('utf8');
                     let data = '';
-                    res.on('data', chunk => {
+                    res.on('data', (chunk) => {
                         data += chunk;
                     });
                     res.on('end', () => {
@@ -172,12 +172,12 @@ class CoreSchemaRegistry {
         const validate = await this._ajv.compileAsync(schema);
         const self = this;
         function visitor(current, pointer, parentSchema, index) {
-            if (current
-                && parentSchema
-                && index
-                && interface_1.isJsonObject(current)
-                && current.hasOwnProperty('$ref')
-                && typeof current['$ref'] == 'string') {
+            if (current &&
+                parentSchema &&
+                index &&
+                interface_1.isJsonObject(current) &&
+                current.hasOwnProperty('$ref') &&
+                typeof current['$ref'] == 'string') {
                 const resolved = self._resolver(current['$ref'], validate);
                 if (resolved.schema) {
                     parentSchema[index] = resolved.schema;
@@ -196,7 +196,7 @@ class CoreSchemaRegistry {
      * @returns An Observable of the Validation function.
      */
     compile(schema) {
-        return rxjs_1.from(this._compile(schema)).pipe(operators_1.map(validate => (value, options) => rxjs_1.from(validate(value, options))));
+        return rxjs_1.from(this._compile(schema)).pipe(operators_1.map((validate) => (value, options) => rxjs_1.from(validate(value, options))));
     }
     async _compile(schema) {
         if (typeof schema === 'boolean') {
@@ -246,8 +246,7 @@ class CoreSchemaRegistry {
                 if (typeof schema === 'object') {
                     await visitor_1.visitJson(data, visitor, schema, this._resolver.bind(this), validator).toPromise();
                 }
-                const definitions = schemaInfo.promptDefinitions
-                    .filter(def => !validationContext.promptFieldsWithValue.has(def.id));
+                const definitions = schemaInfo.promptDefinitions.filter((def) => !validationContext.promptFieldsWithValue.has(def.id));
                 if (definitions.length > 0) {
                     await this._applyPrompts(data, definitions);
                 }
@@ -288,7 +287,7 @@ class CoreSchemaRegistry {
                     // We cheat, heavily.
                     const pathArray = it.dataPathArr
                         .slice(1, it.dataLevel + 1)
-                        .map(p => typeof p === 'number' ? p : p.str.slice(1, -1));
+                        .map((p) => (typeof p === 'number' ? p : p.str.slice(1, -1)));
                     compilationSchemInfo.smartDefaultRecord.set(JSON.stringify(pathArray), schema);
                     return () => true;
                 },
@@ -321,9 +320,11 @@ class CoreSchemaRegistry {
                 if (!compilationSchemInfo) {
                     return () => true;
                 }
-                const path = '/' + it.dataPathArr
-                    .slice(1, it.dataLevel + 1)
-                    .map(p => typeof p === 'number' ? p : p.str.slice(1, -1)).join('/');
+                const path = '/' +
+                    it.dataPathArr
+                        .slice(1, it.dataLevel + 1)
+                        .map((p) => (typeof p === 'number' ? p : p.str.slice(1, -1)))
+                        .join('/');
                 let type;
                 let items;
                 let message;
@@ -360,7 +361,8 @@ class CoreSchemaRegistry {
                             ? propertyTypes.size === 1 && propertyTypes.has('array')
                             : schema.multiselect;
                     const enumValues = multiselect
-                        ? parentSchema.items && parentSchema.items.enum
+                        ? parentSchema.items &&
+                            parentSchema.items.enum
                         : parentSchema.enum;
                     if (!items && Array.isArray(enumValues)) {
                         items = [];

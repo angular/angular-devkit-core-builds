@@ -11,7 +11,7 @@ exports.createVirtualAstObject = exports.unescapeKey = exports.escapeKey = void 
 const stableStringify = require("fast-json-stable-stringify");
 function findNode(parent, p) {
     if (parent.kind === 'object') {
-        const entry = parent.properties.find(entry => entry.key.value === p);
+        const entry = parent.properties.find((entry) => entry.key.value === p);
         if (entry) {
             return { node: entry.value, parent: entry };
         }
@@ -215,8 +215,8 @@ function create(ast, path, reporter, excluded = new Set(), included, base) {
             let keys;
             if (ast.kind === 'object') {
                 keys = ast.properties
-                    .map(entry => entry.key.value)
-                    .filter(p => !excluded.has(p) && (!included || included.has(p)));
+                    .map((entry) => entry.key.value)
+                    .filter((p) => !excluded.has(p) && (!included || included.has(p)));
             }
             else {
                 keys = [];

@@ -23,8 +23,8 @@ class IndentLogger extends logger_1.Logger {
         super(name, parent);
         indentationMap[indentation] = indentationMap[indentation] || [''];
         const indentMap = indentationMap[indentation];
-        this._observable = this._observable.pipe(operators_1.map(entry => {
-            const l = entry.path.filter(x => !!x).length;
+        this._observable = this._observable.pipe(operators_1.map((entry) => {
+            const l = entry.path.filter((x) => !!x).length;
             if (l >= indentMap.length) {
                 let current = indentMap[indentMap.length - 1];
                 while (l >= indentMap.length) {

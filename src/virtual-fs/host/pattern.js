@@ -18,17 +18,19 @@ class PatternMatchingHost extends resolver_1.ResolverHost {
     }
     addPattern(pattern, replacementFn) {
         // Simple GLOB pattern replacement.
-        const reString = '^('
-            + (Array.isArray(pattern) ? pattern : [pattern])
-                .map(ex => '('
-                + ex.split(/[\/\\]/g).map(f => f
+        const reString = '^(' +
+            (Array.isArray(pattern) ? pattern : [pattern])
+                .map((ex) => '(' +
+                ex
+                    .split(/[\/\\]/g)
+                    .map((f) => f
                     .replace(/[\-\[\]{}()+?.^$|]/g, '\\$&')
                     .replace(/^\*\*/g, '(.+?)?')
                     .replace(/\*/g, '[^/\\\\]*'))
-                    .join('[\/\\\\]')
-                + ')')
-                .join('|')
-            + ')($|/|\\\\)';
+                    .join('[/\\\\]') +
+                ')')
+                .join('|') +
+            ')($|/|\\\\)';
         this._patterns.set(new RegExp(reString), replacementFn);
     }
     _resolve(path) {

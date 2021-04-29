@@ -32,8 +32,9 @@ var test;
         get files() {
             const sync = this.sync;
             function _visit(p) {
-                return sync.list(p)
-                    .map(fragment => path_1.join(p, fragment))
+                return sync
+                    .list(p)
+                    .map((fragment) => path_1.join(p, fragment))
                     .reduce((files, path) => {
                     if (sync.isDirectory(path)) {
                         return files.concat(_visit(path));

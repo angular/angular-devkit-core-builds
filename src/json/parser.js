@@ -107,8 +107,16 @@ function _readExpNumber(context, start, str, comments) {
             signed = true;
             str += char;
         }
-        else if (char == '0' || char == '1' || char == '2' || char == '3' || char == '4'
-            || char == '5' || char == '6' || char == '7' || char == '8' || char == '9') {
+        else if (char == '0' ||
+            char == '1' ||
+            char == '2' ||
+            char == '3' ||
+            char == '4' ||
+            char == '5' ||
+            char == '6' ||
+            char == '7' ||
+            char == '8' ||
+            char == '9') {
             signed = true;
             str += char;
         }
@@ -169,9 +177,9 @@ function _readNumber(context, comments = _readBlanks(context)) {
                 throw new InvalidJsonCharacterException(context);
             }
         }
-        else if (char == 'I'
-            && (str == '-' || str == '' || str == '+')
-            && (context.mode & JsonParseMode.NumberConstantsAllowed) != 0) {
+        else if (char == 'I' &&
+            (str == '-' || str == '' || str == '+') &&
+            (context.mode & JsonParseMode.NumberConstantsAllowed) != 0) {
             // Infinity?
             // _token(context, 'I'); Already read.
             _token(context, 'n');
@@ -189,8 +197,15 @@ function _readNumber(context, comments = _readBlanks(context)) {
                 throw new InvalidJsonCharacterException(context);
             }
         }
-        else if (char == '1' || char == '2' || char == '3' || char == '4' || char == '5'
-            || char == '6' || char == '7' || char == '8' || char == '9') {
+        else if (char == '1' ||
+            char == '2' ||
+            char == '3' ||
+            char == '4' ||
+            char == '5' ||
+            char == '6' ||
+            char == '7' ||
+            char == '8' ||
+            char == '9') {
             if (str == '0' || str == '-0') {
                 throw new InvalidJsonCharacterException(context);
             }
@@ -207,8 +222,9 @@ function _readNumber(context, comments = _readBlanks(context)) {
         else if (char == 'e' || char == 'E') {
             return _readExpNumber(context, start, str + char, comments);
         }
-        else if (char == 'x' && (str == '0' || str == '-0')
-            && (context.mode & JsonParseMode.HexadecimalNumberAllowed) != 0) {
+        else if (char == 'x' &&
+            (str == '0' || str == '-0') &&
+            (context.mode & JsonParseMode.HexadecimalNumberAllowed) != 0) {
             return _readHexaNumber(context, str == '-0', start, comments);
         }
         else {
@@ -241,7 +257,7 @@ function _readString(context, comments = _readBlanks(context)) {
     // Consume the first string delimiter.
     const delim = _token(context);
     if ((context.mode & JsonParseMode.SingleQuotesAllowed) == 0) {
-        if (delim == '\'') {
+        if (delim == "'") {
             throw new InvalidJsonCharacterException(context);
         }
     }
@@ -262,7 +278,7 @@ function _readString(context, comments = _readBlanks(context)) {
             char = _token(context);
             switch (char) {
                 case '\\':
-                case '\/':
+                case '/':
                 case '"':
                 case delim:
                     str += char;
@@ -454,8 +470,8 @@ function _readIdentifier(context, comments = _readBlanks(context)) {
     let value = '';
     while (true) {
         char = _token(context);
-        if (char == undefined
-            || (first ? identValidFirstChar.indexOf(char) : identValidChar.indexOf(char)) == -1) {
+        if (char == undefined ||
+            (first ? identValidFirstChar.indexOf(char) : identValidChar.indexOf(char)) == -1) {
             context.position = context.previous;
             return {
                 kind: 'identifier',
@@ -480,7 +496,7 @@ function _readProperty(context, comments = _readBlanks(context)) {
     let key;
     if ((context.mode & JsonParseMode.IdentifierKeyNamesAllowed) != 0) {
         const top = _peek(context);
-        if (top == '"' || top == '\'') {
+        if (top == '"' || top == "'") {
             key = _readString(context);
         }
         else {
@@ -556,8 +572,8 @@ function _readBlanks(context) {
                 // Multi line comment.
                 _next(context);
                 _next(context);
-                while (context.original[context.position.offset] != '*'
-                    || context.original[context.position.offset + 1] != '/') {
+                while (context.original[context.position.offset] != '*' ||
+                    context.original[context.position.offset + 1] != '/') {
                     _next(context);
                     if (context.position.offset >= context.original.length) {
                         throw new UnexpectedEndOfInputException(context);
@@ -646,7 +662,7 @@ function _readValue(context, comments = _readBlanks(context)) {
             }
             result = _readNumber(context, comments);
             break;
-        case '\'':
+        case "'":
         case '"':
             result = _readString(context, comments);
             break;
@@ -728,8 +744,8 @@ function parseJsonAst(input, mode = JsonParseMode.Default) {
     if (context.position.offset < input.length) {
         const rest = input.substr(context.position.offset);
         const i = rest.length > 20 ? rest.substr(0, 20) + '...' : rest;
-        throw new Error(`Expected end of file, got "${i}" at `
-            + `${context.position.line}:${context.position.character}.`);
+        throw new Error(`Expected end of file, got "${i}" at ` +
+            `${context.position.line}:${context.position.character}.`);
     }
     return ast;
 }

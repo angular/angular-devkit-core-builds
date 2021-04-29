@@ -26,7 +26,8 @@ class TempScopedNodeJsSyncHost extends src_1.virtualFs.ScopedHost {
     get files() {
         const sync = this.sync;
         function _visit(p) {
-            return sync.list(p)
+            return sync
+                .list(p)
                 .map((fragment) => src_1.join(p, fragment))
                 .reduce((files, path) => {
                 if (sync.isDirectory(path)) {
@@ -39,7 +40,9 @@ class TempScopedNodeJsSyncHost extends src_1.virtualFs.ScopedHost {
         }
         return _visit(src_1.normalize('/'));
     }
-    get root() { return this._root; }
+    get root() {
+        return this._root;
+    }
     get sync() {
         if (!this._sync) {
             this._sync = new src_1.virtualFs.SyncDelegateHost(this);

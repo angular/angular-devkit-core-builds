@@ -10,11 +10,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PartiallyOrderedSet = exports.CircularDependencyFoundException = exports.DependencyNotFoundException = void 0;
 const exception_1 = require("../exception");
 class DependencyNotFoundException extends exception_1.BaseException {
-    constructor() { super('One of the dependencies is not part of the set.'); }
+    constructor() {
+        super('One of the dependencies is not part of the set.');
+    }
 }
 exports.DependencyNotFoundException = DependencyNotFoundException;
 class CircularDependencyFoundException extends exception_1.BaseException {
-    constructor() { super('Circular dependencies found.'); }
+    constructor() {
+        super('Circular dependencies found.');
+    }
 }
 exports.CircularDependencyFoundException = CircularDependencyFoundException;
 class PartiallyOrderedSet {
@@ -25,7 +29,7 @@ class PartiallyOrderedSet {
         if (deps.has(item)) {
             throw new CircularDependencyFoundException();
         }
-        deps.forEach(dep => this._checkCircularDependencies(item, this._items.get(dep) || new Set()));
+        deps.forEach((dep) => this._checkCircularDependencies(item, this._items.get(dep) || new Set()));
     }
     clear() {
         this._items.clear();
@@ -107,7 +111,7 @@ class PartiallyOrderedSet {
             return false;
         }
         // Remove it from all dependencies if force == true.
-        this._items.forEach(value => value.delete(item));
+        this._items.forEach((value) => value.delete(item));
         return this._items.delete(item);
     }
     *[Symbol.iterator]() {
@@ -124,7 +128,7 @@ class PartiallyOrderedSet {
                 }
             }
             for (const item of run) {
-                copy.forEach(s => s.delete(item));
+                copy.forEach((s) => s.delete(item));
                 copy.delete(item);
                 yield item;
             }

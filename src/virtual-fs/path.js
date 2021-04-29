@@ -10,15 +10,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getSystemPath = exports.asPosixPath = exports.asWindowsPath = exports.path = exports.noCacheNormalize = exports.normalize = exports.resetNormalizeCache = exports.fragment = exports.resolve = exports.relative = exports.isAbsolute = exports.join = exports.dirname = exports.basename = exports.extname = exports.split = exports.NormalizedRoot = exports.NormalizedSep = exports.PathCannotBeFragmentException = exports.PathMustBeAbsoluteException = exports.InvalidPathException = void 0;
 const exception_1 = require("../exception");
 class InvalidPathException extends exception_1.BaseException {
-    constructor(path) { super(`Path ${JSON.stringify(path)} is invalid.`); }
+    constructor(path) {
+        super(`Path ${JSON.stringify(path)} is invalid.`);
+    }
 }
 exports.InvalidPathException = InvalidPathException;
 class PathMustBeAbsoluteException extends exception_1.BaseException {
-    constructor(path) { super(`Path ${JSON.stringify(path)} must be absolute.`); }
+    constructor(path) {
+        super(`Path ${JSON.stringify(path)} must be absolute.`);
+    }
 }
 exports.PathMustBeAbsoluteException = PathMustBeAbsoluteException;
 class PathCannotBeFragmentException extends exception_1.BaseException {
-    constructor(path) { super(`Path ${JSON.stringify(path)} cannot be made a fragment.`); }
+    constructor(path) {
+        super(`Path ${JSON.stringify(path)} cannot be made a fragment.`);
+    }
 }
 exports.PathCannotBeFragmentException = PathCannotBeFragmentException;
 /**
@@ -38,7 +44,7 @@ exports.NormalizedRoot = exports.NormalizedSep;
  * @returns {Path[]} An array of path fragments.
  */
 function split(path) {
-    const fragments = path.split(exports.NormalizedSep).map(x => fragment(x));
+    const fragments = path.split(exports.NormalizedSep).map((x) => fragment(x));
     if (fragments[fragments.length - 1].length === 0) {
         fragments.pop();
     }
@@ -130,7 +136,10 @@ function relative(from, to) {
             p = splitTo.join(exports.NormalizedSep);
         }
         else {
-            p = splitFrom.map(_ => '..').concat(splitTo).join(exports.NormalizedSep);
+            p = splitFrom
+                .map((_) => '..')
+                .concat(splitTo)
+                .join(exports.NormalizedSep);
         }
     }
     return normalize(p);

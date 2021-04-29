@@ -62,7 +62,9 @@ class SimpleJobRegistry {
             output,
             input,
         };
-        const jobHandler = Object.assign(handler.bind(undefined), { jobDescription });
+        const jobHandler = Object.assign(handler.bind(undefined), {
+            jobDescription,
+        });
         this._jobNames.set(name, jobHandler);
     }
     /**

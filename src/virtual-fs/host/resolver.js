@@ -16,7 +16,9 @@ class ResolverHost {
     constructor(_delegate) {
         this._delegate = _delegate;
     }
-    get capabilities() { return this._delegate.capabilities; }
+    get capabilities() {
+        return this._delegate.capabilities;
+    }
     write(path, content) {
         return this._delegate.write(this._resolve(path), content);
     }

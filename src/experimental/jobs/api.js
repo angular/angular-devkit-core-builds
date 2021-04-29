@@ -68,8 +68,6 @@ var JobState;
 })(JobState = exports.JobState || (exports.JobState = {}));
 function isJobHandler(value) {
     const job = value;
-    return typeof job == 'function'
-        && typeof job.jobDescription == 'object'
-        && job.jobDescription !== null;
+    return (typeof job == 'function' && typeof job.jobDescription == 'object' && job.jobDescription !== null);
 }
 exports.isJobHandler = isJobHandler;
