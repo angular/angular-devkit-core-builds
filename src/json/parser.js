@@ -8,6 +8,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.parseJson = exports.parseJsonAst = exports.JsonParseMode = exports.PathSpecificJsonException = exports.UnexpectedEndOfInputException = exports.InvalidJsonCharacterException = exports.JsonException = void 0;
+/* eslint-disable no-constant-condition */
 const exception_1 = require("../exception");
 class JsonException extends exception_1.BaseException {
 }

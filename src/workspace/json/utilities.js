@@ -8,7 +8,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createVirtualAstObject = exports.unescapeKey = exports.escapeKey = void 0;
-const stableStringify = require("fast-json-stable-stringify");
+const stableStringify = require('fast-json-stable-stringify');
 function findNode(parent, p) {
     if (parent.kind === 'object') {
         const entry = parent.properties.find((entry) => entry.key.value === p);
@@ -135,7 +135,7 @@ function create(ast, path, reporter, excluded = new Set(), included, base) {
         set(target, p, value) {
             if (value === undefined) {
                 // setting to undefined is equivalent to a delete
-                // tslint:disable-next-line: no-non-null-assertion
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 return this.deleteProperty(target, p);
             }
             if (typeof p === 'symbol' || Reflect.has(target, p)) {

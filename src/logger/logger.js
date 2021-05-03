@@ -107,7 +107,10 @@ class Logger extends rxjs_1.Observable {
         return this._observable.lift(operator);
     }
     subscribe(_observerOrNext, _error, _complete) {
-        return this._observable.subscribe.apply(this._observable, arguments);
+        // eslint-disable-next-line prefer-spread
+        return this._observable.subscribe.apply(this._observable, 
+        // eslint-disable-next-line prefer-rest-params
+        arguments);
     }
     forEach(next, PromiseCtor) {
         return this._observable.forEach(next, PromiseCtor);

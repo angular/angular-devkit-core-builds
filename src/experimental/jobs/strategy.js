@@ -11,7 +11,8 @@ exports.strategy = void 0;
 const rxjs_1 = require("rxjs");
 const operators_1 = require("rxjs/operators");
 const api_1 = require("./api");
-const stableStringify = require("fast-json-stable-stringify");
+const stableStringify = require('fast-json-stable-stringify');
+// eslint-disable-next-line @typescript-eslint/no-namespace
 var strategy;
 (function (strategy) {
     /**

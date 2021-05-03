@@ -17,10 +17,10 @@ function mapObject(obj, mapper) {
 }
 exports.mapObject = mapObject;
 const copySymbol = Symbol();
-// tslint:disable-next-line:no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function deepCopy(value) {
     if (Array.isArray(value)) {
-        // tslint:disable-next-line:no-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return value.map((o) => deepCopy(o));
     }
     else if (value && typeof value === 'object') {

@@ -18,6 +18,6 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.virtualFs = void 0;
-__exportStar(require("./path"), exports);
 const virtualFs = require("./host/index");
 exports.virtualFs = virtualFs;
+__exportStar(require("./path"), exports);

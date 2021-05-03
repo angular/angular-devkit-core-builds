@@ -29,7 +29,7 @@ let FSWatcher;
 function loadFSWatcher() {
     if (!FSWatcher) {
         try {
-            // tslint:disable-next-line:no-implicit-dependencies
+            // eslint-disable-next-line import/no-extraneous-dependencies
             FSWatcher = require('chokidar').FSWatcher;
         }
         catch (e) {
@@ -195,11 +195,11 @@ class NodeJsSyncHost {
         });
     }
     isDirectory(path) {
-        // tslint:disable-next-line:no-non-null-assertion
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return this.stat(path).pipe(operators_1.map((stat) => stat.isDirectory()));
     }
     isFile(path) {
-        // tslint:disable-next-line:no-non-null-assertion
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return this.stat(path).pipe(operators_1.map((stat) => stat.isFile()));
     }
     // Some hosts may not support stat.

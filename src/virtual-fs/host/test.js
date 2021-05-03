@@ -12,6 +12,7 @@ const path_1 = require("../path");
 const buffer_1 = require("./buffer");
 const memory_1 = require("./memory");
 const sync_1 = require("./sync");
+// eslint-disable-next-line @typescript-eslint/no-namespace
 var test;
 (function (test) {
     class TestHost extends memory_1.SimpleMemoryHost {

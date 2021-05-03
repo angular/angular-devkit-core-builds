@@ -137,7 +137,7 @@ function relative(from, to) {
         }
         else {
             p = splitFrom
-                .map((_) => '..')
+                .map(() => '..')
                 .concat(splitTo)
                 .join(exports.NormalizedSep);
         }

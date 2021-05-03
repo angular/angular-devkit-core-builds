@@ -18,11 +18,11 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.transforms = void 0;
+const transforms = require("./transforms");
+exports.transforms = transforms;
 __exportStar(require("./interface"), exports);
 __exportStar(require("./pointer"), exports);
 __exportStar(require("./registry"), exports);
 __exportStar(require("./schema"), exports);
 __exportStar(require("./visitor"), exports);
 __exportStar(require("./utility"), exports);
-const transforms = require("./transforms");
-exports.transforms = transforms;
