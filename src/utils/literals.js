@@ -8,7 +8,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.trimNewlines = exports.stripIndents = exports.stripIndent = exports.indentBy = exports.oneLine = void 0;
-// tslint:disable-next-line:no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function oneLine(strings, ...values) {
     const endResult = String.raw(strings, ...values);
     return endResult.replace(/(?:\r?\n(?:\s*))+/gm, ' ').trim();
@@ -24,7 +24,7 @@ function indentBy(indentations) {
     };
 }
 exports.indentBy = indentBy;
-// tslint:disable-next-line:no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function stripIndent(strings, ...values) {
     const endResult = String.raw(strings, ...values);
     // remove the shortest leading indentation from each line
@@ -38,7 +38,7 @@ function stripIndent(strings, ...values) {
     return (indent > 0 ? endResult.replace(regexp, '') : endResult).trim();
 }
 exports.stripIndent = stripIndent;
-// tslint:disable-next-line:no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function stripIndents(strings, ...values) {
     return String.raw(strings, ...values)
         .split('\n')
@@ -47,7 +47,7 @@ function stripIndents(strings, ...values) {
         .trim();
 }
 exports.stripIndents = stripIndents;
-// tslint:disable-next-line:no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function trimNewlines(strings, ...values) {
     const endResult = String.raw(strings, ...values);
     return (endResult

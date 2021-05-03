@@ -170,13 +170,14 @@ class CoreSchemaRegistry {
         this._ajv.removeSchema(schema);
         this._currentCompilationSchemaInfo = undefined;
         const validate = await this._ajv.compileAsync(schema);
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
         const self = this;
         function visitor(current, pointer, parentSchema, index) {
             if (current &&
                 parentSchema &&
                 index &&
                 interface_1.isJsonObject(current) &&
-                current.hasOwnProperty('$ref') &&
+                Object.prototype.hasOwnProperty.call(current, '$ref') &&
                 typeof current['$ref'] == 'string') {
                 const resolved = self._resolver(current['$ref'], validate);
                 if (resolved.schema) {
@@ -452,7 +453,7 @@ class CoreSchemaRegistry {
         }
     }
     static _set(
-    // tslint:disable-next-line: no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data, fragments, value, parent = null, parentProperty, force) {
         for (const fragment of fragments) {
             if (!data && parent !== null && parentProperty) {
@@ -500,7 +501,7 @@ class CoreSchemaRegistry {
         if (typeof schema.id === 'string') {
             schema.$id = schema.id;
             delete schema.id;
-            // tslint:disable-next-line:no-console
+            // eslint-disable-next-line no-console
             console.warn(`"${schema.$id}" schema is using the keyword "id" which its support is deprecated. Use "$id" for schema ID.`);
         }
     }

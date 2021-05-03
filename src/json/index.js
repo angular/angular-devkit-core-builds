@@ -18,7 +18,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.schema = void 0;
-__exportStar(require("./interface"), exports);
-__exportStar(require("./parser"), exports);
 const schema = require("./schema/index");
 exports.schema = schema;
+__exportStar(require("./interface"), exports);
+__exportStar(require("./parser"), exports);

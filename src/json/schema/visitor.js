@@ -37,6 +37,7 @@ function _visitJsonRecursive(json, visitor, ptr, schema, refResolver, context, r
         // There's no schema definition, so just visit the JSON recursively.
         schema = undefined;
     }
+    // eslint-disable-next-line no-prototype-builtins
     if (schema && schema.hasOwnProperty('$ref') && typeof schema['$ref'] == 'string') {
         if (refResolver) {
             const resolved = refResolver(schema['$ref'], context);

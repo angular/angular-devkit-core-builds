@@ -12,7 +12,7 @@ exports.isPromise = void 0;
 /**
  * Determine if the argument is shaped like a Promise
  */
-// tslint:disable-next-line:no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isPromise(obj) {
     // allow any Promise/A+ compliant thenable.
     // It's up to the caller to ensure that obj.then conforms to the spec
