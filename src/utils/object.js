@@ -1,6 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.deepCopy = exports.mapObject = void 0;
 /**
  * @license
  * Copyright Google LLC All Rights Reserved.
@@ -8,6 +6,8 @@ exports.deepCopy = exports.mapObject = void 0;
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.deepCopy = exports.mapObject = void 0;
 /** @deprecated Since v12.0, unused by the Angular tooling */
 function mapObject(obj, mapper) {
     return Object.keys(obj).reduce((acc, k) => {

@@ -1,6 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.UnsupportedPlatformException = exports.UnimplementedException = exports.MergeConflictException = exports.InvalidUpdateRecordException = exports.ContentHasMutatedException = exports.PathIsFileException = exports.PathIsDirectoryException = exports.FileAlreadyExistException = exports.FileDoesNotExistException = exports.UnknownException = exports.BaseException = void 0;
 /**
  * @license
  * Copyright Google LLC All Rights Reserved.
@@ -8,6 +6,8 @@ exports.UnsupportedPlatformException = exports.UnimplementedException = exports.
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UnsupportedPlatformException = exports.UnimplementedException = exports.MergeConflictException = exports.InvalidUpdateRecordException = exports.ContentHasMutatedException = exports.PathIsFileException = exports.PathIsDirectoryException = exports.FileAlreadyExistException = exports.FileDoesNotExistException = exports.UnknownException = exports.BaseException = void 0;
 class BaseException extends Error {
     constructor(message = '') {
         super(message);
