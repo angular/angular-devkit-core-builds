@@ -212,7 +212,7 @@ class CoreSchemaRegistry {
         let validator;
         try {
             this._currentCompilationSchemaInfo = schemaInfo;
-            validator = await this._ajv.compileAsync(schema);
+            validator = this._ajv.compile(schema);
         }
         finally {
             this._currentCompilationSchemaInfo = undefined;
