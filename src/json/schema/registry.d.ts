@@ -81,5 +81,4 @@ export declare class CoreSchemaRegistry implements SchemaRegistry {
      * @deprecated will be removed in version 13.
      */
     private _replaceDeprecatedSchemaIdKeyword;
-    private normalizeDataPathArr;
 }

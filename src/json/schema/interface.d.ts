@@ -16,7 +16,7 @@ export interface SchemaValidatorResult {
     success: boolean;
     errors?: SchemaValidatorError[];
 }
-export declare type SchemaValidatorError = Partial<ErrorObject>;
+export declare type SchemaValidatorError = ErrorObject;
 export interface SchemaValidatorOptions {
     applyPreTransforms?: boolean;
     applyPostTransforms?: boolean;
