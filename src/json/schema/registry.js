@@ -36,9 +36,17 @@ class SchemaValidationException extends exception_1.BaseException {
             return [];
         }
         const messages = errors.map((err) => {
+            var _a;
             let message = `Data path ${JSON.stringify(err.instancePath)} ${err.message}`;
-            if (err.keyword === 'additionalProperties') {
-                message += `(${err.params.additionalProperty})`;
+            if (err.params) {
+                switch (err.keyword) {
+                    case 'additionalProperties':
+                        message += `(${err.params.additionalProperty})`;
+                        break;
+                    case 'enum':
+                        message += `. Allowed values are: ${(_a = err.params.allowedValues) === null || _a === void 0 ? void 0 : _a.map((v) => `"${v}"`).join(', ')}`;
+                        break;
+                }
             }
             return message + '.';
         });
@@ -214,6 +222,13 @@ class CoreSchemaRegistry {
             this._currentCompilationSchemaInfo = schemaInfo;
             validator = this._ajv.compile(schema);
         }
+        catch (e) {
+            // This should eventually be refactored so that we we handle race condition where the same schema is validated at the same time.
+            if (!(e instanceof ajv_1.default.MissingRefError)) {
+                throw e;
+            }
+            validator = await this._ajv.compileAsync(schema);
+        }
         finally {
             this._currentCompilationSchemaInfo = undefined;
         }
@@ -253,9 +268,17 @@ class CoreSchemaRegistry {
                 }
             }
             // Validate using ajv
-            const success = await validator.call(validationContext, data);
-            if (!success) {
-                return { data, success, errors: (_a = validator.errors) !== null && _a !== void 0 ? _a : [] };
+            try {
+                const success = await validator.call(validationContext, data);
+                if (!success) {
+                    return { data, success, errors: (_a = validator.errors) !== null && _a !== void 0 ? _a : [] };
+                }
+            }
+            catch (error) {
+                if (error instanceof ajv_1.default.ValidationError) {
+                    return { data, success: false, errors: error.errors };
+                }
+                throw error;
             }
             // Apply post-validation transforms
             if (validationOptions.applyPostTransforms) {
@@ -286,9 +309,7 @@ class CoreSchemaRegistry {
                         return () => true;
                     }
                     // We cheat, heavily.
-                    const pathArray = it.dataPathArr
-                        .slice(1, it.dataLevel + 1)
-                        .map((p) => (typeof p === 'number' ? p : p.str.slice(1, -1)));
+                    const pathArray = this.normalizeDataPathArr(it);
                     compilationSchemInfo.smartDefaultRecord.set(JSON.stringify(pathArray), schema);
                     return () => true;
                 },
@@ -321,11 +342,7 @@ class CoreSchemaRegistry {
                 if (!compilationSchemInfo) {
                     return () => true;
                 }
-                const path = '/' +
-                    it.dataPathArr
-                        .slice(1, it.dataLevel + 1)
-                        .map((p) => (typeof p === 'number' ? p : p.str.slice(1, -1)))
-                        .join('/');
+                const path = '/' + this.normalizeDataPathArr(it).join('/');
                 let type;
                 let items;
                 let message;
@@ -454,8 +471,20 @@ class CoreSchemaRegistry {
     }
     static _set(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    data, fragments, value, parent = null, parentProperty, force) {
-        for (const fragment of fragments) {
+    data, fragments, value, 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    parent = null, parentProperty, force) {
+        for (let index = 0; index < fragments.length; index++) {
+            const fragment = fragments[index];
+            if (/^i\d+$/.test(fragment)) {
+                if (!Array.isArray(data)) {
+                    return;
+                }
+                for (let dataIndex = 0; dataIndex < data.length; dataIndex++) {
+                    CoreSchemaRegistry._set(data[dataIndex], fragments.slice(index + 1), value, data, `${dataIndex}`);
+                }
+                return;
+            }
             if (!data && parent !== null && parentProperty) {
                 data = parent[parentProperty] = {};
             }
@@ -504,6 +533,11 @@ class CoreSchemaRegistry {
             // eslint-disable-next-line no-console
             console.warn(`"${schema.$id}" schema is using the keyword "id" which its support is deprecated. Use "$id" for schema ID.`);
         }
+    }
+    normalizeDataPathArr(it) {
+        return it.dataPathArr
+            .slice(1, it.dataLevel + 1)
+            .map((p) => (typeof p === 'number' ? p : p.str.replace(/\"/g, '')));
     }
 }
 exports.CoreSchemaRegistry = CoreSchemaRegistry;
