@@ -85,7 +85,7 @@ class NodeJsAsyncHost {
         return rxjs_1.from(fs_1.promises.readdir(src_1.getSystemPath(path))).pipe(operators_1.map((names) => names.map((name) => src_1.fragment(name))));
     }
     exists(path) {
-        return rxjs_1.from(exists(path));
+        return rxjs_1.from(exists(src_1.getSystemPath(path)));
     }
     isDirectory(path) {
         return this.stat(path).pipe(operators_1.map((stat) => stat.isDirectory()));
