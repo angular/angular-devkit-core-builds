@@ -50,7 +50,7 @@ class NodeJsAsyncHost {
         return { synchronous: false };
     }
     write(path, content) {
-        return rxjs_1.from(fs_1.promises.mkdir(src_1.getSystemPath(src_1.dirname(path)), { recursive: true })).pipe(operators_1.mergeMap(() => fs_1.promises.writeFile(src_1.getSystemPath(path), content)));
+        return rxjs_1.from(fs_1.promises.mkdir(src_1.getSystemPath(src_1.dirname(path)), { recursive: true })).pipe(operators_1.mergeMap(() => fs_1.promises.writeFile(src_1.getSystemPath(path), new Uint8Array(content))));
     }
     read(path) {
         return rxjs_1.from(fs_1.promises.readFile(src_1.getSystemPath(path))).pipe(operators_1.map((buffer) => new Uint8Array(buffer).buffer));
