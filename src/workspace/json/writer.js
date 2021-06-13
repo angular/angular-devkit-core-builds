@@ -6,9 +6,12 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.writeJsonWorkspace = void 0;
-const magic_string_1 = require("magic-string");
+const magic_string_1 = __importDefault(require("magic-string"));
 const metadata_1 = require("./metadata");
 const utilities_1 = require("./utilities");
 async function writeJsonWorkspace(workspace, host, path, options = {}) {
