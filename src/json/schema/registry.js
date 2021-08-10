@@ -196,6 +196,7 @@ class CoreSchemaRegistry {
         return rxjs_1.from(this._flatten(schema));
     }
     async _flatten(schema) {
+        this._replaceDeprecatedSchemaIdKeyword(schema);
         this._ajv.removeSchema(schema);
         this._currentCompilationSchemaInfo = undefined;
         const validate = await this._ajv.compileAsync(schema);
@@ -232,6 +233,7 @@ class CoreSchemaRegistry {
         if (typeof schema === 'boolean') {
             return async (data) => ({ success: schema, data });
         }
+        this._replaceDeprecatedSchemaIdKeyword(schema);
         const schemaInfo = {
             smartDefaultRecord: new Map(),
             promptDefinitions: [],
@@ -541,6 +543,18 @@ class CoreSchemaRegistry {
             },
             errors: false,
         });
+    }
+    /**
+     * Workaround to avoid a breaking change in downstream schematics.
+     * @deprecated will be removed in version 13.
+     */
+    _replaceDeprecatedSchemaIdKeyword(schema) {
+        if (typeof schema.id === 'string') {
+            schema.$id = schema.id;
+            delete schema.id;
+            // eslint-disable-next-line no-console
+            console.warn(`"${schema.$id}" schema is using the keyword "id" which its support is deprecated. Use "$id" for schema ID.`);
+        }
     }
     normalizeDataPathArr(it) {
         return it.dataPathArr
