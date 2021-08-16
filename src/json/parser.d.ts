@@ -6,12 +6,14 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { BaseException } from '../exception';
-import { JsonAstNode, JsonValue, Position } from './interface';
+import { JsonAstNode, Position } from './parser_ast';
+import { JsonValue } from './utils';
 export declare class JsonException extends BaseException {
 }
 /**
  * A character was invalid in this context.
- * @deprecated Deprecated since version 11. Use 3rd party JSON parsers such as `jsonc-parser` instead.
+ * @deprecated
+ * @private
  */
 export declare class InvalidJsonCharacterException extends JsonException {
     invalidChar: string;
@@ -22,7 +24,8 @@ export declare class InvalidJsonCharacterException extends JsonException {
 }
 /**
  * More input was expected, but we reached the end of the stream.
- * @deprecated Deprecated since version 11. Use 3rd party JSON parsers such as `jsonc-parser` instead.
+ * @deprecated
+ * @private
  */
 export declare class UnexpectedEndOfInputException extends JsonException {
     constructor(_context: JsonParserContext);

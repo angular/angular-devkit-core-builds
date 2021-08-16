@@ -39,7 +39,7 @@ const operators_1 = require("rxjs/operators");
 const Url = __importStar(require("url"));
 const exception_1 = require("../../exception/exception");
 const utils_1 = require("../../utils");
-const interface_1 = require("../interface");
+const utils_2 = require("../utils");
 const utility_1 = require("./utility");
 const visitor_1 = require("./visitor");
 class SchemaValidationException extends exception_1.BaseException {
@@ -205,7 +205,7 @@ class CoreSchemaRegistry {
             if (current &&
                 parentSchema &&
                 index &&
-                interface_1.isJsonObject(current) &&
+                utils_2.isJsonObject(current) &&
                 Object.prototype.hasOwnProperty.call(current, '$ref') &&
                 typeof current['$ref'] == 'string') {
                 const resolved = self._resolver(current['$ref'], validate);

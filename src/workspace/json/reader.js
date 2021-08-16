@@ -8,7 +8,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.readJsonWorkspace = void 0;
-const json_1 = require("../../json");
+const parser_1 = require("../../json/parser");
 const definitions_1 = require("../definitions");
 const metadata_1 = require("./metadata");
 const utilities_1 = require("./utilities");
@@ -17,7 +17,7 @@ async function readJsonWorkspace(path, host) {
     if (raw === undefined) {
         throw new Error('Unable to read workspace file.');
     }
-    const ast = json_1.parseJsonAst(raw, json_1.JsonParseMode.Loose);
+    const ast = parser_1.parseJsonAst(raw, parser_1.JsonParseMode.Loose);
     if (ast.kind !== 'object') {
         throw new Error('Invalid workspace file - expected JSON object.');
     }

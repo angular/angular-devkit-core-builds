@@ -32,5 +32,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.schema = void 0;
 const schema = __importStar(require("./schema/index"));
 exports.schema = schema;
-__exportStar(require("./interface"), exports);
-__exportStar(require("./parser"), exports);
+__exportStar(require("./utils"), exports);

@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Observable, Operator, PartialObserver, Subject, Subscription } from 'rxjs';
-import { JsonObject } from '../json/interface';
+import { JsonObject } from '../json/utils';
 export interface LoggerMetadata extends JsonObject {
     name: string;
     path: string[];
