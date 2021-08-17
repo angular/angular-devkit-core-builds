@@ -8,7 +8,7 @@
 import { ValidateFunction } from 'ajv';
 import { Observable } from 'rxjs';
 import { BaseException } from '../../exception/exception';
-import { JsonObject } from '../utils';
+import { JsonObject } from '../interface';
 import { JsonVisitor, PromptProvider, SchemaFormat, SchemaRegistry, SchemaValidator, SchemaValidatorError, SmartDefaultProvider } from './interface';
 import { JsonSchema } from './schema';
 export declare type UriHandler = (uri: string) => Observable<JsonObject> | Promise<JsonObject> | null | undefined;
@@ -76,5 +76,10 @@ export declare class CoreSchemaRegistry implements SchemaRegistry {
     private static _set;
     private _applySmartDefaults;
     useXDeprecatedProvider(onUsage: (message: string) => void): void;
+    /**
+     * Workaround to avoid a breaking change in downstream schematics.
+     * @deprecated will be removed in version 13.
+     */
+    private _replaceDeprecatedSchemaIdKeyword;
     private normalizeDataPathArr;
 }

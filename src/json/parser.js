@@ -15,8 +15,7 @@ class JsonException extends exception_1.BaseException {
 exports.JsonException = JsonException;
 /**
  * A character was invalid in this context.
- * @deprecated
- * @private
+ * @deprecated Deprecated since version 11. Use 3rd party JSON parsers such as `jsonc-parser` instead.
  */
 class InvalidJsonCharacterException extends JsonException {
     constructor(context) {
@@ -32,8 +31,7 @@ class InvalidJsonCharacterException extends JsonException {
 exports.InvalidJsonCharacterException = InvalidJsonCharacterException;
 /**
  * More input was expected, but we reached the end of the stream.
- * @deprecated
- * @private
+ * @deprecated Deprecated since version 11. Use 3rd party JSON parsers such as `jsonc-parser` instead.
  */
 class UnexpectedEndOfInputException extends JsonException {
     constructor(_context) {

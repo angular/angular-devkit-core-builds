@@ -7,7 +7,7 @@
  */
 import { ErrorObject, Format } from 'ajv';
 import { Observable, SubscribableOrPromise } from 'rxjs';
-import { JsonArray, JsonObject, JsonValue } from '../utils';
+import { JsonArray, JsonObject, JsonValue } from '../interface';
 export declare type JsonPointer = string & {
     __PRIVATE_DEVKIT_JSON_POINTER: void;
 };
