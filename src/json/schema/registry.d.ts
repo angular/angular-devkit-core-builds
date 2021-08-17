@@ -76,10 +76,5 @@ export declare class CoreSchemaRegistry implements SchemaRegistry {
     private static _set;
     private _applySmartDefaults;
     useXDeprecatedProvider(onUsage: (message: string) => void): void;
-    /**
-     * Workaround to avoid a breaking change in downstream schematics.
-     * @deprecated will be removed in version 13.
-     */
-    private _replaceDeprecatedSchemaIdKeyword;
     private normalizeDataPathArr;
 }
