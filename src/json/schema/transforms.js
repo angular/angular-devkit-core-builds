@@ -8,7 +8,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addUndefinedDefaults = void 0;
-const interface_1 = require("../interface");
+const utils_1 = require("../utils");
 const utility_1 = require("./utility");
 function addUndefinedDefaults(value, _pointer, schema) {
     if (typeof schema === 'boolean' || schema === undefined) {
@@ -47,41 +47,41 @@ function addUndefinedDefaults(value, _pointer, schema) {
         if (value == undefined) {
             newValue = {};
         }
-        else if (interface_1.isJsonObject(value)) {
+        else if (utils_1.isJsonObject(value)) {
             newValue = value;
         }
         else {
             return value;
         }
-        if (!interface_1.isJsonObject(schema.properties)) {
+        if (!utils_1.isJsonObject(schema.properties)) {
             return newValue;
         }
         for (const [propName, schemaObject] of Object.entries(schema.properties)) {
-            if (propName === '$schema' || !interface_1.isJsonObject(schemaObject)) {
+            if (propName === '$schema' || !utils_1.isJsonObject(schemaObject)) {
                 continue;
             }
             const value = newValue[propName];
             if (value === undefined) {
                 newValue[propName] = schemaObject.default;
             }
-            else if (interface_1.isJsonObject(value)) {
+            else if (utils_1.isJsonObject(value)) {
                 // Basic support for oneOf and anyOf.
                 const propertySchemas = schemaObject.oneOf || schemaObject.anyOf;
                 const allProperties = Object.keys(value);
                 // Locate a schema which declares all the properties that the object contains.
-                const adjustedSchema = interface_1.isJsonArray(propertySchemas) &&
+                const adjustedSchema = utils_1.isJsonArray(propertySchemas) &&
                     propertySchemas.find((s) => {
-                        if (!interface_1.isJsonObject(s)) {
+                        if (!utils_1.isJsonObject(s)) {
                             return false;
                         }
                         const schemaType = utility_1.getTypesOfSchema(s);
-                        if (schemaType.size === 1 && schemaType.has('object') && interface_1.isJsonObject(s.properties)) {
+                        if (schemaType.size === 1 && schemaType.has('object') && utils_1.isJsonObject(s.properties)) {
                             const properties = Object.keys(s.properties);
                             return allProperties.every((key) => properties.includes(key));
                         }
                         return false;
                     });
-                if (adjustedSchema && interface_1.isJsonObject(adjustedSchema)) {
+                if (adjustedSchema && utils_1.isJsonObject(adjustedSchema)) {
                     newValue[propName] = addUndefinedDefaults(value, _pointer, adjustedSchema);
                 }
             }

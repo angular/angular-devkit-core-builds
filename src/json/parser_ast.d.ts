@@ -5,6 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+import { JsonArray, JsonObject } from './utils';
 export interface Position {
     readonly offset: number;
     readonly line: number;
@@ -29,15 +30,10 @@ export interface JsonAstIdentifier extends JsonAstNodeBase {
     readonly kind: 'identifier';
     readonly value: string;
 }
-export interface JsonArray extends Array<JsonValue> {
-}
 export interface JsonAstArray extends JsonAstNodeBase {
     readonly kind: 'array';
     readonly elements: JsonAstNode[];
     readonly value: JsonArray;
-}
-export interface JsonObject {
-    [prop: string]: JsonValue;
 }
 export interface JsonAstKeyValue extends JsonAstNodeBase {
     readonly kind: 'keyvalue';
@@ -69,6 +65,3 @@ export interface JsonAstComment extends JsonAstNodeBase {
     readonly kind: 'comment';
     readonly content: string;
 }
-export declare type JsonValue = JsonAstNode['value'];
-export declare function isJsonObject(value: JsonValue): value is JsonObject;
-export declare function isJsonArray(value: JsonValue): value is JsonArray;

@@ -8,7 +8,7 @@
 import { ValidateFunction } from 'ajv';
 import { Observable } from 'rxjs';
 import { BaseException } from '../../exception/exception';
-import { JsonObject } from '../interface';
+import { JsonObject } from '../utils';
 import { JsonVisitor, PromptProvider, SchemaFormat, SchemaRegistry, SchemaValidator, SchemaValidatorError, SmartDefaultProvider } from './interface';
 import { JsonSchema } from './schema';
 export declare type UriHandler = (uri: string) => Observable<JsonObject> | Promise<JsonObject> | null | undefined;

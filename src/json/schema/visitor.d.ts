@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Observable } from 'rxjs';
-import { JsonObject, JsonValue } from '../interface';
+import { JsonObject, JsonValue } from '../utils';
 import { JsonSchemaVisitor, JsonVisitor } from './interface';
 import { JsonSchema } from './schema';
 export interface ReferenceResolver<ContextT> {

@@ -5,7 +5,8 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { JsonAstArray, JsonAstKeyValue, JsonAstNode, JsonAstObject, JsonValue } from '../../json';
+import { JsonValue } from '../../json';
+import { JsonAstArray, JsonAstKeyValue, JsonAstNode, JsonAstObject } from '../../json/parser_ast';
 import { ProjectDefinition, TargetDefinition, WorkspaceDefinition } from '../definitions';
 export declare const JsonWorkspaceSymbol: unique symbol;
 export interface JsonWorkspaceDefinition extends WorkspaceDefinition {
