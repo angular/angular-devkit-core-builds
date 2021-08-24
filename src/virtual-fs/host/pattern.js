@@ -22,9 +22,9 @@ class PatternMatchingHost extends resolver_1.ResolverHost {
             (Array.isArray(pattern) ? pattern : [pattern])
                 .map((ex) => '(' +
                 ex
-                    .split(/[\/\\]/g)
+                    .split(/[/\\]/g)
                     .map((f) => f
-                    .replace(/[\-\[\]{}()+?.^$|]/g, '\\$&')
+                    .replace(/[-[\]{}()+?.^$|]/g, '\\$&')
                     .replace(/^\*\*/g, '(.+?)?')
                     .replace(/\*/g, '[^/\\\\]*'))
                     .join('[/\\\\]') +

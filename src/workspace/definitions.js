@@ -129,7 +129,7 @@ class ProjectDefinitionCollection extends DefinitionCollection {
         return this;
     }
     _validateName(name) {
-        if (typeof name !== 'string' || !/^(?:@\w[\w\.-]*\/)?\w[\w\.-]*$/.test(name)) {
+        if (typeof name !== 'string' || !/^(?:@\w[\w.-]*\/)?\w[\w.-]*$/.test(name)) {
             throw new Error('Project name must be a valid npm package name.');
         }
     }

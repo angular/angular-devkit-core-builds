@@ -213,11 +213,11 @@ function noCacheNormalize(path) {
     }
     // Match absolute windows path.
     const original = path;
-    if (path.match(/^[A-Z]:[\/\\]/i)) {
+    if (path.match(/^[A-Z]:[/\\]/i)) {
         path = '\\' + path[0] + '\\' + path.substr(3);
     }
     // We convert Windows paths as well here.
-    const p = path.split(/[\/\\]/g);
+    const p = path.split(/[/\\]/g);
     let relative = false;
     let i = 1;
     // Special case the first one.

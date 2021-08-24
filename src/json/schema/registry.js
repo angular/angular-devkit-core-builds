@@ -545,7 +545,7 @@ class CoreSchemaRegistry {
     normalizeDataPathArr(it) {
         return it.dataPathArr
             .slice(1, it.dataLevel + 1)
-            .map((p) => (typeof p === 'number' ? p : p.str.replace(/\"/g, '')));
+            .map((p) => (typeof p === 'number' ? p : p.str.replace(/"/g, '')));
     }
 }
 exports.CoreSchemaRegistry = CoreSchemaRegistry;
