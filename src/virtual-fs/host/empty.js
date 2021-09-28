@@ -17,23 +17,23 @@ class Empty {
         };
     }
     read(path) {
-        return rxjs_1.throwError(new exception_1.FileDoesNotExistException(path));
+        return (0, rxjs_1.throwError)(new exception_1.FileDoesNotExistException(path));
     }
     list(path) {
-        return rxjs_1.of([]);
+        return (0, rxjs_1.of)([]);
     }
     exists(path) {
-        return rxjs_1.of(false);
+        return (0, rxjs_1.of)(false);
     }
     isDirectory(path) {
-        return rxjs_1.of(false);
+        return (0, rxjs_1.of)(false);
     }
     isFile(path) {
-        return rxjs_1.of(false);
+        return (0, rxjs_1.of)(false);
     }
     stat(path) {
         // We support stat() but have no file.
-        return rxjs_1.of(null);
+        return (0, rxjs_1.of)(null);
     }
 }
 exports.Empty = Empty;

@@ -57,13 +57,13 @@ const workspaceFiles = {
 async function readWorkspace(path, host, format) {
     if (await host.isDirectory(path)) {
         // TODO: Warn if multiple found (requires diagnostics support)
-        const directory = virtual_fs_1.normalize(path);
+        const directory = (0, virtual_fs_1.normalize)(path);
         let found = false;
         for (const [name, nameFormat] of Object.entries(workspaceFiles)) {
             if (format !== undefined && format !== nameFormat) {
                 continue;
             }
-            const potential = virtual_fs_1.getSystemPath(virtual_fs_1.join(directory, name));
+            const potential = (0, virtual_fs_1.getSystemPath)((0, virtual_fs_1.join)(directory, name));
             if (await host.isFile(potential)) {
                 path = potential;
                 format = nameFormat;
@@ -76,7 +76,7 @@ async function readWorkspace(path, host, format) {
         }
     }
     else if (format === undefined) {
-        const filename = virtual_fs_1.basename(virtual_fs_1.normalize(path));
+        const filename = (0, virtual_fs_1.basename)((0, virtual_fs_1.normalize)(path));
         if (filename in workspaceFiles) {
             format = workspaceFiles[filename];
         }
@@ -87,7 +87,7 @@ async function readWorkspace(path, host, format) {
     let workspace;
     switch (format) {
         case WorkspaceFormat.JSON:
-            workspace = await reader_1.readJsonWorkspace(path, host);
+            workspace = await (0, reader_1.readJsonWorkspace)(path, host);
             break;
         default:
             throw new Error('Unsupported workspace format.');
@@ -123,7 +123,7 @@ async function writeWorkspace(workspace, host, path, format) {
     }
     switch (format) {
         case WorkspaceFormat.JSON:
-            return writer_1.writeJsonWorkspace(workspace, host, path);
+            return (0, writer_1.writeJsonWorkspace)(workspace, host, path);
         default:
             throw new Error('Unsupported workspace format.');
     }

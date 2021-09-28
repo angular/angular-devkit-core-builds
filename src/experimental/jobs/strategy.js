@@ -19,11 +19,11 @@ var strategy;
      * Creates a JobStrategy that serializes every call. This strategy can be mixed between jobs.
      */
     function serialize() {
-        let latest = rxjs_1.of();
+        let latest = (0, rxjs_1.of)();
         return (handler, options) => {
             const newHandler = (argument, context) => {
                 const previous = latest;
-                latest = rxjs_1.concat(previous.pipe(operators_1.ignoreElements()), new rxjs_1.Observable((o) => handler(argument, context).subscribe(o))).pipe(operators_1.shareReplay(0));
+                latest = (0, rxjs_1.concat)(previous.pipe((0, operators_1.ignoreElements)()), new rxjs_1.Observable((o) => handler(argument, context).subscribe(o))).pipe((0, operators_1.shareReplay)(0));
                 return latest;
             };
             return Object.assign(newHandler, {
@@ -46,11 +46,11 @@ var strategy;
                 // Forward inputs.
                 const subscription = context.inboundBus.subscribe(inboundBus);
                 if (run) {
-                    return rxjs_1.concat(
+                    return (0, rxjs_1.concat)(
                     // Update state.
-                    rxjs_1.of(state), run).pipe(operators_1.finalize(() => subscription.unsubscribe()));
+                    (0, rxjs_1.of)(state), run).pipe((0, operators_1.finalize)(() => subscription.unsubscribe()));
                 }
-                run = handler(argument, { ...context, inboundBus: inboundBus.asObservable() }).pipe(operators_1.tap((message) => {
+                run = handler(argument, { ...context, inboundBus: inboundBus.asObservable() }).pipe((0, operators_1.tap)((message) => {
                     if (message.kind == api_1.JobOutboundMessageKind.Start ||
                         message.kind == api_1.JobOutboundMessageKind.OnReady ||
                         message.kind == api_1.JobOutboundMessageKind.End) {
@@ -60,7 +60,7 @@ var strategy;
                     subscription.unsubscribe();
                     inboundBus = new rxjs_1.Subject();
                     run = null;
-                }), replayMessages ? operators_1.shareReplay() : operators_1.share());
+                }), replayMessages ? (0, operators_1.shareReplay)() : (0, operators_1.share)());
                 return run;
             };
             return Object.assign(newHandler, handler, options || {});
@@ -81,7 +81,7 @@ var strategy;
                 if (maybeJob) {
                     return maybeJob;
                 }
-                const run = handler(argument, context).pipe(replayMessages ? operators_1.shareReplay() : operators_1.share());
+                const run = handler(argument, context).pipe(replayMessages ? (0, operators_1.shareReplay)() : (0, operators_1.share)());
                 runs.set(argumentJson, run);
                 return run;
             };

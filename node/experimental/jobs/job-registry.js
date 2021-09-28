@@ -32,12 +32,12 @@ class NodeModuleJobRegistry {
         const [moduleName, exportName] = name.split(/#/, 2);
         const resolvedPath = this._resolve(moduleName);
         if (!resolvedPath) {
-            return rxjs_1.of(null);
+            return (0, rxjs_1.of)(null);
         }
         const pkg = require(resolvedPath);
         const handler = pkg[exportName || 'default'];
         if (!handler) {
-            return rxjs_1.of(null);
+            return (0, rxjs_1.of)(null);
         }
         function _getValue(...fields) {
             return fields.find((x) => src_1.schema.isJsonSchema(x)) || true;
@@ -46,7 +46,7 @@ class NodeModuleJobRegistry {
         const input = _getValue(pkg.input, handler.input);
         const output = _getValue(pkg.output, handler.output);
         const channels = _getValue(pkg.channels, handler.channels);
-        return rxjs_1.of(Object.assign(handler.bind(undefined), {
+        return (0, rxjs_1.of)(Object.assign(handler.bind(undefined), {
             jobDescription: {
                 argument,
                 input,

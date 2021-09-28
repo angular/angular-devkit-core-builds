@@ -21,7 +21,7 @@ var test;
             this._records = [];
             this._sync = null;
             for (const filePath of Object.getOwnPropertyNames(map)) {
-                this._write(path_1.normalize(filePath), buffer_1.stringToFileBuffer(map[filePath]));
+                this._write((0, path_1.normalize)(filePath), (0, buffer_1.stringToFileBuffer)(map[filePath]));
             }
         }
         get records() {
@@ -35,7 +35,7 @@ var test;
             function _visit(p) {
                 return sync
                     .list(p)
-                    .map((fragment) => path_1.join(p, fragment))
+                    .map((fragment) => (0, path_1.join)(p, fragment))
                     .reduce((files, path) => {
                     if (sync.isDirectory(path)) {
                         return files.concat(_visit(path));
@@ -45,7 +45,7 @@ var test;
                     }
                 }, []);
             }
-            return _visit(path_1.normalize('/'));
+            return _visit((0, path_1.normalize)('/'));
         }
         get sync() {
             if (!this._sync) {
@@ -100,22 +100,22 @@ var test;
             return super._watch(path, options);
         }
         $write(path, content) {
-            return super._write(path_1.normalize(path), buffer_1.stringToFileBuffer(content));
+            return super._write((0, path_1.normalize)(path), (0, buffer_1.stringToFileBuffer)(content));
         }
         $read(path) {
-            return buffer_1.fileBufferToString(super._read(path_1.normalize(path)));
+            return (0, buffer_1.fileBufferToString)(super._read((0, path_1.normalize)(path)));
         }
         $list(path) {
-            return super._list(path_1.normalize(path));
+            return super._list((0, path_1.normalize)(path));
         }
         $exists(path) {
-            return super._exists(path_1.normalize(path));
+            return super._exists((0, path_1.normalize)(path));
         }
         $isDirectory(path) {
-            return super._isDirectory(path_1.normalize(path));
+            return super._isDirectory((0, path_1.normalize)(path));
         }
         $isFile(path) {
-            return super._isFile(path_1.normalize(path));
+            return super._isFile((0, path_1.normalize)(path));
         }
     }
     test.TestHost = TestHost;

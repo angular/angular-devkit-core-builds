@@ -20,18 +20,18 @@ class SimpleJobRegistry {
         this._jobNames = new Map();
     }
     get(name) {
-        return rxjs_1.of(this._jobNames.get(name) || null);
+        return (0, rxjs_1.of)(this._jobNames.get(name) || null);
     }
     register(nameOrHandler, handlerOrOptions = {}, options = {}) {
         // Switch on the arguments.
         if (typeof nameOrHandler == 'string') {
-            if (!api_1.isJobHandler(handlerOrOptions)) {
+            if (!(0, api_1.isJobHandler)(handlerOrOptions)) {
                 // This is an error.
                 throw new TypeError('Expected a JobHandler as second argument.');
             }
             this._register(nameOrHandler, handlerOrOptions, options);
         }
-        else if (api_1.isJobHandler(nameOrHandler)) {
+        else if ((0, api_1.isJobHandler)(nameOrHandler)) {
             if (typeof handlerOrOptions !== 'object') {
                 // This is an error.
                 throw new TypeError('Expected an object options as second argument.');

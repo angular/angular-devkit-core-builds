@@ -17,7 +17,7 @@ async function readJsonWorkspace(path, host) {
     if (raw === undefined) {
         throw new Error('Unable to read workspace file.');
     }
-    const ast = parser_1.parseJsonAst(raw, parser_1.JsonParseMode.Loose);
+    const ast = (0, parser_1.parseJsonAst)(raw, parser_1.JsonParseMode.Loose);
     if (ast.kind !== 'object') {
         throw new Error('Invalid workspace file - expected JSON object.');
     }
@@ -82,7 +82,7 @@ function parseWorkspace(workspaceNode, context) {
     if (context.trackChanges && projectsNode) {
         const parentNode = projectsNode;
         collectionListener = (name, action, newValue) => {
-            jsonMetadata.addChange(action, `/projects/${utilities_1.escapeKey(name)}`, parentNode, newValue, 'project');
+            jsonMetadata.addChange(action, `/projects/${(0, utilities_1.escapeKey)(name)}`, parentNode, newValue, 'project');
         };
     }
     const projectCollection = new definitions_1.ProjectDefinitionCollection(projects, collectionListener);
@@ -92,7 +92,7 @@ function parseWorkspace(workspaceNode, context) {
         // If not tracking changes the `extensions` variable will contain the parsed
         // values.  Otherwise the extensions are tracked via a virtual AST object.
         extensions: extensions ||
-            utilities_1.createVirtualAstObject(workspaceNode, {
+            (0, utilities_1.createVirtualAstObject)(workspaceNode, {
                 exclude: ['$schema', 'version', 'projects'],
                 listener(op, path, node, value) {
                     jsonMetadata.addChange(op, path, node, value);
@@ -160,7 +160,7 @@ function parseProject(projectName, projectNode, context) {
         if (targetsNode) {
             const parentNode = targetsNode;
             collectionListener = (name, action, newValue) => {
-                jsonMetadata.addChange(action, `/projects/${projectName}/targets/${utilities_1.escapeKey(name)}`, parentNode, newValue, 'target');
+                jsonMetadata.addChange(action, `/projects/${projectName}/targets/${(0, utilities_1.escapeKey)(name)}`, parentNode, newValue, 'target');
             };
         }
         else {
@@ -179,7 +179,7 @@ function parseProject(projectName, projectNode, context) {
         // If not tracking changes the `extensions` variable will contain the parsed
         // values.  Otherwise the extensions are tracked via a virtual AST object.
         extensions: extensions ||
-            utilities_1.createVirtualAstObject(projectNode, {
+            (0, utilities_1.createVirtualAstObject)(projectNode, {
                 exclude: ['architect', 'prefix', 'root', 'sourceRoot', 'targets'],
                 listener(op, path, node, value) {
                     jsonMetadata.addChange(op, `/projects/${projectName}${path}`, node, value);
@@ -188,7 +188,7 @@ function parseProject(projectName, projectNode, context) {
     };
     let project;
     if (context.trackChanges) {
-        project = utilities_1.createVirtualAstObject(projectNode, {
+        project = (0, utilities_1.createVirtualAstObject)(projectNode, {
             base,
             include: ['prefix', 'root', 'sourceRoot'],
             listener(op, path, node, value) {
@@ -214,7 +214,7 @@ function parseTargetsObject(projectName, targetsNode, context) {
         }
         const name = key.value;
         if (context.trackChanges) {
-            targets[name] = utilities_1.createVirtualAstObject(value, {
+            targets[name] = (0, utilities_1.createVirtualAstObject)(value, {
                 include: ['builder', 'options', 'configurations', 'defaultConfiguration'],
                 listener(op, path, node, value) {
                     jsonMetadata.addChange(op, `/projects/${projectName}/targets/${name}${path}`, node, value);

@@ -15,7 +15,7 @@ const src_1 = require("../src");
  */
 function createConsoleLogger(verbose = false, stdout = process.stdout, stderr = process.stderr, colors) {
     const logger = new src_1.logging.IndentLogger('cling');
-    logger.pipe(operators_1.filter((entry) => entry.level !== 'debug' || verbose)).subscribe((entry) => {
+    logger.pipe((0, operators_1.filter)((entry) => entry.level !== 'debug' || verbose)).subscribe((entry) => {
         const color = colors && colors[entry.level];
         let output = stdout;
         switch (entry.level) {

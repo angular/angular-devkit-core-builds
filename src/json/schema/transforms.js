@@ -14,7 +14,7 @@ function addUndefinedDefaults(value, _pointer, schema) {
     if (typeof schema === 'boolean' || schema === undefined) {
         return value;
     }
-    const types = utility_1.getTypesOfSchema(schema);
+    const types = (0, utility_1.getTypesOfSchema)(schema);
     if (types.size === 0) {
         return value;
     }
@@ -47,41 +47,41 @@ function addUndefinedDefaults(value, _pointer, schema) {
         if (value == undefined) {
             newValue = {};
         }
-        else if (utils_1.isJsonObject(value)) {
+        else if ((0, utils_1.isJsonObject)(value)) {
             newValue = value;
         }
         else {
             return value;
         }
-        if (!utils_1.isJsonObject(schema.properties)) {
+        if (!(0, utils_1.isJsonObject)(schema.properties)) {
             return newValue;
         }
         for (const [propName, schemaObject] of Object.entries(schema.properties)) {
-            if (propName === '$schema' || !utils_1.isJsonObject(schemaObject)) {
+            if (propName === '$schema' || !(0, utils_1.isJsonObject)(schemaObject)) {
                 continue;
             }
             const value = newValue[propName];
             if (value === undefined) {
                 newValue[propName] = schemaObject.default;
             }
-            else if (utils_1.isJsonObject(value)) {
+            else if ((0, utils_1.isJsonObject)(value)) {
                 // Basic support for oneOf and anyOf.
                 const propertySchemas = schemaObject.oneOf || schemaObject.anyOf;
                 const allProperties = Object.keys(value);
                 // Locate a schema which declares all the properties that the object contains.
-                const adjustedSchema = utils_1.isJsonArray(propertySchemas) &&
+                const adjustedSchema = (0, utils_1.isJsonArray)(propertySchemas) &&
                     propertySchemas.find((s) => {
-                        if (!utils_1.isJsonObject(s)) {
+                        if (!(0, utils_1.isJsonObject)(s)) {
                             return false;
                         }
-                        const schemaType = utility_1.getTypesOfSchema(s);
-                        if (schemaType.size === 1 && schemaType.has('object') && utils_1.isJsonObject(s.properties)) {
+                        const schemaType = (0, utility_1.getTypesOfSchema)(s);
+                        if (schemaType.size === 1 && schemaType.has('object') && (0, utils_1.isJsonObject)(s.properties)) {
                             const properties = Object.keys(s.properties);
                             return allProperties.every((key) => properties.includes(key));
                         }
                         return false;
                     });
-                if (adjustedSchema && utils_1.isJsonObject(adjustedSchema)) {
+                if (adjustedSchema && (0, utils_1.isJsonObject)(adjustedSchema)) {
                     newValue[propName] = addUndefinedDefaults(value, _pointer, adjustedSchema);
                 }
             }

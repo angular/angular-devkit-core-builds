@@ -24,7 +24,7 @@ function getTypesOfSchema(schema) {
     else if (Array.isArray(schema.type)) {
         potentials = new Set(schema.type);
     }
-    else if (utils_1.isJsonArray(schema.enum)) {
+    else if ((0, utils_1.isJsonArray)(schema.enum)) {
         potentials = new Set();
         // Gather the type of each enum values, and use that as a starter for potential types.
         for (const v of schema.enum) {
@@ -51,7 +51,7 @@ function getTypesOfSchema(schema) {
     else {
         potentials = new Set(allTypes);
     }
-    if (utils_1.isJsonObject(schema.not)) {
+    if ((0, utils_1.isJsonObject)(schema.not)) {
         const notTypes = getTypesOfSchema(schema.not);
         potentials = new Set([...potentials].filter((p) => !notTypes.has(p)));
     }

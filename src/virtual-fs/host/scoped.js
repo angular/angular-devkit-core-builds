@@ -16,7 +16,7 @@ class ScopedHost extends resolver_1.ResolverHost {
         this._root = _root;
     }
     _resolve(path) {
-        return path_1.join(this._root, path);
+        return (0, path_1.join)(this._root, path);
     }
 }
 exports.ScopedHost = ScopedHost;

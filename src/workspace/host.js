@@ -12,15 +12,15 @@ const virtual_fs_1 = require("../virtual-fs");
 function createWorkspaceHost(host) {
     const workspaceHost = {
         async readFile(path) {
-            const data = await host.read(virtual_fs_1.normalize(path)).toPromise();
+            const data = await host.read((0, virtual_fs_1.normalize)(path)).toPromise();
             return virtual_fs_1.virtualFs.fileBufferToString(data);
         },
         async writeFile(path, data) {
-            return host.write(virtual_fs_1.normalize(path), virtual_fs_1.virtualFs.stringToFileBuffer(data)).toPromise();
+            return host.write((0, virtual_fs_1.normalize)(path), virtual_fs_1.virtualFs.stringToFileBuffer(data)).toPromise();
         },
         async isDirectory(path) {
             try {
-                return await host.isDirectory(virtual_fs_1.normalize(path)).toPromise();
+                return await host.isDirectory((0, virtual_fs_1.normalize)(path)).toPromise();
             }
             catch {
                 // some hosts throw if path does not exist
@@ -29,7 +29,7 @@ function createWorkspaceHost(host) {
         },
         async isFile(path) {
             try {
-                return await host.isFile(virtual_fs_1.normalize(path)).toPromise();
+                return await host.isFile((0, virtual_fs_1.normalize)(path)).toPromise();
             }
             catch {
                 // some hosts throw if path does not exist

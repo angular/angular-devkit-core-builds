@@ -25,21 +25,21 @@ class SafeReadonlyHost {
         return this._delegate.read(path);
     }
     list(path) {
-        return this._delegate.list(path).pipe(operators_1.catchError(() => rxjs_1.of([])));
+        return this._delegate.list(path).pipe((0, operators_1.catchError)(() => (0, rxjs_1.of)([])));
     }
     exists(path) {
         return this._delegate.exists(path);
     }
     isDirectory(path) {
-        return this._delegate.isDirectory(path).pipe(operators_1.catchError(() => rxjs_1.of(false)));
+        return this._delegate.isDirectory(path).pipe((0, operators_1.catchError)(() => (0, rxjs_1.of)(false)));
     }
     isFile(path) {
-        return this._delegate.isFile(path).pipe(operators_1.catchError(() => rxjs_1.of(false)));
+        return this._delegate.isFile(path).pipe((0, operators_1.catchError)(() => (0, rxjs_1.of)(false)));
     }
     // Some hosts may not support stats.
     stat(path) {
         const maybeStat = this._delegate.stat(path);
-        return maybeStat && maybeStat.pipe(operators_1.catchError(() => rxjs_1.of(null)));
+        return maybeStat && maybeStat.pipe((0, operators_1.catchError)(() => (0, rxjs_1.of)(null)));
     }
 }
 exports.SafeReadonlyHost = SafeReadonlyHost;

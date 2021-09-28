@@ -163,7 +163,7 @@ function updateJsonWorkspace(metadata) {
         const multiline = node.start.line !== node.end.line || type !== 'json';
         const pathSegments = path.split('/');
         const depth = pathSegments.length - 1; // TODO: more complete analysis
-        const propertyOrIndex = utilities_1.unescapeKey(pathSegments[depth]);
+        const propertyOrIndex = (0, utilities_1.unescapeKey)(pathSegments[depth]);
         const jsonValue = normalizeValue(value, type);
         if (op === 'add' && jsonValue === undefined) {
             continue;

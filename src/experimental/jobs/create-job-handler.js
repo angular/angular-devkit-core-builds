@@ -93,11 +93,11 @@ function createJobHandler(fn, options = {}) {
             subject.next({ kind: api_1.JobOutboundMessageKind.Start, description });
             let result = fn(argument, newContext);
             // If the result is a promise, simply wait for it to complete before reporting the result.
-            if (index_2.isPromise(result)) {
-                result = rxjs_1.from(result);
+            if ((0, index_2.isPromise)(result)) {
+                result = (0, rxjs_1.from)(result);
             }
-            else if (!rxjs_1.isObservable(result)) {
-                result = rxjs_1.of(result);
+            else if (!(0, rxjs_1.isObservable)(result)) {
+                result = (0, rxjs_1.of)(result);
             }
             subscription = result.subscribe((value) => subject.next({ kind: api_1.JobOutboundMessageKind.Output, description, value }), (error) => subject.error(error), () => complete());
             subscription.add(inboundSub);
@@ -114,7 +114,7 @@ exports.createJobHandler = createJobHandler;
  */
 function createJobFactory(loader, options = {}) {
     const handler = (argument, context) => {
-        return rxjs_1.from(loader()).pipe(operators_1.switchMap((fn) => fn(argument, context)));
+        return (0, rxjs_1.from)(loader()).pipe((0, operators_1.switchMap)((fn) => fn(argument, context)));
     };
     return Object.assign(handler, { jobDescription: options });
 }
@@ -126,9 +126,9 @@ exports.createJobFactory = createJobFactory;
 function createLoggerJob(job, logger) {
     const handler = (argument, context) => {
         context.inboundBus
-            .pipe(operators_1.tap((message) => logger.info(`Input: ${JSON.stringify(message)}`)))
+            .pipe((0, operators_1.tap)((message) => logger.info(`Input: ${JSON.stringify(message)}`)))
             .subscribe();
-        return job(argument, context).pipe(operators_1.tap((message) => logger.info(`Message: ${JSON.stringify(message)}`), (error) => logger.warn(`Error: ${JSON.stringify(error)}`), () => logger.info(`Completed`)));
+        return job(argument, context).pipe((0, operators_1.tap)((message) => logger.info(`Message: ${JSON.stringify(message)}`), (error) => logger.warn(`Error: ${JSON.stringify(error)}`), () => logger.info(`Completed`)));
     };
     return Object.assign(handler, job);
 }
