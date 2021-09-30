@@ -15,7 +15,7 @@ class Logger extends rxjs_1.Observable {
         this.name = name;
         this.parent = parent;
         this._subject = new rxjs_1.Subject();
-        this._obs = rxjs_1.empty();
+        this._obs = (0, rxjs_1.empty)();
         this._subscription = null;
         const path = [];
         let p = parent;

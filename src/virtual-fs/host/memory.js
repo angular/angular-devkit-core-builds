@@ -15,7 +15,7 @@ class SimpleMemoryHost {
     constructor() {
         this._cache = new Map();
         this._watchers = new Map();
-        this._cache.set(path_1.normalize('/'), this._newDirStats());
+        this._cache.set((0, path_1.normalize)('/'), this._newDirStats());
     }
     _newDirStats() {
         return {
@@ -56,7 +56,7 @@ class SimpleMemoryHost {
         };
     }
     _toAbsolute(path) {
-        return path_1.isAbsolute(path) ? path : path_1.normalize('/' + path);
+        return (0, path_1.isAbsolute)(path) ? path : (0, path_1.normalize)('/' + path);
     }
     _updateWatchers(path, type) {
         const time = new Date();
@@ -79,7 +79,7 @@ class SimpleMemoryHost {
         }
         do {
             currentPath = parent !== null ? parent : currentPath;
-            parent = path_1.dirname(currentPath);
+            parent = (0, path_1.dirname)(currentPath);
             const maybeWatcher = this._watchers.get(currentPath);
             if (maybeWatcher) {
                 maybeWatcher.forEach((watcher) => {
@@ -110,10 +110,10 @@ class SimpleMemoryHost {
             throw new exception_1.PathIsDirectoryException(path);
         }
         // Update all directories. If we find a file we know it's an invalid write.
-        const fragments = path_1.split(path);
-        let curr = path_1.normalize('/');
+        const fragments = (0, path_1.split)(path);
+        let curr = (0, path_1.normalize)('/');
         for (const fr of fragments) {
-            curr = path_1.join(curr, fr);
+            curr = (0, path_1.join)(curr, fr);
             const maybeStats = this._cache.get(fr);
             if (maybeStats) {
                 if (maybeStats.isFile()) {
@@ -174,7 +174,7 @@ class SimpleMemoryHost {
                     const content = this._cache.get(path);
                     if (content) {
                         // We don't need to clone or extract the content, since we're moving files.
-                        this._cache.set(path_1.join(to, path_1.NormalizedSep, path.slice(from.length)), content);
+                        this._cache.set((0, path_1.join)(to, path_1.NormalizedSep, path.slice(from.length)), content);
                     }
                 }
             }
@@ -182,11 +182,11 @@ class SimpleMemoryHost {
         else {
             const content = this._cache.get(from);
             if (content) {
-                const fragments = path_1.split(to);
+                const fragments = (0, path_1.split)(to);
                 const newDirectories = [];
-                let curr = path_1.normalize('/');
+                let curr = (0, path_1.normalize)('/');
                 for (const fr of fragments) {
-                    curr = path_1.join(curr, fr);
+                    curr = (0, path_1.join)(curr, fr);
                     const maybeStats = this._cache.get(fr);
                     if (maybeStats) {
                         if (maybeStats.isFile()) {
@@ -211,19 +211,19 @@ class SimpleMemoryHost {
         if (this._isFile(path)) {
             throw new exception_1.PathIsFileException(path);
         }
-        const fragments = path_1.split(path);
+        const fragments = (0, path_1.split)(path);
         const result = new Set();
         if (path !== path_1.NormalizedRoot) {
             for (const p of this._cache.keys()) {
                 if (p.startsWith(path + path_1.NormalizedSep)) {
-                    result.add(path_1.split(p)[fragments.length]);
+                    result.add((0, path_1.split)(p)[fragments.length]);
                 }
             }
         }
         else {
             for (const p of this._cache.keys()) {
                 if (p.startsWith(path_1.NormalizedSep) && p !== path_1.NormalizedRoot) {
-                    result.add(path_1.split(p)[1]);
+                    result.add((0, path_1.split)(p)[1]);
                 }
             }
         }

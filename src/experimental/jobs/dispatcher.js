@@ -36,7 +36,7 @@ function createDispatcher(options = {}) {
     });
     return Object.assign(job, {
         setDefaultJob(name) {
-            if (api_1.isJobHandler(name)) {
+            if ((0, api_1.isJobHandler)(name)) {
                 name = name.jobDescription.name === undefined ? null : name.jobDescription.name;
             }
             defaultDelegate = name;

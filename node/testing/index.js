@@ -37,8 +37,8 @@ const host_1 = require("../host");
  */
 class TempScopedNodeJsSyncHost extends src_1.virtualFs.ScopedHost {
     constructor() {
-        const root = src_1.normalize(path.join(os.tmpdir(), `devkit-host-${+Date.now()}-${process.pid}`));
-        fs.mkdirSync(src_1.getSystemPath(root));
+        const root = (0, src_1.normalize)(path.join(os.tmpdir(), `devkit-host-${+Date.now()}-${process.pid}`));
+        fs.mkdirSync((0, src_1.getSystemPath)(root));
         super(new host_1.NodeJsSyncHost(), root);
         this._root = root;
     }
@@ -47,7 +47,7 @@ class TempScopedNodeJsSyncHost extends src_1.virtualFs.ScopedHost {
         function _visit(p) {
             return sync
                 .list(p)
-                .map((fragment) => src_1.join(p, fragment))
+                .map((fragment) => (0, src_1.join)(p, fragment))
                 .reduce((files, path) => {
                 if (sync.isDirectory(path)) {
                     return files.concat(_visit(path));
@@ -57,7 +57,7 @@ class TempScopedNodeJsSyncHost extends src_1.virtualFs.ScopedHost {
                 }
             }, []);
         }
-        return _visit(src_1.normalize('/'));
+        return _visit((0, src_1.normalize)('/'));
     }
     get root() {
         return this._root;

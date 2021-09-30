@@ -13,7 +13,7 @@ const fs_1 = require("fs");
 function isFile(filePath) {
     let stat;
     try {
-        stat = fs_1.statSync(filePath);
+        stat = (0, fs_1.statSync)(filePath);
     }
     catch (e) {
         if (e && (e.code === 'ENOENT' || e.code === 'ENOTDIR')) {
@@ -28,7 +28,7 @@ exports.isFile = isFile;
 function isDirectory(filePath) {
     let stat;
     try {
-        stat = fs_1.statSync(filePath);
+        stat = (0, fs_1.statSync)(filePath);
     }
     catch (e) {
         if (e && (e.code === 'ENOENT' || e.code === 'ENOTDIR')) {

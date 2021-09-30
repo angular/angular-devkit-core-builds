@@ -89,7 +89,7 @@ class CoreSchemaRegistry {
             loadSchema: (uri) => this._fetch(uri),
             passContext: true,
         });
-        ajv_formats_1.default(this._ajv);
+        (0, ajv_formats_1.default)(this._ajv);
         for (const format of formats) {
             this.addFormat(format);
         }
@@ -105,7 +105,7 @@ class CoreSchemaRegistry {
             if (handlerResult === null || handlerResult === undefined) {
                 continue;
             }
-            if (rxjs_1.isObservable(handlerResult)) {
+            if ((0, rxjs_1.isObservable)(handlerResult)) {
                 handlerResult = handlerResult.toPromise();
             }
             const value = await handlerResult;
@@ -193,7 +193,7 @@ class CoreSchemaRegistry {
      * See: https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.appendix.B.2
      */
     flatten(schema) {
-        return rxjs_1.from(this._flatten(schema));
+        return (0, rxjs_1.from)(this._flatten(schema));
     }
     async _flatten(schema) {
         this._ajv.removeSchema(schema);
@@ -205,7 +205,7 @@ class CoreSchemaRegistry {
             if (current &&
                 parentSchema &&
                 index &&
-                utils_2.isJsonObject(current) &&
+                (0, utils_2.isJsonObject)(current) &&
                 Object.prototype.hasOwnProperty.call(current, '$ref') &&
                 typeof current['$ref'] == 'string') {
                 const resolved = self._resolver(current['$ref'], validate);
@@ -214,8 +214,8 @@ class CoreSchemaRegistry {
                 }
             }
         }
-        const schemaCopy = utils_1.deepCopy(validate.schema);
-        visitor_1.visitJsonSchema(schemaCopy, visitor);
+        const schemaCopy = (0, utils_1.deepCopy)(validate.schema);
+        (0, visitor_1.visitJsonSchema)(schemaCopy, visitor);
         return schemaCopy;
     }
     /**
@@ -226,7 +226,7 @@ class CoreSchemaRegistry {
      * @returns An Observable of the Validation function.
      */
     compile(schema) {
-        return rxjs_1.from(this._compile(schema)).pipe(operators_1.map((validate) => (value, options) => rxjs_1.from(validate(value, options))));
+        return (0, rxjs_1.from)(this._compile(schema)).pipe((0, operators_1.map)((validate) => (value, options) => (0, rxjs_1.from)(validate(value, options))));
     }
     async _compile(schema) {
         if (typeof schema === 'boolean') {
@@ -266,7 +266,7 @@ class CoreSchemaRegistry {
             // Apply pre-validation transforms
             if (validationOptions.applyPreTransforms) {
                 for (const visitor of this._pre.values()) {
-                    data = await visitor_1.visitJson(data, visitor, schema, this._resolver.bind(this), validator).toPromise();
+                    data = await (0, visitor_1.visitJson)(data, visitor, schema, this._resolver.bind(this), validator).toPromise();
                 }
             }
             // Apply smart defaults
@@ -280,7 +280,7 @@ class CoreSchemaRegistry {
                     return value;
                 };
                 if (typeof schema === 'object') {
-                    await visitor_1.visitJson(data, visitor, schema, this._resolver.bind(this), validator).toPromise();
+                    await (0, visitor_1.visitJson)(data, visitor, schema, this._resolver.bind(this), validator).toPromise();
                 }
                 const definitions = schemaInfo.promptDefinitions.filter((def) => !validationContext.promptFieldsWithValue.has(def.id));
                 if (definitions.length > 0) {
@@ -303,7 +303,7 @@ class CoreSchemaRegistry {
             // Apply post-validation transforms
             if (validationOptions.applyPostTransforms) {
                 for (const visitor of this._post.values()) {
-                    data = await visitor_1.visitJson(data, visitor, schema, this._resolver.bind(this), validator).toPromise();
+                    data = await (0, visitor_1.visitJson)(data, visitor, schema, this._resolver.bind(this), validator).toPromise();
                 }
             }
             return { data, success: true };
@@ -374,7 +374,7 @@ class CoreSchemaRegistry {
                     type = schema.type;
                     items = schema.items;
                 }
-                const propertyTypes = utility_1.getTypesOfSchema(parentSchema);
+                const propertyTypes = (0, utility_1.getTypesOfSchema)(parentSchema);
                 if (!type) {
                     if (propertyTypes.size === 1 && propertyTypes.has('boolean')) {
                         type = 'confirmation';
@@ -483,7 +483,7 @@ class CoreSchemaRegistry {
         if (!provider) {
             return;
         }
-        const answers = await rxjs_1.from(provider(prompts)).toPromise();
+        const answers = await (0, rxjs_1.from)(provider(prompts)).toPromise();
         for (const path in answers) {
             const pathFragments = path.split('/').slice(1);
             CoreSchemaRegistry._set(data, pathFragments, answers[path], null, undefined, true);
@@ -524,7 +524,7 @@ class CoreSchemaRegistry {
                 continue;
             }
             let value = source(schema);
-            if (rxjs_1.isObservable(value)) {
+            if ((0, rxjs_1.isObservable)(value)) {
                 value = await value.toPromise();
             }
             CoreSchemaRegistry._set(data, fragments, value);

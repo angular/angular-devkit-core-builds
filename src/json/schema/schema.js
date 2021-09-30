@@ -10,7 +10,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.mergeSchemas = exports.isJsonSchema = void 0;
 const utils_1 = require("../utils");
 function isJsonSchema(value) {
-    return utils_1.isJsonObject(value) || value === false || value === true;
+    return (0, utils_1.isJsonObject)(value) || value === false || value === true;
 }
 exports.isJsonSchema = isJsonSchema;
 /**

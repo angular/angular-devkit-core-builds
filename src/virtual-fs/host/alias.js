@@ -63,16 +63,16 @@ class AliasHost extends resolver_1.ResolverHost {
     }
     _resolve(path) {
         let maybeAlias = this._aliases.get(path);
-        const sp = path_1.split(path);
+        const sp = (0, path_1.split)(path);
         const remaining = [];
         // Also resolve all parents of the requested files, only picking the first one that matches.
         // This can have surprising behaviour when aliases are inside another alias. It will always
         // use the closest one to the file.
         while (!maybeAlias && sp.length > 0) {
-            const p = path_1.join(path_1.NormalizedRoot, ...sp);
+            const p = (0, path_1.join)(path_1.NormalizedRoot, ...sp);
             maybeAlias = this._aliases.get(p);
             if (maybeAlias) {
-                maybeAlias = path_1.join(maybeAlias, ...remaining);
+                maybeAlias = (0, path_1.join)(maybeAlias, ...remaining);
             }
             // Allow non-null-operator because we know sp.length > 0 (condition on while).
             remaining.unshift(sp.pop()); // eslint-disable-line @typescript-eslint/no-non-null-assertion
