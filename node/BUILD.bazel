@@ -28,7 +28,6 @@ ts_library(
     deps = [
         "//packages/angular_devkit/core",
         "@npm//@types/node",
-        "@npm//chokidar",
         "@npm//rxjs",
     ],
 )
