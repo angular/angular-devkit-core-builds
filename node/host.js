@@ -114,7 +114,8 @@ class NodeJsAsyncHost {
     watch(path, _options) {
         return new rxjs_1.Observable((obs) => {
             loadFSWatcher();
-            const watcher = new FSWatcher({ persistent: true }).add((0, src_1.getSystemPath)(path));
+            const watcher = new FSWatcher({ persistent: true });
+            watcher.add((0, src_1.getSystemPath)(path));
             watcher
                 .on('change', (path) => {
                 obs.next({
@@ -232,9 +233,9 @@ class NodeJsSyncHost {
     // Some hosts may not support watching.
     watch(path, _options) {
         return new rxjs_1.Observable((obs) => {
-            const opts = { persistent: false };
             loadFSWatcher();
-            const watcher = new FSWatcher(opts).add((0, src_1.getSystemPath)(path));
+            const watcher = new FSWatcher({ persistent: false });
+            watcher.add((0, src_1.getSystemPath)(path));
             watcher
                 .on('change', (path) => {
                 obs.next({
