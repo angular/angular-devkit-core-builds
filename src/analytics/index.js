@@ -39,7 +39,7 @@ var NgCliAnalyticsDimensions;
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["RamInGigabytes"] = 3] = "RamInGigabytes";
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["NodeVersion"] = 4] = "NodeVersion";
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["NgAddCollection"] = 6] = "NgAddCollection";
-    NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["NgIvyEnabled"] = 8] = "NgIvyEnabled";
+    NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["AotEnabled"] = 8] = "AotEnabled";
     NgCliAnalyticsDimensions[NgCliAnalyticsDimensions["BuildErrors"] = 20] = "BuildErrors";
 })(NgCliAnalyticsDimensions = exports.NgCliAnalyticsDimensions || (exports.NgCliAnalyticsDimensions = {}));
 var NgCliAnalyticsMetrics;
@@ -68,7 +68,7 @@ exports.NgCliAnalyticsDimensionsFlagInfo = {
     RamInGigabytes: ['RAM (In GB)', 'number'],
     NodeVersion: ['Node Version', 'number'],
     NgAddCollection: ['--collection', 'string'],
-    NgIvyEnabled: ['Ivy Enabled', 'boolean'],
+    AotEnabled: ['AOT Enabled', 'boolean'],
     BuildErrors: ['Build Errors (comma separated)', 'string'],
 };
 // This table is used when generating the analytics.md file. It should match the enum above
