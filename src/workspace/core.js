@@ -72,7 +72,8 @@ async function readWorkspace(path, host, format) {
             }
         }
         if (!found) {
-            throw new Error('Unable to locate a workspace file for workspace path.');
+            throw new Error('Unable to locate a workspace file for workspace path. Are you missing an `angular.json`' +
+                ' or `.angular.json` file?');
         }
     }
     else if (format === undefined) {
