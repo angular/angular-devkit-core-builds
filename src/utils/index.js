@@ -34,7 +34,6 @@ const tags = __importStar(require("./literals"));
 exports.tags = tags;
 const strings = __importStar(require("./strings"));
 exports.strings = strings;
-__exportStar(require("./array"), exports);
 __exportStar(require("./object"), exports);
 __exportStar(require("./template"), exports);
 __exportStar(require("./partially-ordered-set"), exports);

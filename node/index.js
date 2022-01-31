@@ -29,10 +29,8 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fs = exports.experimental = void 0;
+exports.experimental = void 0;
 const experimental = __importStar(require("./experimental/jobs/job-registry"));
 exports.experimental = experimental;
-const fs = __importStar(require("./fs"));
-exports.fs = fs;
 __exportStar(require("./cli-logger"), exports);
 __exportStar(require("./host"), exports);
