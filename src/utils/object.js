@@ -7,7 +7,15 @@
  * found in the LICENSE file at https://angular.io/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deepCopy = void 0;
+exports.deepCopy = exports.mapObject = void 0;
+/** @deprecated Since v12.0, unused by the Angular tooling */
+function mapObject(obj, mapper) {
+    return Object.keys(obj).reduce((acc, k) => {
+        acc[k] = mapper(k, obj[k]);
+        return acc;
+    }, {});
+}
+exports.mapObject = mapObject;
 const copySymbol = Symbol();
 function deepCopy(value) {
     if (Array.isArray(value)) {
