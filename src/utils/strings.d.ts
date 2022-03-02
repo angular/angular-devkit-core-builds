@@ -67,7 +67,7 @@ export declare function camelize(str: string): string;
  */
 export declare function classify(str: string): string;
 /**
- More general than decamelize. Returns the lower\_case\_and\_underscored
+ More general than decamelize. Returns the lower_case_and_underscored
  form of a string.
 
  ```javascript
