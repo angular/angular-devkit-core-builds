@@ -7,7 +7,7 @@
  */
 import { ValidateFunction } from 'ajv';
 import { Observable } from 'rxjs';
-import { BaseException } from '../../exception/exception';
+import { BaseException } from '../../exception';
 import { JsonObject } from '../utils';
 import { JsonVisitor, PromptProvider, SchemaFormat, SchemaRegistry, SchemaValidator, SchemaValidatorError, SmartDefaultProvider } from './interface';
 import { JsonSchema } from './schema';

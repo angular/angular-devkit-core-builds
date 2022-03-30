@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Observable, Observer } from 'rxjs';
-import { BaseException } from '../../exception/index';
+import { BaseException } from '../../exception';
 import { JsonValue } from '../../json/index';
 import { LoggerApi } from '../../logger';
 import { JobDescription, JobHandler, JobHandlerContext } from './api';
