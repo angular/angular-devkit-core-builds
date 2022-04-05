@@ -7,7 +7,6 @@
  */
 import { BaseException } from '../exception';
 import { JsonAstNode, Position } from './parser_ast';
-import { JsonValue } from './utils';
 export declare class JsonException extends BaseException {
 }
 /**
@@ -29,15 +28,6 @@ export declare class InvalidJsonCharacterException extends JsonException {
  */
 export declare class UnexpectedEndOfInputException extends JsonException {
     constructor(_context: JsonParserContext);
-}
-/**
- * An error happened within a file.
- * @deprecated Deprecated since version 11. Use 3rd party JSON parsers such as `jsonc-parser` instead.
- */
-export declare class PathSpecificJsonException extends JsonException {
-    path: string;
-    exception: JsonException;
-    constructor(path: string, exception: JsonException);
 }
 /**
  * Context passed around the parser with information about where we currently are in the parse.
@@ -78,27 +68,3 @@ export declare enum JsonParseMode {
  * @returns {JsonAstNode} The root node of the value of the AST.
  */
 export declare function parseJsonAst(input: string, mode?: JsonParseMode): JsonAstNode;
-/**
- * Options for the parseJson() function.
- * @deprecated Deprecated since version 11. Use 3rd party JSON parsers such as `jsonc-parser` instead.
- */
-export interface ParseJsonOptions {
-    /**
-     * If omitted, will only emit errors related to the content of the JSON. If specified, any
-     * JSON errors will also include the path of the file that caused the error.
-     */
-    path?: string;
-}
-/**
- * Parse a JSON string into its value.  This discards the AST and only returns the value itself.
- *
- * If a path option is pass, it also absorbs JSON parsing errors and return a new error with the
- * path in it. Useful for showing errors when parsing from a file.
- *
- * @deprecated Deprecated since version 11. Use 3rd party JSON parsers such as `jsonc-parser` instead.
- * @param input The string to parse.
- * @param mode The mode to parse the input with. {@see JsonParseMode}.
- * @param options Additional optinos for parsing.
- * @returns {JsonValue} The value represented by the JSON string.
- */
-export declare function parseJson(input: string, mode?: JsonParseMode, options?: ParseJsonOptions): JsonValue;
