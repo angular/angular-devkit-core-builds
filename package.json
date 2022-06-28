@@ -1,23 +1,18 @@
 {
   "name": "@angular-devkit/core",
-  "version": "14.1.0-next.1+sha-0922cce",
+  "version": "14.1.0-next.2+sha-43f495d",
   "description": "Angular DevKit - Core Utility Library",
   "main": "src/index.js",
   "typings": "src/index.d.ts",
   "keywords": [
-    "Angular CLI",
-    "Angular DevKit",
-    "angular",
-    "core",
-    "devkit",
-    "sdk"
+    "core"
   ],
   "dependencies": {
     "ajv-formats": "2.1.1",
     "ajv": "8.11.0",
     "jsonc-parser": "3.0.0",
     "rxjs": "6.6.7",
-    "source-map": "0.7.3"
+    "source-map": "0.7.4"
   },
   "peerDependencies": {
     "chokidar": "^3.5.2"
@@ -26,20 +21,5 @@
     "chokidar": {
       "optional": true
     }
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/angular/angular-cli.git"
-  },
-  "engines": {
-    "node": "^14.15.0 || >=16.10.0",
-    "npm": "^6.11.0 || ^7.5.6 || >=8.0.0",
-    "yarn": ">= 1.13.0"
-  },
-  "author": "Angular Authors",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/angular/angular-cli/issues"
-  },
-  "homepage": "https://github.com/angular/angular-cli"
+  }
 }
