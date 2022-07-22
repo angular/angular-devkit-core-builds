@@ -54,14 +54,13 @@ export declare function camelize(str: string): string;
 /**
  Returns the UpperCamelCase form of a string.
 
- @example
  ```javascript
  'innerHTML'.classify();          // 'InnerHTML'
  'action_name'.classify();        // 'ActionName'
  'css-class-name'.classify();     // 'CssClassName'
  'my favorite items'.classify();  // 'MyFavoriteItems'
- 'app.component'.classify();      // 'AppComponent'
  ```
+
  @method classify
  @param {String} str the string to classify
  @return {String} the classified string
