@@ -51,5 +51,5 @@ export declare class Logger extends Observable<LogEntry> implements LoggerApi {
     subscribe(): Subscription;
     subscribe(observer: PartialObserver<LogEntry>): Subscription;
     subscribe(next?: (value: LogEntry) => void, error?: (error: Error) => void, complete?: () => void): Subscription;
-    forEach(next: (value: LogEntry) => void, promiseCtor?: typeof Promise): Promise<void>;
+    forEach(next: (value: LogEntry) => void, promiseCtor?: PromiseConstructorLike): Promise<void>;
 }
