@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 /// <reference types="node" />
-import { Stats } from 'fs';
+import { Stats } from 'node:fs';
 import { Observable } from 'rxjs';
 import { Path, PathFragment, virtualFs } from '../src';
 /**
