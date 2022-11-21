@@ -1,6 +1,6 @@
 {
   "name": "@angular-devkit/core",
-  "version": "15.0.0+sha-52f63b1",
+  "version": "15.0.0+sha-fc0d924",
   "description": "Angular DevKit - Core Utility Library",
   "main": "src/index.js",
   "typings": "src/index.d.ts",
