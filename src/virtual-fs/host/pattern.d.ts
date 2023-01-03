@@ -7,7 +7,7 @@
  */
 import { Path } from '../path';
 import { ResolverHost } from './resolver';
-export declare type ReplacementFunction = (path: Path) => Path;
+export type ReplacementFunction = (path: Path) => Path;
 /**
  */
 export declare class PatternMatchingHost<StatsT extends object = {}> extends ResolverHost<StatsT> {

@@ -8,7 +8,7 @@
 import { ErrorObject, Format } from 'ajv';
 import { Observable, SubscribableOrPromise } from 'rxjs';
 import { JsonArray, JsonObject, JsonValue } from '../utils';
-export declare type JsonPointer = string & {
+export type JsonPointer = string & {
     __PRIVATE_DEVKIT_JSON_POINTER: void;
 };
 export interface SchemaValidatorResult {
@@ -16,7 +16,7 @@ export interface SchemaValidatorResult {
     success: boolean;
     errors?: SchemaValidatorError[];
 }
-export declare type SchemaValidatorError = Partial<ErrorObject>;
+export type SchemaValidatorError = Partial<ErrorObject>;
 export interface SchemaValidatorOptions {
     applyPreTransforms?: boolean;
     applyPostTransforms?: boolean;
@@ -25,7 +25,7 @@ export interface SchemaValidatorOptions {
 export interface SchemaValidator {
     (data: JsonValue, options?: SchemaValidatorOptions): Observable<SchemaValidatorResult>;
 }
-export declare type SchemaFormatter = Format;
+export type SchemaFormatter = Format;
 export interface SchemaFormat {
     name: string;
     formatter: SchemaFormatter;
@@ -50,7 +50,7 @@ export interface PromptDefinition {
     multiselect?: boolean;
     propertyTypes: Set<string>;
 }
-export declare type PromptProvider = (definitions: Array<PromptDefinition>) => SubscribableOrPromise<{
+export type PromptProvider = (definitions: Array<PromptDefinition>) => SubscribableOrPromise<{
     [id: string]: JsonValue;
 }>;
 export interface SchemaRegistry {

@@ -11,7 +11,7 @@ import { BaseException } from '../../exception';
 import { JsonObject } from '../utils';
 import { JsonVisitor, PromptProvider, SchemaFormat, SchemaRegistry, SchemaValidator, SchemaValidatorError, SmartDefaultProvider } from './interface';
 import { JsonSchema } from './schema';
-export declare type UriHandler = (uri: string) => Observable<JsonObject> | Promise<JsonObject> | null | undefined;
+export type UriHandler = (uri: string) => Observable<JsonObject> | Promise<JsonObject> | null | undefined;
 export declare class SchemaValidationException extends BaseException {
     readonly errors: SchemaValidatorError[];
     constructor(errors?: SchemaValidatorError[], baseMessage?: string);

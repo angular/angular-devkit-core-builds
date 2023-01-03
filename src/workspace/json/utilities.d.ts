@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { JsonArray, JsonObject, JsonValue } from '../../json';
-export declare type ChangeListener = (path: string[], newValue: JsonValue | undefined) => void;
+export type ChangeListener = (path: string[], newValue: JsonValue | undefined) => void;
 export declare function createVirtualAstObject<T extends object = JsonObject>(root: JsonObject | JsonArray, options?: {
     exclude?: string[];
     include?: string[];

@@ -11,7 +11,7 @@ import { JsonObject } from '../utils';
  *
  * @public
  */
-export declare type JsonSchema = JsonObject | boolean;
+export type JsonSchema = JsonObject | boolean;
 export declare function isJsonSchema(value: unknown): value is JsonSchema;
 /**
  * Return a schema that is the merge of all subschemas, ie. it should validate all the schemas
