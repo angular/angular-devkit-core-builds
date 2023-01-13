@@ -28,7 +28,7 @@ export interface CordHostDelete {
     kind: 'delete';
     path: Path;
 }
-export declare type CordHostRecord = CordHostCreate | CordHostOverwrite | CordHostRename | CordHostDelete;
+export type CordHostRecord = CordHostCreate | CordHostOverwrite | CordHostRename | CordHostDelete;
 /**
  * A Host that records changes to the underlying Host, while keeping a record of Create, Overwrite,
  * Rename and Delete of files.

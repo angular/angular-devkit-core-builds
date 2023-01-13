@@ -66,7 +66,7 @@ export interface TemplateAstInterpolate extends TemplateAstBase {
     kind: 'interpolate';
     expression: string;
 }
-export declare type TemplateAstNode = TemplateAstContent | TemplateAstEvaluate | TemplateAstComment | TemplateAstEscape | TemplateAstInterpolate;
+export type TemplateAstNode = TemplateAstContent | TemplateAstEvaluate | TemplateAstComment | TemplateAstEscape | TemplateAstInterpolate;
 /**
  * Given a source text (and a fileName), returns a TemplateAst.
  */

@@ -19,13 +19,13 @@ export declare class PathCannotBeFragmentException extends BaseException {
 /**
  * A Path recognized by most methods in the DevKit.
  */
-export declare type Path = string & {
+export type Path = string & {
     __PRIVATE_DEVKIT_PATH: void;
 };
 /**
  * A Path fragment (file or directory name) recognized by most methods in the DevKit.
  */
-export declare type PathFragment = Path & {
+export type PathFragment = Path & {
     __PRIVATE_DEVKIT_PATH_FRAGMENT: void;
 };
 /**
@@ -102,10 +102,10 @@ export declare function normalize(path: string): Path;
  */
 export declare function noCacheNormalize(path: string): Path;
 export declare const path: TemplateTag<Path>;
-export declare type WindowsPath = string & {
+export type WindowsPath = string & {
     __PRIVATE_DEVKIT_WINDOWS_PATH: void;
 };
-export declare type PosixPath = string & {
+export type PosixPath = string & {
     __PRIVATE_DEVKIT_POSIX_PATH: void;
 };
 export declare function asWindowsPath(path: Path): WindowsPath;

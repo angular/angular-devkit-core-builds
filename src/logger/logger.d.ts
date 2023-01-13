@@ -25,7 +25,7 @@ export interface LoggerApi {
     error(message: string, metadata?: JsonObject): void;
     fatal(message: string, metadata?: JsonObject): void;
 }
-export declare type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'fatal';
+export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'fatal';
 export declare class Logger extends Observable<LogEntry> implements LoggerApi {
     readonly name: string;
     readonly parent: Logger | null;
