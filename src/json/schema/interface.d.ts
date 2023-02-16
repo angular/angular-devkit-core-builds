@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { ErrorObject, Format } from 'ajv';
-import { Observable, SubscribableOrPromise } from 'rxjs';
+import { Observable, ObservableInput } from 'rxjs';
 import { JsonArray, JsonObject, JsonValue } from '../utils';
 export type JsonPointer = string & {
     __PRIVATE_DEVKIT_JSON_POINTER: void;
@@ -50,7 +50,7 @@ export interface PromptDefinition {
     multiselect?: boolean;
     propertyTypes: Set<string>;
 }
-export type PromptProvider = (definitions: Array<PromptDefinition>) => SubscribableOrPromise<{
+export type PromptProvider = (definitions: Array<PromptDefinition>) => ObservableInput<{
     [id: string]: JsonValue;
 }>;
 export interface SchemaRegistry {
