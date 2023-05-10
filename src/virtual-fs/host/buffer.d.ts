@@ -8,5 +8,6 @@
 import { TemplateTag } from '../../utils/literals';
 import { FileBuffer } from './interface';
 export declare function stringToFileBuffer(str: string): FileBuffer;
-export declare const fileBuffer: TemplateTag<FileBuffer>;
 export declare function fileBufferToString(fileBuffer: FileBuffer): string;
+/** @deprecated use `stringToFileBuffer` instead. */
+export declare const fileBuffer: TemplateTag<FileBuffer>;
