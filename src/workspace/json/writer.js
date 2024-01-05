@@ -9,6 +9,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.writeJsonWorkspace = void 0;
 const jsonc_parser_1 = require("jsonc-parser");
+const node_os_1 = require("node:os");
 const metadata_1 = require("./metadata");
 async function writeJsonWorkspace(workspace, host, path, options = {}) {
     const metadata = workspace[metadata_1.JsonWorkspaceSymbol];
@@ -122,9 +123,21 @@ function updateJsonWorkspace(metadata) {
             formattingOptions: {
                 insertSpaces: true,
                 tabSize: 2,
+                eol: getEOL(content),
             },
         });
         content = (0, jsonc_parser_1.applyEdits)(content, edits);
     }
     return content;
+}
+function getEOL(content) {
+    const CRLF = '\r\n';
+    const LF = '\n';
+    const newlines = content.match(/(?:\r?\n)/g);
+    if (newlines?.length) {
+        const crlf = newlines.filter((l) => l === CRLF).length;
+        const lf = newlines.length - crlf;
+        return crlf > lf ? CRLF : LF;
+    }
+    return node_os_1.EOL;
 }
