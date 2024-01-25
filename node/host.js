@@ -86,21 +86,21 @@ class NodeJsAsyncHost {
                 obs.next({
                     path: (0, src_1.normalize)(path),
                     time: new Date(),
-                    type: 0 /* virtualFs.HostWatchEventType.Changed */,
+                    type: src_1.virtualFs.HostWatchEventType.Changed,
                 });
             })
                 .on('add', (path) => {
                 obs.next({
                     path: (0, src_1.normalize)(path),
                     time: new Date(),
-                    type: 1 /* virtualFs.HostWatchEventType.Created */,
+                    type: src_1.virtualFs.HostWatchEventType.Created,
                 });
             })
                 .on('unlink', (path) => {
                 obs.next({
                     path: (0, src_1.normalize)(path),
                     time: new Date(),
-                    type: 2 /* virtualFs.HostWatchEventType.Deleted */,
+                    type: src_1.virtualFs.HostWatchEventType.Deleted,
                 });
             });
             return () => {
@@ -186,21 +186,21 @@ class NodeJsSyncHost {
                 obs.next({
                     path: (0, src_1.normalize)(path),
                     time: new Date(),
-                    type: 0 /* virtualFs.HostWatchEventType.Changed */,
+                    type: src_1.virtualFs.HostWatchEventType.Changed,
                 });
             })
                 .on('add', (path) => {
                 obs.next({
                     path: (0, src_1.normalize)(path),
                     time: new Date(),
-                    type: 1 /* virtualFs.HostWatchEventType.Created */,
+                    type: src_1.virtualFs.HostWatchEventType.Created,
                 });
             })
                 .on('unlink', (path) => {
                 obs.next({
                     path: (0, src_1.normalize)(path),
                     time: new Date(),
-                    type: 2 /* virtualFs.HostWatchEventType.Deleted */,
+                    type: src_1.virtualFs.HostWatchEventType.Deleted,
                 });
             });
             return () => {

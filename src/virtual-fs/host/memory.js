@@ -11,6 +11,7 @@ exports.SimpleMemoryHost = void 0;
 const rxjs_1 = require("rxjs");
 const exception_1 = require("../../exception");
 const path_1 = require("../path");
+const interface_1 = require("./interface");
 class SimpleMemoryHost {
     _cache = new Map();
     _watchers = new Map();
@@ -71,7 +72,7 @@ class SimpleMemoryHost {
             maybeWatcher.forEach((watcher) => {
                 const [options, subject] = watcher;
                 subject.next({ path, time, type });
-                if (!options.persistent && type == 2 /* HostWatchEventType.Deleted */) {
+                if (!options.persistent && type == interface_1.HostWatchEventType.Deleted) {
                     subject.complete();
                     this._watchers.delete(currentPath);
                 }
@@ -88,7 +89,7 @@ class SimpleMemoryHost {
                         return;
                     }
                     subject.next({ path, time, type });
-                    if (!options.persistent && type == 2 /* HostWatchEventType.Deleted */) {
+                    if (!options.persistent && type == interface_1.HostWatchEventType.Deleted) {
                         subject.complete();
                         this._watchers.delete(currentPath);
                     }
@@ -127,7 +128,7 @@ class SimpleMemoryHost {
         // Create the stats.
         const stats = this._newFileStats(content, old);
         this._cache.set(path, stats);
-        this._updateWatchers(path, old ? 0 /* HostWatchEventType.Changed */ : 1 /* HostWatchEventType.Created */);
+        this._updateWatchers(path, old ? interface_1.HostWatchEventType.Changed : interface_1.HostWatchEventType.Created);
     }
     _read(path) {
         path = this._toAbsolute(path);
@@ -157,7 +158,7 @@ class SimpleMemoryHost {
         else {
             this._cache.delete(path);
         }
-        this._updateWatchers(path, 2 /* HostWatchEventType.Deleted */);
+        this._updateWatchers(path, interface_1.HostWatchEventType.Deleted);
     }
     _rename(from, to) {
         from = this._toAbsolute(from);
@@ -204,7 +205,7 @@ class SimpleMemoryHost {
                 this._cache.set(to, content);
             }
         }
-        this._updateWatchers(from, 3 /* HostWatchEventType.Renamed */);
+        this._updateWatchers(from, interface_1.HostWatchEventType.Renamed);
     }
     _list(path) {
         path = this._toAbsolute(path);
