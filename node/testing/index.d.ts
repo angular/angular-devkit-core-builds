@@ -6,8 +6,6 @@
  * found in the LICENSE file at https://angular.io/license
  */
 /// <reference types="node" />
-/// <reference types="@types/node/fs" />
-/// <reference types="@types/node/ts4.8/fs" />
 import * as fs from 'fs';
 import { Path, virtualFs } from '../../src';
 /**
