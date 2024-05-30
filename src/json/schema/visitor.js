@@ -7,7 +7,8 @@
  * found in the LICENSE file at https://angular.io/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.visitJsonSchema = exports.visitJson = void 0;
+exports.visitJson = visitJson;
+exports.visitJsonSchema = visitJsonSchema;
 const rxjs_1 = require("rxjs");
 const pointer_1 = require("./pointer");
 function _getObjectSubSchema(schema, key) {
@@ -84,7 +85,6 @@ function _visitJsonRecursive(json, visitor, ptr, schema, refResolver, context, r
 function visitJson(json, visitor, schema, refResolver, context) {
     return _visitJsonRecursive(json, visitor, (0, pointer_1.buildJsonPointer)([]), schema, refResolver, context);
 }
-exports.visitJson = visitJson;
 function visitJsonSchema(schema, visitor) {
     if (schema === false || schema === true) {
         // Nothing to visit.
@@ -144,4 +144,3 @@ function visitJsonSchema(schema, visitor) {
     }
     _traverse(schema, (0, pointer_1.buildJsonPointer)([]), schema);
 }
-exports.visitJsonSchema = visitJsonSchema;

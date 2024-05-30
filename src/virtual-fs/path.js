@@ -7,7 +7,22 @@
  * found in the LICENSE file at https://angular.io/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSystemPath = exports.asPosixPath = exports.asWindowsPath = exports.path = exports.noCacheNormalize = exports.normalize = exports.resetNormalizeCache = exports.fragment = exports.resolve = exports.relative = exports.isAbsolute = exports.join = exports.dirname = exports.basename = exports.extname = exports.split = exports.NormalizedRoot = exports.NormalizedSep = exports.PathCannotBeFragmentException = exports.PathMustBeAbsoluteException = exports.InvalidPathException = void 0;
+exports.path = exports.NormalizedRoot = exports.NormalizedSep = exports.PathCannotBeFragmentException = exports.PathMustBeAbsoluteException = exports.InvalidPathException = void 0;
+exports.split = split;
+exports.extname = extname;
+exports.basename = basename;
+exports.dirname = dirname;
+exports.join = join;
+exports.isAbsolute = isAbsolute;
+exports.relative = relative;
+exports.resolve = resolve;
+exports.fragment = fragment;
+exports.resetNormalizeCache = resetNormalizeCache;
+exports.normalize = normalize;
+exports.noCacheNormalize = noCacheNormalize;
+exports.asWindowsPath = asWindowsPath;
+exports.asPosixPath = asPosixPath;
+exports.getSystemPath = getSystemPath;
 const exception_1 = require("../exception");
 class InvalidPathException extends exception_1.BaseException {
     constructor(path) {
@@ -50,7 +65,6 @@ function split(path) {
     }
     return fragments;
 }
-exports.split = split;
 /**
  *
  */
@@ -64,7 +78,6 @@ function extname(path) {
         return base.slice(i);
     }
 }
-exports.extname = extname;
 /**
  * Return the basename of the path, as a Path. See path.basename
  */
@@ -77,7 +90,6 @@ function basename(path) {
         return fragment(path.slice(path.lastIndexOf(exports.NormalizedSep) + 1));
     }
 }
-exports.basename = basename;
 /**
  * Return the dirname of the path, as a Path. See path.dirname
  */
@@ -89,7 +101,6 @@ function dirname(path) {
     const endIndex = index === 0 ? 1 : index; // case of file under root: '/file'
     return normalize(path.slice(0, endIndex));
 }
-exports.dirname = dirname;
 /**
  * Join multiple paths together, and normalize the result. Accepts strings that will be
  * normalized as well (but the original must be a path).
@@ -102,14 +113,12 @@ function join(p1, ...others) {
         return p1;
     }
 }
-exports.join = join;
 /**
  * Returns true if a path is absolute.
  */
 function isAbsolute(p) {
     return p.startsWith(exports.NormalizedSep);
 }
-exports.isAbsolute = isAbsolute;
 /**
  * Returns a path such that `join(from, relative(from, to)) == to`.
  * Both paths must be absolute, otherwise it does not make much sense.
@@ -144,7 +153,6 @@ function relative(from, to) {
     }
     return normalize(p);
 }
-exports.relative = relative;
 /**
  * Returns a Path that is the resolution of p2, from p1. If p2 is absolute, it will return p2,
  * otherwise will join both p1 and p2.
@@ -157,14 +165,12 @@ function resolve(p1, p2) {
         return join(p1, p2);
     }
 }
-exports.resolve = resolve;
 function fragment(path) {
     if (path.indexOf(exports.NormalizedSep) != -1) {
         throw new PathCannotBeFragmentException(path);
     }
     return path;
 }
-exports.fragment = fragment;
 /**
  * normalize() cache to reduce computation. For now this grows and we never flush it, but in the
  * future we might want to add a few cache flush to prevent this from growing too large.
@@ -177,7 +183,6 @@ let normalizedCache = new Map();
 function resetNormalizeCache() {
     normalizedCache = new Map();
 }
-exports.resetNormalizeCache = resetNormalizeCache;
 /**
  * Normalize a string into a Path. This is the only mean to get a Path type from a string that
  * represents a system path. This method cache the results as real world paths tend to be
@@ -200,7 +205,6 @@ function normalize(path) {
     }
     return maybePath;
 }
-exports.normalize = normalize;
 /**
  * The no cache version of the normalize() function. Used for benchmarking and testing.
  */
@@ -258,7 +262,6 @@ function noCacheNormalize(path) {
         return p.join(exports.NormalizedSep);
     }
 }
-exports.noCacheNormalize = noCacheNormalize;
 const path = (strings, ...values) => {
     return normalize(String.raw(strings, ...values));
 };
@@ -271,11 +274,9 @@ function asWindowsPath(path) {
     }
     return path.replace(/\//g, '\\');
 }
-exports.asWindowsPath = asWindowsPath;
 function asPosixPath(path) {
     return path;
 }
-exports.asPosixPath = asPosixPath;
 function getSystemPath(path) {
     if (process.platform.startsWith('win32')) {
         return asWindowsPath(path);
@@ -284,4 +285,3 @@ function getSystemPath(path) {
         return asPosixPath(path);
     }
 }
-exports.getSystemPath = getSystemPath;

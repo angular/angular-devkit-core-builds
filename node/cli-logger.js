@@ -7,7 +7,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createConsoleLogger = void 0;
+exports.createConsoleLogger = createConsoleLogger;
 const rxjs_1 = require("rxjs");
 const src_1 = require("../src");
 /**
@@ -55,4 +55,3 @@ function createConsoleLogger(verbose = false, stdout = process.stdout, stderr = 
     });
     return logger;
 }
-exports.createConsoleLogger = createConsoleLogger;

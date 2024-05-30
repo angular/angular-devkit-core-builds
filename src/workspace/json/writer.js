@@ -7,7 +7,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.writeJsonWorkspace = void 0;
+exports.writeJsonWorkspace = writeJsonWorkspace;
 const jsonc_parser_1 = require("jsonc-parser");
 const node_os_1 = require("node:os");
 const metadata_1 = require("./metadata");
@@ -31,7 +31,6 @@ async function writeJsonWorkspace(workspace, host, path, options = {}) {
         return host.writeFile(path, data);
     }
 }
-exports.writeJsonWorkspace = writeJsonWorkspace;
 function convertJsonWorkspace(workspace, schema) {
     const obj = {
         $schema: schema || './node_modules/@angular/cli/lib/config/schema.json',

@@ -7,7 +7,13 @@
  * found in the LICENSE file at https://angular.io/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.levenshtein = exports.capitalize = exports.underscore = exports.classify = exports.camelize = exports.dasherize = exports.decamelize = void 0;
+exports.decamelize = decamelize;
+exports.dasherize = dasherize;
+exports.camelize = camelize;
+exports.classify = classify;
+exports.underscore = underscore;
+exports.capitalize = capitalize;
+exports.levenshtein = levenshtein;
 const STRING_DASHERIZE_REGEXP = /[ _]/g;
 const STRING_DECAMELIZE_REGEXP = /([a-z\d])([A-Z])/g;
 const STRING_CAMELIZE_REGEXP = /(-|_|\.|\s)+(.)?/g;
@@ -30,7 +36,6 @@ const STRING_UNDERSCORE_REGEXP_2 = /-|\s+/g;
 function decamelize(str) {
     return str.replace(STRING_DECAMELIZE_REGEXP, '$1_$2').toLowerCase();
 }
-exports.decamelize = decamelize;
 /**
  Replaces underscores, spaces, or camelCase with dashes.
 
@@ -48,7 +53,6 @@ exports.decamelize = decamelize;
 function dasherize(str) {
     return decamelize(str).replace(STRING_DASHERIZE_REGEXP, '-');
 }
-exports.dasherize = dasherize;
 /**
  Returns the lowerCamelCase form of a string.
 
@@ -71,7 +75,6 @@ function camelize(str) {
     })
         .replace(/^([A-Z])/, (match) => match.toLowerCase());
 }
-exports.camelize = camelize;
 /**
  Returns the UpperCamelCase form of a string.
 
@@ -93,7 +96,6 @@ function classify(str) {
         .map((part) => capitalize(camelize(part)))
         .join('');
 }
-exports.classify = classify;
 /**
  More general than decamelize. Returns the lower_case_and_underscored
  form of a string.
@@ -115,7 +117,6 @@ function underscore(str) {
         .replace(STRING_UNDERSCORE_REGEXP_2, '_')
         .toLowerCase();
 }
-exports.underscore = underscore;
 /**
  Returns the Capitalized form of a string
 
@@ -133,7 +134,6 @@ exports.underscore = underscore;
 function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
-exports.capitalize = capitalize;
 /**
  * Calculate the levenshtein distance of two strings.
  * See https://en.wikipedia.org/wiki/Levenshtein_distance.
@@ -176,4 +176,3 @@ function levenshtein(a, b) {
     }
     return matrix[b.length][a.length];
 }
-exports.levenshtein = levenshtein;

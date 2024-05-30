@@ -7,7 +7,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createVirtualAstObject = void 0;
+exports.createVirtualAstObject = createVirtualAstObject;
 const json_1 = require("../../json");
 function createVirtualAstObject(root, options = {}) {
     const reporter = (path, target, oldValue, newValue) => {
@@ -29,7 +29,6 @@ function createVirtualAstObject(root, options = {}) {
     };
     return create(Array.isArray(root) ? [...root] : { ...root }, [], reporter, new Set(options.exclude), options.include?.length ? new Set(options.include) : undefined);
 }
-exports.createVirtualAstObject = createVirtualAstObject;
 function create(obj, path, reporter, excluded = new Set(), included) {
     return new Proxy(obj, {
         getOwnPropertyDescriptor(target, p) {

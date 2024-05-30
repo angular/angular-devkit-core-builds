@@ -7,7 +7,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createSyncHost = void 0;
+exports.createSyncHost = createSyncHost;
 const rxjs_1 = require("rxjs");
 function wrapAction(action) {
     return new rxjs_1.Observable((subscriber) => {
@@ -52,4 +52,3 @@ function createSyncHost(handler) {
         }
     })();
 }
-exports.createSyncHost = createSyncHost;

@@ -7,7 +7,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isPromise = void 0;
+exports.isPromise = isPromise;
 // Borrowed from @angular/core
 /**
  * Determine if the argument is shaped like a Promise
@@ -18,4 +18,3 @@ function isPromise(obj) {
     // It's up to the caller to ensure that obj.then conforms to the spec
     return !!obj && typeof obj.then === 'function';
 }
-exports.isPromise = isPromise;

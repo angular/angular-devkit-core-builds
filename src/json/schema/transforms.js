@@ -7,7 +7,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addUndefinedDefaults = void 0;
+exports.addUndefinedDefaults = addUndefinedDefaults;
 const utils_1 = require("../utils");
 const utility_1 = require("./utility");
 function addUndefinedDefaults(value, _pointer, schema) {
@@ -91,4 +91,3 @@ function addUndefinedDefaults(value, _pointer, schema) {
     }
     return value;
 }
-exports.addUndefinedDefaults = addUndefinedDefaults;

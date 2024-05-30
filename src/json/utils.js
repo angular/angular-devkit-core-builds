@@ -7,12 +7,11 @@
  * found in the LICENSE file at https://angular.io/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isJsonArray = exports.isJsonObject = void 0;
+exports.isJsonObject = isJsonObject;
+exports.isJsonArray = isJsonArray;
 function isJsonObject(value) {
     return value != null && typeof value === 'object' && !Array.isArray(value);
 }
-exports.isJsonObject = isJsonObject;
 function isJsonArray(value) {
     return Array.isArray(value);
 }
-exports.isJsonArray = isJsonArray;

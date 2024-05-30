@@ -7,7 +7,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.readJsonWorkspace = void 0;
+exports.readJsonWorkspace = readJsonWorkspace;
 const jsonc_parser_1 = require("jsonc-parser");
 const utils_1 = require("../../json/utils");
 const definitions_1 = require("../definitions");
@@ -58,7 +58,6 @@ async function readJsonWorkspace(path, host, options = {}) {
     const workspace = parseWorkspace(ast, context);
     return workspace;
 }
-exports.readJsonWorkspace = readJsonWorkspace;
 function parseWorkspace(workspaceNode, context) {
     const jsonMetadata = context.metadata;
     let projects;

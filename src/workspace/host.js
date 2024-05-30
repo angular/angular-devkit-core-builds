@@ -7,7 +7,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createWorkspaceHost = void 0;
+exports.createWorkspaceHost = createWorkspaceHost;
 const rxjs_1 = require("rxjs");
 const virtual_fs_1 = require("../virtual-fs");
 function createWorkspaceHost(host) {
@@ -40,4 +40,3 @@ function createWorkspaceHost(host) {
     };
     return workspaceHost;
 }
-exports.createWorkspaceHost = createWorkspaceHost;

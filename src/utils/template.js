@@ -7,7 +7,8 @@
  * found in the LICENSE file at https://angular.io/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.template = exports.templateParser = void 0;
+exports.templateParser = templateParser;
+exports.template = template;
 const source_map_1 = require("source-map");
 // Matches <%= expr %>. This does not support structural JavaScript (for/if/...).
 const kInterpolateRe = /<%=([\s\S]+?)%>/g;
@@ -105,7 +106,6 @@ function templateParser(sourceText, fileName) {
         children,
     };
 }
-exports.templateParser = templateParser;
 /**
  * Fastest implementation of the templating algorithm. It only add strings and does not bother
  * with source maps.
@@ -259,4 +259,3 @@ function template(content, options) {
     result.source = source;
     return result;
 }
-exports.template = template;

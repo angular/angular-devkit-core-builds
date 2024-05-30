@@ -7,7 +7,11 @@
  * found in the LICENSE file at https://angular.io/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.writeWorkspace = exports.readWorkspace = exports._test_removeWorkspaceFile = exports._test_addWorkspaceFile = exports.WorkspaceFormat = void 0;
+exports.WorkspaceFormat = void 0;
+exports._test_addWorkspaceFile = _test_addWorkspaceFile;
+exports._test_removeWorkspaceFile = _test_removeWorkspaceFile;
+exports.readWorkspace = readWorkspace;
+exports.writeWorkspace = writeWorkspace;
 const virtual_fs_1 = require("../virtual-fs");
 const reader_1 = require("./json/reader");
 const writer_1 = require("./json/writer");
@@ -25,14 +29,12 @@ var WorkspaceFormat;
 function _test_addWorkspaceFile(name, format) {
     workspaceFiles[name] = format;
 }
-exports._test_addWorkspaceFile = _test_addWorkspaceFile;
 /**
  * @private
  */
 function _test_removeWorkspaceFile(name) {
     delete workspaceFiles[name];
 }
-exports._test_removeWorkspaceFile = _test_removeWorkspaceFile;
 // NOTE: future additions could also perform content analysis to determine format/version
 const workspaceFiles = {
     'angular.json': WorkspaceFormat.JSON,
@@ -96,7 +98,6 @@ async function readWorkspace(path, host, format) {
     formatLookup.set(workspace, WorkspaceFormat.JSON);
     return { workspace };
 }
-exports.readWorkspace = readWorkspace;
 /**
  * Writes a `WorkspaceDefinition` to the underlying storage via the provided `WorkspaceHost`.
  * If the `WorkspaceDefinition` was created via the `readWorkspace` function, metadata will be
@@ -129,4 +130,3 @@ async function writeWorkspace(workspace, host, path, format) {
             throw new Error('Unsupported workspace format.');
     }
 }
-exports.writeWorkspace = writeWorkspace;

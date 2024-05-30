@@ -7,7 +7,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTypesOfSchema = void 0;
+exports.getTypesOfSchema = getTypesOfSchema;
 const utils_1 = require("../utils");
 const allTypes = ['string', 'integer', 'number', 'object', 'array', 'boolean', 'null'];
 function getTypesOfSchema(schema) {
@@ -85,4 +85,3 @@ function getTypesOfSchema(schema) {
     }
     return potentials;
 }
-exports.getTypesOfSchema = getTypesOfSchema;

@@ -7,12 +7,12 @@
  * found in the LICENSE file at https://angular.io/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mergeSchemas = exports.isJsonSchema = void 0;
+exports.isJsonSchema = isJsonSchema;
+exports.mergeSchemas = mergeSchemas;
 const utils_1 = require("../utils");
 function isJsonSchema(value) {
     return (0, utils_1.isJsonObject)(value) || value === false || value === true;
 }
-exports.isJsonSchema = isJsonSchema;
 /**
  * Return a schema that is the merge of all subschemas, ie. it should validate all the schemas
  * that were passed in. It is possible to make an invalid schema this way, e.g. by using
@@ -49,4 +49,3 @@ function mergeSchemas(...schemas) {
         }
     }, true);
 }
-exports.mergeSchemas = mergeSchemas;

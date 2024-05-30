@@ -7,7 +7,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deepCopy = void 0;
+exports.deepCopy = deepCopy;
 const copySymbol = Symbol();
 function deepCopy(value) {
     if (Array.isArray(value)) {
@@ -34,4 +34,3 @@ function deepCopy(value) {
         return value;
     }
 }
-exports.deepCopy = deepCopy;

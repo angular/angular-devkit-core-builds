@@ -7,7 +7,9 @@
  * found in the LICENSE file at https://angular.io/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseJsonPointer = exports.joinJsonPointer = exports.buildJsonPointer = void 0;
+exports.buildJsonPointer = buildJsonPointer;
+exports.joinJsonPointer = joinJsonPointer;
+exports.parseJsonPointer = parseJsonPointer;
 function buildJsonPointer(fragments) {
     return ('/' +
         fragments
@@ -16,14 +18,12 @@ function buildJsonPointer(fragments) {
         })
             .join('/'));
 }
-exports.buildJsonPointer = buildJsonPointer;
 function joinJsonPointer(root, ...others) {
     if (root == '/') {
         return buildJsonPointer(others);
     }
     return (root + buildJsonPointer(others));
 }
-exports.joinJsonPointer = joinJsonPointer;
 function parseJsonPointer(pointer) {
     if (pointer === '') {
         return [];
@@ -36,4 +36,3 @@ function parseJsonPointer(pointer) {
         .split(/\//)
         .map((str) => str.replace(/~1/g, '/').replace(/~0/g, '~'));
 }
-exports.parseJsonPointer = parseJsonPointer;
