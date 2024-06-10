@@ -1,6 +1,6 @@
 {
   "name": "@angular-devkit/core",
-  "version": "18.1.0-next.1+sha-49ee886",
+  "version": "18.1.0-next.1+sha-cec97fe",
   "description": "Angular DevKit - Core Utility Library",
   "main": "src/index.js",
   "typings": "src/index.d.ts",
@@ -30,8 +30,8 @@
     "./*.js": "./*.js"
   },
   "dependencies": {
-    "ajv-formats": "3.0.1",
     "ajv": "8.16.0",
+    "ajv-formats": "3.0.1",
     "jsonc-parser": "3.2.1",
     "picomatch": "4.0.2",
     "rxjs": "7.8.1",
@@ -45,6 +45,7 @@
       "optional": true
     }
   },
+  "packageManager": "yarn@4.2.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/angular/angular-cli.git"
