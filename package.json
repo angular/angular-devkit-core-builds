@@ -1,6 +1,6 @@
 {
   "name": "@angular-devkit/core",
-  "version": "18.1.0-next.3+sha-894878b",
+  "version": "18.1.0-next.3+sha-aebfde2",
   "description": "Angular DevKit - Core Utility Library",
   "main": "src/index.js",
   "typings": "src/index.d.ts",
@@ -32,7 +32,7 @@
   "dependencies": {
     "ajv": "8.16.0",
     "ajv-formats": "3.0.1",
-    "jsonc-parser": "3.2.1",
+    "jsonc-parser": "3.3.1",
     "picomatch": "4.0.2",
     "rxjs": "7.8.1",
     "source-map": "0.7.4"
