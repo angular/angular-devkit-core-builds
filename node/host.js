@@ -161,11 +161,9 @@ class NodeJsSyncHost {
         });
     }
     isDirectory(path) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return this.stat(path).pipe((0, rxjs_1.map)((stat) => stat.isDirectory()));
     }
     isFile(path) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return this.stat(path).pipe((0, rxjs_1.map)((stat) => stat.isFile()));
     }
     // Some hosts may not support stat.

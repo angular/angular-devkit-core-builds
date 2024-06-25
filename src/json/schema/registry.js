@@ -291,6 +291,7 @@ class CoreSchemaRegistry {
             }
             // Validate using ajv
             try {
+                // eslint-disable-next-line @typescript-eslint/await-thenable
                 const success = await validator.call(validationContext, data);
                 if (!success) {
                     return { data, success, errors: validator.errors ?? [] };
