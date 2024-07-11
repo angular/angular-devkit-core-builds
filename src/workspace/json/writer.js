@@ -95,14 +95,16 @@ function normalizeValue(value, type) {
     switch (type) {
         case 'project':
             return convertJsonProject(value);
-        case 'projectcollection':
+        case 'projectcollection': {
             const projects = convertJsonProjectCollection(value);
             return isEmpty(projects) ? undefined : projects;
+        }
         case 'target':
             return convertJsonTarget(value);
-        case 'targetcollection':
+        case 'targetcollection': {
             const targets = convertJsonTargetCollection(value);
             return isEmpty(targets) ? undefined : targets;
+        }
         default:
             return value;
     }

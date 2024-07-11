@@ -140,7 +140,7 @@ function parseProject(projectName, projectNode, context) {
     for (const [name, value] of Object.entries(projectNodeValue)) {
         switch (name) {
             case 'targets':
-            case 'architect':
+            case 'architect': {
                 const nodes = (0, jsonc_parser_1.findNodeAtLocation)(projectNode, [name]);
                 if (!(0, utils_1.isJsonObject)(value) || !nodes) {
                     context.error(`Invalid "${name}" field found; expected an object.`, value);
@@ -150,6 +150,7 @@ function parseProject(projectName, projectNode, context) {
                 targets = parseTargetsObject(projectName, nodes, context);
                 jsonMetadata.hasLegacyTargetsName = name === 'architect';
                 break;
+            }
             case 'prefix':
             case 'root':
             case 'sourceRoot':
