@@ -135,6 +135,7 @@ class PartiallyOrderedSet {
                 throw new CircularDependencyFoundException();
             }
         }
+        return undefined;
     }
     get [Symbol.toStringTag]() {
         return 'Set';
