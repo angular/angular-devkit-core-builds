@@ -34,10 +34,10 @@ declare class DefinitionCollection<V extends object> implements ReadonlyMap<stri
     get(key: string): V | undefined;
     has(key: string): boolean;
     get size(): number;
-    [Symbol.iterator](): IterableIterator<[string, V]>;
-    entries(): IterableIterator<[string, V]>;
-    keys(): IterableIterator<string>;
-    values(): IterableIterator<V>;
+    [Symbol.iterator](): MapIterator<[string, V]>;
+    entries(): MapIterator<[string, V]>;
+    keys(): MapIterator<string>;
+    values(): MapIterator<V>;
 }
 export declare class ProjectDefinitionCollection extends DefinitionCollection<ProjectDefinition> {
     constructor(initial?: Record<string, ProjectDefinition>, listener?: DefinitionCollectionListener<ProjectDefinition>);
