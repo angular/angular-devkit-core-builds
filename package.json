@@ -1,6 +1,6 @@
 {
   "name": "@angular-devkit/core",
-  "version": "19.0.5+sha-2f4df6b",
+  "version": "19.0.5+sha-8907541",
   "description": "Angular DevKit - Core Utility Library",
   "main": "src/index.js",
   "typings": "src/index.d.ts",
@@ -45,7 +45,6 @@
       "optional": true
     }
   },
-  "packageManager": "yarn@4.5.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/angular/angular-cli.git"
@@ -68,5 +67,8 @@
     "puppeteer": {
       "built": true
     }
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": []
   }
 }
