@@ -12,7 +12,7 @@ export declare class DependencyNotFoundException extends BaseException {
 export declare class CircularDependencyFoundException extends BaseException {
     constructor();
 }
-export declare class PartiallyOrderedSet<T> implements Set<T> {
+export declare class PartiallyOrderedSet<T> {
     private _items;
     protected _checkCircularDependencies(item: T, deps: Set<T>): void;
     clear(): void;
@@ -34,5 +34,5 @@ export declare class PartiallyOrderedSet<T> implements Set<T> {
     add(item: T, deps?: Set<T> | T[]): this;
     delete(item: T): boolean;
     [Symbol.iterator](): IterableIterator<T, undefined, unknown>;
-    get [Symbol.toStringTag](): 'Set';
+    get [Symbol.toStringTag](): 'PartiallyOrderedSet';
 }
