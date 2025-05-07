@@ -22,15 +22,15 @@ export declare class PartiallyOrderedSet<T> {
     /**
      * Returns an iterable of [v,v] pairs for every value `v` in the set.
      */
-    entries(): SetIterator<[T, T]>;
+    entries(): IterableIterator<[T, T]>;
     /**
      * Despite its name, returns an iterable of the values in the set,
      */
-    keys(): SetIterator<T>;
+    keys(): IterableIterator<T>;
     /**
      * Returns an iterable of values in the set.
      */
-    values(): SetIterator<T>;
+    values(): IterableIterator<T>;
     add(item: T, deps?: Set<T> | T[]): this;
     delete(item: T): boolean;
     [Symbol.iterator](): IterableIterator<T, undefined, unknown>;
