@@ -1,6 +1,6 @@
 {
   "name": "@angular-devkit/core",
-  "version": "20.2.0-next.1+sha-7a18373",
+  "version": "20.2.0-next.1+sha-13b6223",
   "description": "Angular DevKit - Core Utility Library",
   "main": "src/index.js",
   "typings": "src/index.d.ts",
@@ -35,7 +35,7 @@
     "jsonc-parser": "3.3.1",
     "picomatch": "4.0.3",
     "rxjs": "7.8.2",
-    "source-map": "0.7.4"
+    "source-map": "0.7.6"
   },
   "peerDependencies": {
     "chokidar": "^4.0.0"
