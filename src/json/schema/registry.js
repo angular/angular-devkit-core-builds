@@ -562,3 +562,4 @@ class CoreSchemaRegistry {
     }
 }
 exports.CoreSchemaRegistry = CoreSchemaRegistry;
+//# sourceMappingURL=registry.js.map

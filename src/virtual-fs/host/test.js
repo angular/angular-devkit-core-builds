@@ -116,3 +116,4 @@ class TestHost extends memory_1.SimpleMemoryHost {
     }
 }
 exports.TestHost = TestHost;
+//# sourceMappingURL=test.js.map

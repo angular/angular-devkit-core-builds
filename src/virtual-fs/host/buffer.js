@@ -19,3 +19,4 @@ function fileBufferToString(fileBuffer) {
     }
     return new node_util_1.TextDecoder('utf-8').decode(new Uint8Array(fileBuffer));
 }
+//# sourceMappingURL=buffer.js.map

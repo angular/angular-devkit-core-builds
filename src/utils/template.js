@@ -259,3 +259,4 @@ function template(content, options) {
     result.source = source;
     return result;
 }
+//# sourceMappingURL=template.js.map

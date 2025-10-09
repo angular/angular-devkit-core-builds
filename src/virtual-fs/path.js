@@ -283,3 +283,4 @@ function getSystemPath(path) {
         return asPosixPath(path);
     }
 }
+//# sourceMappingURL=path.js.map

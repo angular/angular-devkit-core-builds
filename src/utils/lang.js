@@ -18,3 +18,4 @@ function isPromise(obj) {
     // It's up to the caller to ensure that obj.then conforms to the spec
     return !!obj && typeof obj.then === 'function';
 }
+//# sourceMappingURL=lang.js.map

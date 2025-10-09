@@ -40,3 +40,4 @@ function createWorkspaceHost(host) {
     };
     return workspaceHost;
 }
+//# sourceMappingURL=host.js.map

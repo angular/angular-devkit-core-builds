@@ -55,3 +55,4 @@ function createConsoleLogger(verbose = false, stdout = process.stdout, stderr = 
     });
     return logger;
 }
+//# sourceMappingURL=cli-logger.js.map
