@@ -21,6 +21,9 @@ class CircularDependencyFoundException extends exception_1.BaseException {
     }
 }
 exports.CircularDependencyFoundException = CircularDependencyFoundException;
+/**
+ * @deprecated Use standard arrays and ensure correct insertion order instead.
+ */
 class PartiallyOrderedSet {
     _items = new Map();
     _checkCircularDependencies(item, deps) {
