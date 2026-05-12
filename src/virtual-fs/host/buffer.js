@@ -9,19 +9,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.stringToFileBuffer = stringToFileBuffer;
 exports.fileBufferToString = fileBufferToString;
-/**
- * @deprecated Use `new TextEncoder().encode(str).buffer` instead.
- */
+const node_util_1 = require("node:util");
 function stringToFileBuffer(str) {
-    return new TextEncoder().encode(str).buffer;
+    return new node_util_1.TextEncoder().encode(str).buffer;
 }
-/**
- * @deprecated Use `new TextDecoder().decode(fileBuffer)` instead.
- */
 function fileBufferToString(fileBuffer) {
     if (fileBuffer.toString.length === 1) {
         return fileBuffer.toString('utf-8');
     }
-    return new TextDecoder('utf-8').decode(new Uint8Array(fileBuffer));
+    return new node_util_1.TextDecoder('utf-8').decode(new Uint8Array(fileBuffer));
 }
 //# sourceMappingURL=buffer.js.map
