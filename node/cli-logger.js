@@ -12,6 +12,8 @@ const rxjs_1 = require("rxjs");
 const src_1 = require("../src");
 /**
  * A Logger that sends information to STDOUT and STDERR.
+ *
+ * @deprecated Use a custom logger implementation instead.
  */
 function createConsoleLogger(verbose = false, stdout = process.stdout, stderr = process.stderr, colors) {
     const logger = new src_1.logging.IndentLogger('cling');
