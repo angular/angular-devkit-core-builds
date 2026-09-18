@@ -72,18 +72,20 @@ class SchemaValidationException extends exception_1.BaseException {
             return [];
         }
         const messages = errors.map((err) => {
+            if (err.keyword === 'additionalProperties') {
+                const unknown = err.params?.additionalProperty;
+                // `parentSchema` is the schema that rejected the property, which ajv only attaches when
+                // the validator was created with `verbose: true`. A schema that declares no `properties`
+                // of its own, such as one using only `patternProperties`, has no options to offer.
+                const known = Object.keys(err.parentSchema?.properties ?? {});
+                return (`Unknown option "${unknown}"${err.instancePath ? ` at "${err.instancePath}"` : ''}.` +
+                    (known.length ? ` Valid options are: ${known.join(', ')}.` : ''));
+            }
             let message = `Data path ${JSON.stringify(err.instancePath)} ${err.message}`;
-            if (err.params) {
-                switch (err.keyword) {
-                    case 'additionalProperties':
-                        message += `(${err.params.additionalProperty})`;
-                        break;
-                    case 'enum':
-                        message += `. Allowed values are: ${err.params.allowedValues
-                            ?.map((v) => `"${v}"`)
-                            .join(', ')}`;
-                        break;
-                }
+            if (err.keyword === 'enum' && err.params) {
+                message += `. Allowed values are: ${err.params.allowedValues
+                    ?.map((v) => `"${v}"`)
+                    .join(', ')}`;
             }
             return message + '.';
         });
@@ -106,6 +108,8 @@ class CoreSchemaRegistry {
             strict: false,
             loadSchema: (uri) => this._fetch(uri),
             passContext: true,
+            // Needed to list the valid options of the object an unknown option was found in.
+            verbose: true,
         });
         (0, ajv_formats_1.default)(this._ajv);
         for (const format of formats) {
