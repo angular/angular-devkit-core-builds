@@ -53,7 +53,7 @@ function getTypesOfSchema(schema) {
     }
     if ((0, utils_1.isJsonObject)(schema.not)) {
         const notTypes = getTypesOfSchema(schema.not);
-        potentials = new Set([...potentials].filter((p) => !notTypes.has(p)));
+        potentials = potentials.difference(notTypes);
     }
     if (Array.isArray(schema.allOf)) {
         for (const sub of schema.allOf) {
@@ -65,7 +65,7 @@ function getTypesOfSchema(schema) {
         let options = new Set();
         for (const sub of schema.oneOf) {
             const types = getTypesOfSchema(sub);
-            options = new Set([...options, ...types]);
+            options = options.union(types);
         }
         potentials = new Set([...options].filter((o) => potentials.has(o)));
     }
@@ -73,7 +73,7 @@ function getTypesOfSchema(schema) {
         let options = new Set();
         for (const sub of schema.anyOf) {
             const types = getTypesOfSchema(sub);
-            options = new Set([...options, ...types]);
+            options = options.union(types);
         }
         potentials = new Set([...options].filter((o) => potentials.has(o)));
     }

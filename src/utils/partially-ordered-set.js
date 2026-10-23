@@ -74,22 +74,7 @@ class PartiallyOrderedSet {
         if (this._items.has(item)) {
             const itemDeps = this._items.get(item) || new Set();
             // If the dependency list is equal, just return, otherwise remove and keep going.
-            let equal = true;
-            for (const dep of deps) {
-                if (!itemDeps.has(dep)) {
-                    equal = false;
-                    break;
-                }
-            }
-            if (equal) {
-                for (const dep of itemDeps) {
-                    if (!deps.has(dep)) {
-                        equal = false;
-                        break;
-                    }
-                }
-            }
-            if (equal) {
+            if (deps.size === itemDeps.size && deps.isSubsetOf(itemDeps)) {
                 return this;
             }
             else {
@@ -97,10 +82,8 @@ class PartiallyOrderedSet {
             }
         }
         // Verify all dependencies are part of the Set.
-        for (const dep of deps) {
-            if (!this._items.has(dep)) {
-                throw new DependencyNotFoundException();
-            }
+        if (!deps.isSubsetOf(this._items)) {
+            throw new DependencyNotFoundException();
         }
         // Verify there's no dependency cycle.
         this._checkCircularDependencies(item, deps);
