@@ -503,10 +503,10 @@ class CoreSchemaRegistry {
         const answers = await (0, rxjs_1.lastValueFrom)((0, rxjs_1.from)(provider(prompts)));
         for (const path in answers) {
             const pathFragments = path.split('/').slice(1);
-            CoreSchemaRegistry._set(data, pathFragments, answers[path], null, undefined, true);
+            await CoreSchemaRegistry._set(data, pathFragments, answers[path], null, undefined, true);
         }
     }
-    static _set(
+    static async _set(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data, fragments, value, 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -518,7 +518,7 @@ class CoreSchemaRegistry {
                     return;
                 }
                 for (let dataIndex = 0; dataIndex < data.length; dataIndex++) {
-                    CoreSchemaRegistry._set(data[dataIndex], fragments.slice(index + 1), value, data, `${dataIndex}`);
+                    await CoreSchemaRegistry._set(data[dataIndex], fragments.slice(index + 1), value, data, `${dataIndex}`);
                 }
                 return;
             }
@@ -530,7 +530,11 @@ class CoreSchemaRegistry {
             data = data[fragment];
         }
         if (parent && parentProperty && (force || parent[parentProperty] === undefined)) {
-            parent[parentProperty] = value;
+            let resolvedValue = typeof value === 'function' ? value() : value;
+            if ((0, rxjs_1.isObservable)(resolvedValue)) {
+                resolvedValue = await (0, rxjs_1.lastValueFrom)(resolvedValue);
+            }
+            parent[parentProperty] = resolvedValue;
         }
     }
     async _applySmartDefaults(data, smartDefaults) {
@@ -540,11 +544,7 @@ class CoreSchemaRegistry {
             if (!source) {
                 continue;
             }
-            let value = source(schema);
-            if ((0, rxjs_1.isObservable)(value)) {
-                value = (await (0, rxjs_1.lastValueFrom)(value));
-            }
-            CoreSchemaRegistry._set(data, fragments, value);
+            await CoreSchemaRegistry._set(data, fragments, () => source(schema));
         }
     }
     useXDeprecatedProvider(onUsage) {
