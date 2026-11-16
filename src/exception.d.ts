@@ -23,3 +23,9 @@ export declare class PathIsDirectoryException extends BaseException {
 export declare class PathIsFileException extends BaseException {
     constructor(path: string);
 }
+export declare class DependencyNotFoundException extends BaseException {
+    constructor();
+}
+export declare class CircularDependencyFoundException extends BaseException {
+    constructor();
+}

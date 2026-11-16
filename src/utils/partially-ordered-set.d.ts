@@ -5,13 +5,6 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.dev/license
  */
-import { BaseException } from '../exception';
-export declare class DependencyNotFoundException extends BaseException {
-    constructor();
-}
-export declare class CircularDependencyFoundException extends BaseException {
-    constructor();
-}
 /**
  * @deprecated Use standard arrays and ensure correct insertion order instead.
  */

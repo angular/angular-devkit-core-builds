@@ -51,8 +51,7 @@ const https = __importStar(require("node:https"));
 const Url = __importStar(require("node:url"));
 const rxjs_1 = require("rxjs");
 const exception_1 = require("../../exception");
-const utils_1 = require("../../utils");
-const utils_2 = require("../utils");
+const utils_1 = require("../utils");
 const utility_1 = require("./utility");
 const visitor_1 = require("./visitor");
 class SchemaValidationException extends exception_1.BaseException {
@@ -93,12 +92,37 @@ class SchemaValidationException extends exception_1.BaseException {
     }
 }
 exports.SchemaValidationException = SchemaValidationException;
+/**
+ * Adds a transform to an ordered list of transforms.
+ *
+ * Transforms run in insertion order and each transform is only present once. Dependencies
+ * must already be in the list, which guarantees that they run before the added transform.
+ */
+function addTransform(transforms, visitor, deps = []) {
+    const existingIndex = transforms.indexOf(visitor);
+    const position = existingIndex === -1 ? transforms.length : existingIndex;
+    for (const dep of deps) {
+        const depIndex = transforms.indexOf(dep);
+        if (depIndex === -1) {
+            throw new exception_1.DependencyNotFoundException();
+        }
+        if (depIndex === position) {
+            throw new exception_1.CircularDependencyFoundException();
+        }
+        if (depIndex > position) {
+            throw new Error('The transform is already registered and runs before one of the provided dependencies.');
+        }
+    }
+    if (existingIndex === -1) {
+        transforms.push(visitor);
+    }
+}
 class CoreSchemaRegistry {
     _ajv;
     _uriCache = new Map();
     _uriHandlers = new Set();
-    _pre = new utils_1.PartiallyOrderedSet();
-    _post = new utils_1.PartiallyOrderedSet();
+    _pre = [];
+    _post = [];
     _currentCompilationSchemaInfo;
     _smartDefaultKeyword = false;
     _promptProvider;
@@ -170,7 +194,7 @@ class CoreSchemaRegistry {
      * @param {JsonVisitor[]} deps [Deprecated] A list of other visitors to run before. Add transforms in the desired execution order instead.
      */
     addPreTransform(visitor, deps) {
-        this._pre.add(visitor, deps);
+        addTransform(this._pre, visitor, deps);
     }
     /**
      * Add a transformation step after the validation of any Json. The JSON will not be validated
@@ -180,7 +204,7 @@ class CoreSchemaRegistry {
      * @param {JsonVisitor[]} deps [Deprecated] A list of other visitors to run before. Add transforms in the desired execution order instead.
      */
     addPostTransform(visitor, deps) {
-        this._post.add(visitor, deps);
+        addTransform(this._post, visitor, deps);
     }
     _resolver(ref, validate) {
         if (!validate || !ref) {
@@ -222,7 +246,7 @@ class CoreSchemaRegistry {
             if (current &&
                 parentSchema &&
                 index &&
-                (0, utils_2.isJsonObject)(current) &&
+                (0, utils_1.isJsonObject)(current) &&
                 Object.prototype.hasOwnProperty.call(current, '$ref') &&
                 typeof current['$ref'] == 'string') {
                 const resolved = self._resolver(current['$ref'], validate);
@@ -281,7 +305,7 @@ class CoreSchemaRegistry {
             };
             // Apply pre-validation transforms
             if (validationOptions.applyPreTransforms) {
-                for (const visitor of this._pre.values()) {
+                for (const visitor of this._pre) {
                     data = await (0, rxjs_1.lastValueFrom)((0, visitor_1.visitJson)(data, visitor, schema, this._resolver.bind(this), validator));
                 }
             }
@@ -319,7 +343,7 @@ class CoreSchemaRegistry {
             }
             // Apply post-validation transforms
             if (validationOptions.applyPostTransforms) {
-                for (const visitor of this._post.values()) {
+                for (const visitor of this._post) {
                     data = await (0, rxjs_1.lastValueFrom)((0, visitor_1.visitJson)(data, visitor, schema, this._resolver.bind(this), validator));
                 }
             }

@@ -7,20 +7,8 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PartiallyOrderedSet = exports.CircularDependencyFoundException = exports.DependencyNotFoundException = void 0;
+exports.PartiallyOrderedSet = void 0;
 const exception_1 = require("../exception");
-class DependencyNotFoundException extends exception_1.BaseException {
-    constructor() {
-        super('One of the dependencies is not part of the set.');
-    }
-}
-exports.DependencyNotFoundException = DependencyNotFoundException;
-class CircularDependencyFoundException extends exception_1.BaseException {
-    constructor() {
-        super('Circular dependencies found.');
-    }
-}
-exports.CircularDependencyFoundException = CircularDependencyFoundException;
 /**
  * @deprecated Use standard arrays and ensure correct insertion order instead.
  */
@@ -28,7 +16,7 @@ class PartiallyOrderedSet {
     _items = new Map();
     _checkCircularDependencies(item, deps) {
         if (deps.has(item)) {
-            throw new CircularDependencyFoundException();
+            throw new exception_1.CircularDependencyFoundException();
         }
         deps.forEach((dep) => this._checkCircularDependencies(item, this._items.get(dep) || new Set()));
     }
@@ -83,7 +71,7 @@ class PartiallyOrderedSet {
         }
         // Verify all dependencies are part of the Set.
         if (!deps.isSubsetOf(this._items)) {
-            throw new DependencyNotFoundException();
+            throw new exception_1.DependencyNotFoundException();
         }
         // Verify there's no dependency cycle.
         this._checkCircularDependencies(item, deps);
@@ -118,7 +106,7 @@ class PartiallyOrderedSet {
             }
             if (run.length == 0) {
                 // uh oh...
-                throw new CircularDependencyFoundException();
+                throw new exception_1.CircularDependencyFoundException();
             }
         }
         return undefined;

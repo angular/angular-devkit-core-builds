@@ -7,7 +7,7 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PathIsFileException = exports.PathIsDirectoryException = exports.FileAlreadyExistException = exports.FileDoesNotExistException = exports.UnknownException = exports.BaseException = void 0;
+exports.CircularDependencyFoundException = exports.DependencyNotFoundException = exports.PathIsFileException = exports.PathIsDirectoryException = exports.FileAlreadyExistException = exports.FileDoesNotExistException = exports.UnknownException = exports.BaseException = void 0;
 class BaseException extends Error {
     constructor(message = '') {
         super(message);
@@ -45,4 +45,16 @@ class PathIsFileException extends BaseException {
     }
 }
 exports.PathIsFileException = PathIsFileException;
+class DependencyNotFoundException extends BaseException {
+    constructor() {
+        super('One of the dependencies is not part of the set.');
+    }
+}
+exports.DependencyNotFoundException = DependencyNotFoundException;
+class CircularDependencyFoundException extends BaseException {
+    constructor() {
+        super('Circular dependencies found.');
+    }
+}
+exports.CircularDependencyFoundException = CircularDependencyFoundException;
 //# sourceMappingURL=exception.js.map
